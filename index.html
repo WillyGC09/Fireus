@@ -24,13 +24,13 @@
             from {opacity: 0;}
             to {opacity: 1;}
         }
-        /* Navbar fixa */
+        /* Navbar fixa amb efecte glass */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #1a1a1a;
+            background: rgba(26,26,26,0.85);
             border-bottom: 1px solid #333;
             display: flex;
             justify-content: space-between;
@@ -39,11 +39,19 @@
             padding: 0 20px;
             z-index: 1000;
             box-sizing: border-box;
+            backdrop-filter: blur(8px) saturate(180%);
+            box-shadow: 0 4px 16px 0 rgba(255,43,43,0.05);
         }
         nav .logo {
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
+            transition: filter 0.2s;
+            user-select: none;
+        }
+        nav .logo:hover {
+            filter: brightness(1.2) drop-shadow(0 0 8px #ff2b2b80);
         }
         nav .logo img {
             width: 40px;
@@ -53,7 +61,7 @@
             color: #ff2b2b;
             font-weight: bold;
             font-size: 1.2em;
-            user-select: none;
+            letter-spacing: 1px;
         }
         nav ul {
             list-style: none;
@@ -68,9 +76,12 @@
             font-weight: bold;
             font-size: 1em;
             transition: color 0.3s;
+            padding: 6px 12px;
+            border-radius: 4px;
         }
         nav ul li a:hover {
-            color: #d40000;
+            color: #fff;
+            background: linear-gradient(90deg, #ff2b2b 0%, #d40000 100%);
         }
         header img {
             width: 150px;
@@ -82,27 +93,43 @@
             font-size: 2.5em;
             text-align: center;
         }
+        /* Carrusel responsive i limitat */
         .carousel {
+            width: 100%;
             max-width: 1000px;
             margin: 20px auto;
             position: relative;
             overflow: hidden;
             border-radius: 8px;
             border: 1px solid #333;
+            background: #181818;
+            aspect-ratio: 16/9;
+            max-height: 600px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .carousel-track {
             display: flex;
             transition: transform 0.5s ease-in-out;
+            height: 100%;
         }
         .carousel-item {
             min-width: 100%;
             cursor: pointer;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
         }
         .carousel-item img {
             width: 100%;
-            display: block;
+            height: 100%;
+            object-fit: cover;
             border-radius: 8px;
+            max-height: 600px;
         }
         .carousel-item .caption {
             position: absolute;
@@ -113,6 +140,7 @@
             padding: 5px 10px;
             border-radius: 5px;
             font-size: 1.2em;
+            text-shadow: 0 2px 8px #000;
         }
         .description {
             max-width: 1000px;
@@ -205,18 +233,36 @@
             padding: 10px 0;
         }
         /* Responsive adjustments */
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 15px;
-            }
-            .game-card {
-                width: 90%;
-            }
+        @media (max-width: 900px) {
             .carousel {
-                max-width: 90%;
+                max-width: 98vw;
+                min-height: 160px;
             }
             .description, .section, .collaboration {
-                max-width: 90%;
+                max-width: 98vw;
+                padding: 10px;
+            }
+        }
+        @media (max-width: 600px) {
+            nav {
+                padding: 0 6px;
+                height: 44px;
+            }
+            nav .logo img {
+                width: 32px;
+            }
+            nav .logo span {
+                font-size: 1em;
+            }
+            nav ul {
+                gap: 10px;
+            }
+            .carousel {
+                border-radius: 0;
+                min-height: 100px;
+            }
+            .game-card {
+                width: 98vw;
                 padding: 10px;
             }
         }
@@ -224,12 +270,11 @@
 </head>
 <body>
     <nav>
-        <div class="logo">
+        <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'});" tabindex="0" aria-label="Torna a l'inici" role="button">
             <img src="fireus.jpg" alt="Fireus Logo">
             <span>Fireus Games</span>
         </div>
         <ul>
-            <li><a href="#">Inici</a></li>
             <li><a href="#games">Jocs</a></li>
             <li><a href="#collaboration">Col·labora</a></li>
         </ul>
@@ -246,7 +291,7 @@
                 <img src="fireus.jpg" alt="Depths of Death">
                 <div class="caption">Depths of Death</div>
             </div>
-            <div class="carousel-item" onclick="location.href="#collaboration"" tabindex="0" role="button" aria-pressed="false">
+            <div class="carousel-item" onclick="location.href='#collaboration'" tabindex="0" role="button" aria-pressed="false">
                 <img src="fireus.jpg" alt="Program with us">
                 <div class="caption">Comença a programar amb nosaltres</div>
             </div>
@@ -303,7 +348,15 @@
             showSlide(index + 1);
         }, 4000);
 
-        // Accessibilitat: teclat
+        // Accessibilitat: teclat per al logo
+        document.querySelector('.logo').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                window.scrollTo({top:0,behavior:'smooth'});
+            }
+        });
+
+        // Accessibilitat: teclat per als items del carrusel
         items.forEach((item, i) => {
             item.addEventListener('keydown', e => {
                 if (e.key === 'Enter' || e.key === ' ') {
