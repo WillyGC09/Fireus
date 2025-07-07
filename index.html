@@ -3,11 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fireus Games</title>
+    <title>Fireus Games - Videojocs Independents</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #0d0d0d;
+            color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        header img {
+            width: 150px;
+            margin-top: 20px;
+            filter: drop-shadow(0 0 10px red);
+            transition: transform 0.5s;
+        }
+
+        header img:hover {
+            transform: scale(1.1);
+        }
+
+        h1 {
+            color: #ff2b2b;
+            margin: 10px 0;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        .section {
+            max-width: 1000px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .games-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .game-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            width: 250px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 10px #ff2b2b;
+        }
+
+        .game-card h3 {
+            margin-top: 0;
+            color: #ff2b2b;
+        }
+
+        .game-card a {
+            color: #ff2b2b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .game-card a:hover {
+            color: #d40000;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>Benvinguts a Fireus Games!</h1>
-    <p>Aquí podeu jugar a la demo de Depths of Death:</p>
-    <a href="https://drive.google.com/file/d/1hCt0W700TtBUkrgZIinYitSpFJtmYbeO/view?usp=sharing" target="_blank">Prova el joc</a>
+    <header>
+        <img src="fireus.jpg" alt="Fireus Logo">
+        <h1>Fireus Games</h1>
+    </header>
+
+    <div class="section">
+        <h2>Els nostres jocs</h2>
+        <div class="games-list">
+            <div class="game-card">
+                <h3>Depths of Death</h3>
+                <p>Explora les profunditats i lluita contra el desconegut. La nostra primera aventura.</p>
+                <a href="depths-of-death.html">Més informació</a>
+            </div>
+            <!-- Aquí pots afegir més jocs en el futur -->
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Fireus. Tots els drets reservats.
+    </footer>
 </body>
 </html>
