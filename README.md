@@ -1,1 +1,1 @@
-# Fireus
+# Fireus Games
