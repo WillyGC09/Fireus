@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="fireus.ico" type="image/x-icon">
     <title>Depths of Death - Fireus Games</title>
     <style>
         body {
@@ -231,6 +232,38 @@
         .collaboration a:hover {
             background-color: #d40000;
         }
+        .games-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .game-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            width: 250px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 10px #ff2b2b;
+        }
+        .game-card h3 {
+            margin-top: 0;
+            color: #ff2b2b;
+        }
+        .game-card a {
+            color: #ff2b2b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .game-card a:hover {
+            color: #d40000;
+        }
         /* Responsive adjustments */
         @media (max-width: 900px) {
             .carousel {
@@ -269,10 +302,11 @@
 </head>
 <body>
     <nav>
-        <div class="logo" onclick="href="index.html"" tabindex="0" aria-label="Torna a l'inici" role="button">
+        <a class="logo" href="index.html" aria-label="Torna a l'inici">
             <img src="fireus.png" alt="Fireus Logo">
             <span>Fireus Games</span>
-        </div>
+        </a>
+
         <ul>
             <li><a href="#collaboration">Col·labora</a></li>
         </ul>
@@ -299,8 +333,14 @@
     <div class="description">
         <p>Depths of Death és un videojoc de combats 1v1 on hauràs de descendir a les profunditats d'un món desconegut per enfrontar-te a un altre lluitador. Aquesta és la primera gran aventura de Fireus Games.</p>
     </div>
-
-    <a class="button" href="https://drive.google.com/file/d/1hCt0W700TtBUkrgZIinYitSpFJtmYbeO/view?usp=drivesdk" target="_blank">Descarrega la Beta</a>
+    <div id="games" class="section">
+        <h2>Els nostres jocs</h2>
+        <div class="games-list">
+            <div class="game-card">
+                <a class="button" href="https://drive.google.com/file/d/1hCt0W700TtBUkrgZIinYitSpFJtmYbeO/view?usp=drivesdk" target="_blank">Descarrega la Beta</a>   
+            </div>
+        </div>
+    </div>
 
     <div id="collaboration" class="collaboration">
         <h2>Vols col·laborar amb nosaltres?</h2>
