@@ -232,6 +232,24 @@
             box-sizing: border-box;
             padding: 10px 0;
         }
+        header .title-container {
+            display: flex;
+            align-items: center; /* Centra verticalment */
+            justify-content: center; /* Opcional: centra horitzontalment */
+            gap: 15px; /* Espai entre la imatge i el títol */
+            margin-top: 20px;
+        }
+        
+        header .title-container img {
+            width: 80px; /* Pots ajustar-ho */
+            margin-top: 0; /* Elimina el marge superior que tenies */
+        }
+        
+        header h1 {
+            text-align: left; /* Opcional, perquè no cal centre si està al costat */
+            margin: 0;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 900px) {
             .carousel {
@@ -281,9 +299,12 @@
     </nav>
 
     <header>
-        <img src="fireus.png" alt="Fireus Logo">
-        <h1>Fireus Games</h1>
+        <div class="title-container">
+            <img src="fireus.png" alt="Fireus Logo">
+            <h1>Fireus Games</h1>
+        </div>
     </header>
+
 
     <div class="carousel" aria-label="Carousel de jocs">
         <div class="carousel-track">
