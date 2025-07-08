@@ -73,6 +73,11 @@
             font-size: 1.2em;
             letter-spacing: 1px;
         }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* separació entre la llista i el traductor */
+        }
         nav ul {
             list-style: none;
             margin: 0;
@@ -262,18 +267,21 @@
     </style>
 </head>
 <body>
+    
     <nav>
         <a class="logo" href="index.html" aria-label="Torna a l'inici">
             <img src="fireus.png" alt="Fireus Logo">
             <span>Fireus Games</span>
         </a>
-        <ul>
-            <li><a href="#games">Jocs</a></li>
-            <li><a href="#collaboration">Col·labora</a></li>
-        </ul>
-        <!-- Widget de traducció fora de la llista -->
-        <div id="google_translate_element"></div>
+        <div class="nav-right">
+            <ul>
+                <li><a href="#games">Jocs</a></li>
+                <li><a href="#collaboration">Col·labora</a></li>
+            </ul>
+            <div id="google_translate_element"></div>
+        </div>
     </nav>
+
 
     <header>
         <div class="title-container">
