@@ -23,12 +23,6 @@
             font-size: 0.95em;
             z-index: 1001;
         }
-        .goog-te-banner-frame.skiptranslate {
-            display: none !important;
-        }
-        body {
-            top: 0px !important;
-        }
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
@@ -119,13 +113,11 @@
             font-size: 2.5em;
             text-align: center;
         }
-
         p {
             max-width: 800px;
             text-align: center;
             margin-bottom: 20px;
         }
-
         .button {
             background-color: #ff2b2b;
             color: #fff;
@@ -137,18 +129,15 @@
             text-decoration: none;
             transition: background-color 0.3s, transform 0.3s;
         }
-
         .button:hover {
             background-color: #d40000;
             transform: scale(1.05);
         }
-
         a.back {
             color: #666;
             text-decoration: none;
             margin-top: 30px;
         }
-
         a.back:hover {
             color: #ff2b2b;
         }
@@ -291,17 +280,10 @@
                 padding: 10px;
             }
         }
-        /* Amaga la barra superior de Google Translate */
-        .goog-te-banner-frame.skiptranslate {
-            display: none !important;
-        }
-        body {
-            top: 0px !important;
-        }
-        /* També amaga la barra en el cas d'iframe */
-        body > .skiptranslate {
-            display: none !important;
-        }
+        /* NO amaguis la barra superior de Google Translate! */
+        /* .goog-te-banner-frame.skiptranslate { display: none !important; } */
+        /* body { top: 0px !important; } */
+        /* body > .skiptranslate { display: none !important; } */
     </style>
 </head>
 <body>
