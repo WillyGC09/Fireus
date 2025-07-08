@@ -247,6 +247,18 @@
         .collaboration a:hover {
             background-color: #d40000;
         }
+        /* Amaga la barra superior de Google Translate */
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+        body {
+            top: 0px !important;
+        }
+        /* També amaga la barra en el cas d'iframe */
+        body > .skiptranslate {
+            display: none !important;
+        }
+
     </style>
 </head>
 <body>
