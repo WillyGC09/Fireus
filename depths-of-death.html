@@ -10,18 +10,24 @@
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'ca',
-                includedLanguages: 'ca,en,es,fr,de,it,pt', /* Idiomes que vols mostrar */
+                includedLanguages: 'ca,en,es,fr,de,it,pt',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-                autoDisplay: false
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     
     <style>
-        /* Google Translate Widget Position */
         #google_translate_element {
             margin-left: 20px;
+            font-size: 0.95em;
+            z-index: 1001;
+        }
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+        body {
+            top: 0px !important;
         }
         body {
             margin: 0;
@@ -40,7 +46,6 @@
             from {opacity: 0;}
             to {opacity: 1;}
         }
-        /* Navbar fixa amb efecte glass */
         nav {
             position: fixed;
             top: 0;
@@ -142,7 +147,6 @@
         a.back:hover {
             color: #ff2b2b;
         }
-        /* Carrusel responsive i limitat */
         .carousel {
             width: 100%;
             max-width: 1000px;
@@ -249,7 +253,6 @@
         .collaboration a:hover {
             background-color: #d40000;
         }
-        /* Responsive adjustments */
         @media (max-width: 900px) {
             .carousel {
                 max-width: 98vw;
@@ -291,16 +294,16 @@
             <img src="fireus.png" alt="Fireus Logo">
             <span>Fireus Games</span>
         </a>
-
         <ul>
             <li><a href="#collaboration">Col·labora</a></li>
-            <li><div id="google_translate_element"></div></li>
         </ul>
+        <!-- Widget de traducció fora de la llista -->
+        <div id="google_translate_element"></div>
     </nav>
 
     <header>
         <h1>Depths of Death</h1>
-    <header>
+    </header>
 
     <div class="carousel" aria-label="Carousel de jocs">
         <div class="carousel-track">
@@ -320,7 +323,6 @@
         <p>Depths of Death és un videojoc de combats 1v1 on hauràs de descendir a les profunditats d'un món desconegut per enfrontar-te a un altre lluitador. Aquesta és la primera gran aventura de Fireus Games.</p>
         <a class="button" href="https://drive.google.com/file/d/1hCt0W700TtBUkrgZIinYitSpFJtmYbeO/view?usp=drivesdk" target="_blank">Descarrega la Beta</a>
     </div>
-
 
     <div id="collaboration" class="collaboration">
         <h2>Vols col·laborar amb nosaltres?</h2>
@@ -370,7 +372,7 @@
             item.addEventListener('keydown', e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    location.href = item.getAttribute('onclick').match(/'(.*?)'/)[1];
+                    // No hi ha onclick, així que no cal fer res aquí
                 }
             });
         });
