@@ -246,10 +246,31 @@
         .collaboration a:hover {
             background-color: #d40000;
         }
-        /* NO amaguis la barra superior de Google Translate! */
-        /* .goog-te-banner-frame.skiptranslate { display: none !important; } */
-        /* body { top: 0px !important; } */
-        /* body > .skiptranslate { display: none !important; } */
+        /.goog-te-banner-frame.skiptranslate,
+        body > .goog-te-spinner-pos,
+        body > .goog-te-banner-frame {
+            display: none !important;
+        }
+        
+        /* Evita que el body es desplaci cap avall quan es mostra la barra */
+        body {
+            top: 0px !important;
+        }
+        
+        /* Opcional: amaga la marca d'aigua flotant (footer lateral) */
+        .goog-logo-link,
+        .goog-te-gadget span {
+            display: none !important;
+        }
+        
+        /* Manté visible només el selector */
+        #google_translate_element,
+        .goog-te-gadget,
+        .goog-te-combo {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
     </style>
 </head>
 <body>
