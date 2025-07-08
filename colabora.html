@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collabora - Fireus Games</title>
+    <link rel="icon" href="fireus.ico" type="image/x-icon">
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'ca',
+                includedLanguages: 'ca,en,es,fr,de,it,pt',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #0d0d0d;
+            color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            animation: fadeIn 2s ease;
+            padding-top: 60px;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(26,26,26,0.85);
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            padding: 0 20px;
+            z-index: 1000;
+            backdrop-filter: blur(8px) saturate(180%);
+            box-shadow: 0 4px 16px 0 rgba(255,43,43,0.05);
+            box-sizing: border-box;
+        }
+        nav .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: filter 0.2s;
+            user-select: none;
+        }
+        nav .logo:hover {
+            filter: brightness(1.2) drop-shadow(0 0 8px #ff2b2b80);
+        }
+        nav .logo img {
+            width: 40px;
+            height: auto;
+        }
+        nav .logo span {
+            color: #ff2b2b;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* separació entre la llista i el traductor */
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 30px;
+        }
+        nav ul li a {
+            color: #ff2b2b;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            transition: color 0.3s;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+        nav ul li a:hover {
+            color: #fff;
+            background: linear-gradient(90deg, #ff2b2b 0%, #d40000 100%);
+        }
+        /* Google Translate Widget Position */
+        #google_translate_element {
+            margin-left: 20px;
+            font-size: 0.95em;
+            z-index: 1001;
+        }
+        .collaboration {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .collaboration h2 {
+            color: #ff2b2b;
+            margin-bottom: 15px;
+        }
+        .collaboration p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+        .collaboration a {
+            display: inline-block;
+            background-color: #ff2b2b;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .collaboration a:hover {
+            background-color: #d40000;
+        }
+        body > .goog-te-spinner-pos,
+        body > .goog-te-banner-frame {
+            display: none !important;
+        }
+        
+        /* Evita que el body es desplaci cap avall quan es mostra la barra */
+        body {
+            top: 0px !important;
+        }
+        
+        /* Opcional: amaga la marca d'aigua flotant (footer lateral) */
+        .goog-logo-link,
+        .goog-te-gadget span {
+            display: none !important;
+        }
+        
+        /* Manté visible només el selector */
+        #google_translate_element,
+        .goog-te-gadget,
+        .goog-te-combo {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav>
+        <a class="logo" href="index.html" aria-label="Torna a l'inici">
+            <img src="fireus.png" alt="Fireus Logo">
+            <span>Fireus Games</span>
+        </a>
+        <div class="nav-right">
+            <ul>
+                <li><a href="colabora.html">Col·labora</a></li>
+            </ul>
+            <div id="google_translate_element"></div>
+        </div>
+    </nav>
+  
+    <div id="collaboration" class="collaboration">
+        <h2>Vols col·laborar amb nosaltres?</h2>
+        <p>Uneix-te al nostre servidor de Discord per col·laborar, compartir idees i ajudar a crear els millors jocs.</p>
+        <a href="https://discord.gg/EY9Fw8ttUT" target="_blank" rel="noopener noreferrer">Uneix-te al Discord</a>
+    </div>
+
+    <footer>
+        &copy; 2025 Fireus. Tots els drets reservats.
+    </footer>
+
+    <script>
+        const track = document.querySelector('.carousel-track');
+        let index = 0;
+        const items = document.querySelectorAll('.carousel-item');
+        const totalItems = items.length;
+
+        function showSlide(i) {
+            index = (i + totalItems) % totalItems;
+            track.style.transform = `translateX(${-index * 100}%)`;
+        }
+
+        setInterval(() => showSlide(index + 1), 4000);
+
+        document.querySelector('.logo').addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                window.scrollTo({top:0,behavior:'smooth'});
+            }
+        });
+
+        items.forEach((item) => {
+            item.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    location.href = item.getAttribute('onclick').match(/'(.*?)'/)[1];
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
