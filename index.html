@@ -10,13 +10,12 @@
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'ca',
-                includedLanguages: 'ca,en,es,fr,de,it,pt', /* Idiomes que vols mostrar */
+                includedLanguages: 'ca,en,es,fr,de,it,pt',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-                autoDisplay: false
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <style>
         body {
@@ -94,12 +93,18 @@
             color: #fff;
             background: linear-gradient(90deg, #ff2b2b 0%, #d40000 100%);
         }
-
         /* Google Translate Widget Position */
         #google_translate_element {
             margin-left: 20px;
+            font-size: 0.95em;
+            z-index: 1001;
         }
-
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+        body {
+            top: 0px !important;
+        }
         header .title-container {
             display: flex;
             align-items: center;
@@ -253,8 +258,9 @@
         <ul>
             <li><a href="#games">Jocs</a></li>
             <li><a href="#collaboration">Col·labora</a></li>
-            <li><div id="google_translate_element"></div></li>
         </ul>
+        <!-- Widget de traducció fora de la llista -->
+        <div id="google_translate_element"></div>
     </nav>
 
     <header>
