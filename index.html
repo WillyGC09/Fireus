@@ -235,6 +235,15 @@
         .collaboration a:hover {
             background-color: #d40000;
         }
+        .info a {
+            color: #ff2b2b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .info a:hover {
+            color: #d40000;
+        }
     </style>
 </head>
 <body>
@@ -286,12 +295,12 @@
         </div>
     </div>
 
-    <div id="collaboration" class="games-list">
+    <div id="collaboration" class="collaboration">
         <h2>Vols col·laborar amb nosaltres?</h2>
         <p>Uneix-te al nostre servidor de Discord per col·laborar, compartir idees i ajudar a crear els millors jocs.</p>
         <a href="https://discord.gg/EY9Fw8ttUT" target="_blank" rel="noopener noreferrer">Uneix-te al Discord</a>
-        <div class="game-card">
-            <a href="colabora.html">Més informació</a>
+        <div class="info">
+            <a href="depths-of-death.html">Més informació</a>
         </div>
     </div>
 
@@ -307,7 +316,7 @@
 
         function showSlide(i) {
             index = (i + totalItems) % totalItems;
-            track.style.transform = `translateX(${-index * 100}%)`;
+            track.style.transform = translateX(${-index * 100}%);
         }
 
         setInterval(() => showSlide(index + 1), 4000);
