@@ -71,11 +71,26 @@
             font-size: 1.2em;
             letter-spacing: 1px;
         }
+        .hamburger {
+            font-size: 1.8em;
+            color: #ff2b2b;
+            cursor: pointer;
+            user-select: none;
+        }
         .nav-right {
+            display: none;
+            flex-direction: column;
+            background: rgba(26,26,26,0.95);
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 200px;
+            padding: 10px 0;
+            border-left: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+        .nav-right.active {
             display: flex;
-            align-items: center;
-            gap: 0px; /* separació entre la llista i el traductor */
-            flex-wrap: wrap;
         }
         nav ul {
             list-style: none;
@@ -248,6 +263,8 @@
             text-decoration: none;
             font-weight: bold;
             transition: color 0.3s;
+	    position: relative;
+            top: 10px;
         }
         .info a:hover {
             display: inline;
@@ -262,9 +279,11 @@
             <img src="fireus.png" alt="Fireus Logo">
             <span>Fireus Games</span>
         </a>
+        <div class="hamburger" aria-label="Toggle menu" tabindex="0">&#9776;</div>
         <div class="nav-right">
             <ul>
                 <li><a href="colabora.html">Collaborate</a></li>
+                <!-- Aquí pots afegir més opcions -->
             </ul>
         </div>
     </nav>
@@ -358,6 +377,21 @@
                     // No hi ha onclick, així que no cal fer res aquí
                 }
             });
+        });
+
+	const hamburger = document.querySelector('.hamburger');
+        const navRight = document.querySelector('.nav-right');
+
+        function toggleMenu() {
+            navRight.classList.toggle('active');
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        hamburger.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMenu();
+            }
         });
     </script>
 </body>
