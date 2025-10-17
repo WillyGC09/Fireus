@@ -254,3 +254,71 @@ position: relative;
     display: inline;
     color: #d40000;
 }
+p {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+header img {
+    width: 150px;
+    margin-top: 20px;
+}
+h1 {
+    color: #ff2b2b;
+    margin: 10px 0;
+    font-size: 2.5em;
+    text-align: center;
+}
+p {
+    max-width: 800px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.button {
+    background-color: #ff2b2b;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.button:hover {
+    background-color: #d40000;
+    transform: scale(1.05);
+}
+@media (max-width: 900px) {
+    .carousel {
+        max-width: 98vw;
+        min-height: 160px;
+    }
+    .description, .section, .collaboration {
+        max-width: 98vw;
+        padding: 10px;
+    }
+}
+@media (max-width: 600px) {
+    nav {
+        padding: 0 6px;
+        height: 44px;
+    }
+    nav .logo img {
+        width: 32px;
+    }
+    nav .logo span {
+        font-size: 1em;
+    }
+    nav ul {
+        gap: 10px;
+    }
+    .carousel {
+        border-radius: 0;
+        min-height: 100px;
+    }
+    .game-card {
+        width: 98vw;
+        padding: 10px;
+    }
+}
