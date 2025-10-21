@@ -94,7 +94,7 @@ nav ul li a {
 }
 nav ul li a:hover {
     color: #fff;
-    background: linear-gradient(90deg, #ff2b2b 0%, #d40000 100%);
+    background: linear-gradient(90deg, #ff2b2b 0%, #3a0e0e 100%);
 }
 
 header .title-container {
