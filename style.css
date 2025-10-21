@@ -160,6 +160,12 @@ header h1 {
     font-size: 1.2em;
     text-shadow: 0 2px 8px #000;
 }
+.carousel-item video {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
 .description, .section, .collaboration {
     max-width: 1000px;
     margin: 20px auto;
