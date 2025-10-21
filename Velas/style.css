@@ -21,7 +21,7 @@ nav {
     left: 0;
     width: 100%;
     background: #ff802b;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #00c23a;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -70,8 +70,8 @@ nav .logo span {
     right: 0;
     width: 200px;
     padding: 10px 0;
-    border-left: 1px solid #333;
-    border-bottom: 1px solid #333;
+    border-left: 1px solid #00c23a;
+    border-bottom: 1px solid #00c23a;
 }
 .nav-right.active {
     display: flex;
