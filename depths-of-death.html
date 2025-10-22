@@ -84,8 +84,10 @@
             const video = items[index].querySelector('video');
             if (video) {
                 clearTimeout(autoSlideTimeout); // atura el carrusel
-                video.currentTime = 0;          // reinicia el vídeo
-                video.play();                   // reprodueix des del principi
+                video.currentTime = 0;
+                setTimeout(() => {
+                    video.play();
+                }, 1000);             // reprodueix des del principi
                 video.onended = () => {
                     startAutoSlide();           // quan acabi, reprèn el carrusel
                 };
