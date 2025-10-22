@@ -42,7 +42,7 @@
     <div class="carousel" aria-label="Game carousel">
         <div class="carousel-track">
             <div class="carousel-item" tabindex="0" role="button" aria-pressed="false">
-                <video src="FIREUS video.mp4" autoplay muted loop playsinline></video>
+                <video src="FIREUS video.mp4" autoplay muted playsinline></video>
             </div>
             <div class="carousel-item" onclick="location.href='depths-of-death.html'" tabindex="0" role="button">
                 <img src="Depths of Death.png" alt="Depths of Death">
@@ -91,47 +91,61 @@
     </footer>
 
     <script>
-        // Carrusel automàtic
         const track = document.querySelector('.carousel-track');
-        let index = 0;
         const items = document.querySelectorAll('.carousel-item');
         const totalItems = items.length;
+        let index = 0;
+        let autoSlideTimeout;
 
         function showSlide(i) {
-            if (i < 0) {
-                index = totalItems - 1;
-            } else if (i >= totalItems) {
-                index = 0;
-            } else {
-                index = i;
-            }
+            if (i < 0) index = totalItems - 1;
+            else if (i >= totalItems) index = 0;
+            else index = i;
+
             const translateX = -index * 100;
             track.style.transform = `translateX(${translateX}%)`;
+
+            // Si l'element és un vídeo:
+            const video = items[index].querySelector('video');
+            if (video) {
+                clearTimeout(autoSlideTimeout); // atura el carrusel
+                video.currentTime = 0;          // reinicia el vídeo
+                video.play();                   // reprodueix des del principi
+                video.onended = () => {
+                    startAutoSlide();           // quan acabi, reprèn el carrusel
+                };
+            } else {
+                startAutoSlide();
+            }
         }
 
-        setInterval(() => {
-            showSlide(index + 1);
-        }, 5000);
+        function startAutoSlide() {
+            clearTimeout(autoSlideTimeout);
+            autoSlideTimeout = setTimeout(() => {
+                showSlide(index + 1);
+            }, 5000);
+        }
+
+        // Inici
+        showSlide(0);
 
         // Accessibilitat: teclat per al logo
         document.querySelector('.logo').addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                window.scrollTo({top:0,behavior:'smooth'});
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
 
         // Accessibilitat: teclat per als items del carrusel
-        items.forEach((item, i) => {
+        items.forEach((item) => {
             item.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    // No hi ha onclick, així que no cal fer res aquí
-                }
+                if (e.key === 'Enter' || e.key === ' ') e.preventDefault();
             });
         });
 
-	const hamburger = document.querySelector('.hamburger');
+        // Menú hamburguesa
+        const hamburger = document.querySelector('.hamburger');
         const navRight = document.querySelector('.nav-right');
 
         function toggleMenu() {
