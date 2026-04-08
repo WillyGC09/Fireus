@@ -60,16 +60,17 @@
         </div>
     </div>
 
-    <div id="discord-widget"></div>
-
     <div id="collaboration" class="collaboration">
-        <h2>Want to collaborate with us?</h2>
-        <p>Join our Discord server to collaborate, share ideas, and help create the best games.</p>
-        <div class="collabutton">
-            <a href="https://discord.gg/EY9Fw8ttUT" target="_blank" rel="noopener noreferrer">Join our Discord</a>
+        <div class="collab-header">
+            <h2>Want to join our Discord?</h2>
+            <div class="online-counter">
+                <span id="online-count">0</span>
+                <span class="online-label"> USERS ONLINE</span>
+            </div>
         </div>
-        <div class="info">
-            <a href="colabora.html">More info</a>
+        <p>Join our Discord server to stay updated with the latest news and connect with our community. You'll be able to interact with other players and developers.</p>
+        <div class="collabutton">
+            <a href="https://discord.gg/dHg4BZMwzR" target="_blank" rel="noopener noreferrer">Join our Discord</a>
         </div>
     </div>
 
@@ -83,9 +84,39 @@
     if (carouselRoot) {
         initCarousel(carouselRoot);
     }
+
+
+    async function updateOnlineCount() {
+        try {
+            const response = await fetch('https://discord.com/api/guilds/1491434145740755064/widget.json');
+            const data = await response.json();
+
+            const newCount = typeof data.presence_count === 'number' ? data.presence_count : 0;
+
+            const countEl = document.getElementById('online-count');
+            const oldCount = parseInt(countEl.textContent) || 0;
+
+            if (newCount !== oldCount) {
+                const duration = 500;
+                const startTime = performance.now();
+                function animate(time) {
+                    const elapsed = time - startTime;
+                    const t = Math.min(elapsed / duration, 1);
+                    const value = Math.floor(oldCount + (newCount - oldCount) * t);
+                    countEl.textContent = value;
+                    if (t < 1) requestAnimationFrame(animate);
+                }
+                requestAnimationFrame(animate);
+            }
+        } catch (error) {
+            console.error('Error fetching online count:', error);
+        }
+    }
+
+    updateOnlineCount();
+    setInterval(updateOnlineCount, 10000);
     </script>
 
     <script src="navbar.js"></script>
-    <script src="discord-widget.js"></script>
 </body>
 </html>
