@@ -414,7 +414,5 @@ p {
     font-size: 1.2em;
 }
 #online-count {
-    background: #ff0000;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+
 }
