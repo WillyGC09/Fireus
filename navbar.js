@@ -31,7 +31,6 @@ function initNavbar(root) {
         }
     });
 
-  // Logo: scroll amunt (opcional)
     if (logo) {
         logo.addEventListener('keydown', e => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -42,7 +41,6 @@ function initNavbar(root) {
     }
 }
 
-// Carregar el HTML i inicialitzar
 fetch('navbar.html')
     .then(res => res.text())
     .then(html => {
