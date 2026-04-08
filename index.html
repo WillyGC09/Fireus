@@ -18,19 +18,7 @@
 </head>
 <body>
     
-    <nav>
-        <a class="logo" href="index.html" aria-label="Go back to home">
-            <img src="fireus.png" alt="Fireus Logo">
-            <span>Fireus Games</span>
-        </a>
-        <div class="hamburger" aria-label="Toggle menu" tabindex="0">&#9776;</div>
-        <div class="nav-right">
-            <ul>
-                <li><a href="colabora.html">Collaborate</a></li>
-                <!-- Aquí pots afegir més opcions -->
-            </ul>
-        </div>
-    </nav>
+    <div id="navbar"></div>
 
     <header>
         <div class="title-container">
@@ -146,9 +134,36 @@
             });
         });
 
-        // Menú hamburguesa
+    fetch("navbar.html")
+    .then(res => res.text())
+    .then(data => {
+        document.getElementById("navbar").innerHTML = data;
+
+        // Ara que la navbar existeix, agafem els elements
         const hamburger = document.querySelector('.hamburger');
         const navRight = document.querySelector('.nav-right');
+        const logo = document.querySelector('.logo');
+
+        function toggleMenu() {
+            navRight.classList.toggle('active');
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+
+        hamburger.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMenu();
+            }
+        });
+
+        logo.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    });
 
         function toggleMenu() {
             navRight.classList.toggle('active');
