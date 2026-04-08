@@ -152,11 +152,11 @@ header h1 {
 .carousel-wrapper::before {
     content: '';
     position: absolute;
-    top: -20px;
-    left: -20px;
-    right: -20px;
-    bottom: -20px;
-    border-radius: 20px;
+    top: -50px;
+    left: -500px;
+    right: -500px;
+    bottom: -100px;
+    border-radius: 50px;
     background: radial-gradient(circle at 50% 0%, #ff2b2b55, transparent 65%);
     filter: blur(16px);
     opacity: 0.7;
