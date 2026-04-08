@@ -56,10 +56,33 @@ nav .logo span {
     letter-spacing: 1px;
 }
 .hamburger {
-    font-size: 1.8em;
-    color: #ff2b2b;
+    width: 28px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     cursor: pointer;
     user-select: none;
+}
+
+.hamburger span {
+    display: block;
+    height: 3px;
+    border-radius: 999px;
+    background: #ff2b2b;
+    transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 .nav-right {
     display: none;
