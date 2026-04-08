@@ -1,9 +1,22 @@
 function initNavbar(root) {
+    const logo = root.querySelector('.logo');
     const hamburger = root.querySelector('.hamburger');
     const navRight = root.querySelector('.nav-right');
-    const logo = root.querySelector('.logo');
 
     if (!hamburger || !navRight) return;
+
+    const isIndexPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
+
+    if (logo && isIndexPage) {
+        logo.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
     function openMenu() {
         navRight.classList.add('active');
@@ -30,15 +43,6 @@ function initNavbar(root) {
             closeMenu();
         }
     });
-
-    if (logo) {
-        logo.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
-    }
 }
 
 fetch('navbar.html')
