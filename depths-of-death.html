@@ -14,19 +14,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <a class="logo" href="index.html" aria-label="Go back to home">
-            <img src="fireus.png" alt="Fireus Logo">
-            <span>Fireus Games</span>
-        </a>
-        <div class="hamburger" aria-label="Toggle menu" tabindex="0">&#9776;</div>
-        <div class="nav-right">
-            <ul>
-                <li><a href="depths-of-death.html">Depths of Death</a></li>
-                <li><a href="colabora.html">Collaborate</a></li>
-            </ul>
-        </div>
-    </nav>
+
+    <div id="navbar"></div>
     
     <header>
         <h1>Depths of Death</h1>
@@ -52,76 +41,81 @@
         &copy; 2025 Fireus. All rights reserved.
     </footer>
     <script>
-        const track = document.querySelector('.carousel-track');
-        const items = document.querySelectorAll('.carousel-item');
-        const totalItems = items.length;
-        let index = 0;
-        let autoSlideTimeout;
+    // Carrusel: ja el tens bé
+    const track = document.querySelector('.carousel-track');
+    const items = document.querySelectorAll('.carousel-item');
+    const totalItems = items.length;
+    let index = 0;
+    let autoSlideTimeout;
 
-        function showSlide(i) {
-            if (i < 0) index = totalItems - 1;
-            else if (i >= totalItems) index = 0;
-            else index = i;
+    function showSlide(i) {
+        if (i < 0) index = totalItems - 1;
+        else if (i >= totalItems) index = 0;
+        else index = i;
 
-            const translateX = -index * 100;
-            track.style.transform = `translateX(${translateX}%)`;
+        const translateX = -index * 100;
+        track.style.transform = `translateX(${translateX}%)`;
 
-            // Si l'element és un vídeo:
-            const video = items[index].querySelector('video');
-            if (video) {
-                clearTimeout(autoSlideTimeout); // atura el carrusel
-                video.currentTime = 0;
-                setTimeout(() => {
-                    video.play();
-                }, 1000);             // reprodueix des del principi
-                video.onended = () => {
-                    startAutoSlide();           // quan acabi, reprèn el carrusel
-                };
-            } else {
-                startAutoSlide();
-            }
+        // Si l'element és un vídeo:
+        const video = items[index].querySelector('video');
+        if (video) {
+            clearTimeout(autoSlideTimeout); // atura el carrusel
+            video.currentTime = 0;
+            setTimeout(() => {
+                video.play();
+            }, 1000);             // reprodueix des del principi
+            video.onended = () => {
+                startAutoSlide();           // quan acabi, reprèn el carrusel
+            };
+        } else {
+            startAutoSlide();
         }
+    }
 
-        function startAutoSlide() {
-            clearTimeout(autoSlideTimeout);
-            autoSlideTimeout = setTimeout(() => {
-                showSlide(index + 1);
-            }, 5000);
-        }
+    function startAutoSlide() {
+        clearTimeout(autoSlideTimeout);
+        autoSlideTimeout = setTimeout(() => {
+            showSlide(index + 1);
+        }, 5000);
+    }
 
-        // Inici
-        showSlide(0);
+    showSlide(0);
+    </script>
 
-        // Accessibilitat: teclat per al logo
-        document.querySelector('.logo').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
+    <!-- Ara el script de la navbar -->
+    <script>
+    fetch("navbar.html")
+        .then(res => res.text())
+        .then(data => {
+        document.getElementById("navbar").innerHTML = data;
 
-        // Accessibilitat: teclat per als items del carrusel
-        items.forEach((item) => {
-            item.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') e.preventDefault();
-            });
-        });
-
-        // Menú hamburguesa
         const hamburger = document.querySelector('.hamburger');
         const navRight = document.querySelector('.nav-right');
+        const logo = document.querySelector('.logo');
 
         function toggleMenu() {
             navRight.classList.toggle('active');
         }
 
-        hamburger.addEventListener('click', toggleMenu);
-        hamburger.addEventListener('keydown', e => {
+        if (hamburger) {
+            hamburger.addEventListener('click', toggleMenu);
+            hamburger.addEventListener('keydown', e => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 toggleMenu();
             }
-        });
+            });
+        }
+
+        if (logo) {
+            logo.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            });
+        }
+        })
     </script>
 </body>
 </html>
