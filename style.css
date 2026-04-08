@@ -347,6 +347,7 @@ p {
     background-color: #d40000;
     transform: scale(1.05);
 }
+
 @media (max-width: 900px) {
     .carousel {
         max-width: 98vw;
