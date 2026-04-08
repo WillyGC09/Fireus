@@ -10,12 +10,30 @@ function initNavbar(root) {
     if (logo && isIndexPage) {
         logo.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            smoothScrollToTop();
         });
+    }
+
+
+    function smoothScrollToTop() {
+        const current = window.pageYOffset;
+        const duration = 600; // ms
+        const start = performance.now();
+
+        function step(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+
+            const ease = 1 - Math.pow(1 - progress, 3);
+
+            window.scrollTo(0, current * (1 - ease));
+
+            if (progress < 1) {
+            requestAnimationFrame(step);
+            }
+        }
+
+        requestAnimationFrame(step);
     }
 
     function openMenu() {
