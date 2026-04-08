@@ -32,10 +32,6 @@
             <div class="carousel-item" tabindex="0" role="button" aria-pressed="false">
                 <video src="FIREUS video.mp4" autoplay muted playsinline></video>
             </div>
-            <div class="carousel-item" onclick="location.href='depths-of-death.html'" tabindex="0" role="button">
-                <img src="Depths of Death.png" alt="Depths of Death">
-                <div class="caption">Depths of Death</div>
-            </div>
             <div class="carousel-item" onclick="location.href='colabora.html'" tabindex="0" role="button">
                 <img src="images/withus.png" alt="Program with us">
                 <div class="caption">Start coding with us</div>
@@ -87,11 +83,34 @@
     let autoSlideTimeout;
 
     function showSlide(i) {
-        // ... tot el teu codi del carrusel
+        if (i < 0) index = totalItems - 1;
+        else if (i >= totalItems) index = 0;
+        else index = i;
+
+        const translateX = -index * 100;
+        track.style.transform = `translateX(${translateX}%)`;
+
+        // Si l'element és un vídeo:
+        const video = items[index].querySelector('video');
+        if (video) {
+            clearTimeout(autoSlideTimeout); // atura el carrusel
+            video.currentTime = 0;
+            setTimeout(() => {
+                video.play();
+            }, 1000);             // reprodueix des del principi
+            video.onended = () => {
+                startAutoSlide();           // quan acabi, reprèn el carrusel
+            };
+        } else {
+            startAutoSlide();
+        }
     }
 
     function startAutoSlide() {
-        // ... tot el teu codi
+        clearTimeout(autoSlideTimeout);
+        autoSlideTimeout = setTimeout(() => {
+            showSlide(index + 1);
+        }, 5000);
     }
 
     showSlide(0);
