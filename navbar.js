@@ -1,5 +1,3 @@
-// navbar.js
-
 function initNavbar(root) {
     const hamburger = root.querySelector('.hamburger');
     const navRight = root.querySelector('.nav-right');
@@ -9,7 +7,7 @@ function initNavbar(root) {
 
     function openMenu() {
         navRight.classList.add('active');
-        hamburger.classList.add('open');  // per al CSS de "X"
+        hamburger.classList.add('open');
     }
 
     function closeMenu() {
@@ -25,21 +23,10 @@ function initNavbar(root) {
         }
     }
 
-  // Click a la hamburguesa
     hamburger.addEventListener('click', toggleMenu);
 
-  // Teclat a la hamburguesa
-    hamburger.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleMenu();
-        }
-    });
-
-  // Tancar si cliques fora
     document.addEventListener('click', e => {
         if (!root.contains(e.target)) {
-      // si el clic NO és dins la navbar
             closeMenu();
         }
     });
