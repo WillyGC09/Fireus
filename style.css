@@ -85,7 +85,7 @@ nav .logo span {
     flex-direction: column;
     align-items: center;
     background: rgba(26,26,26,0.7);
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     position: absolute;
     top: 50px;
     right: 0;
