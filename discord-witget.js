@@ -3,23 +3,22 @@ document.addEventListener("DOMContentLoaded", () => {
 const guildID = "1491434145740755064";
 const container = document.getElementById("discord-widget");
 
+if(!container) return;
+
 container.innerHTML = `
-<div class="dc-widget">
+<div class="discord-pro">
 
-  <div class="dc-glow"></div>
+<div class="discord-energy"></div>
 
-  <div class="dc-icon">
-    <img id="server-icon">
-  </div>
+<div class="discord-counter">
+<span id="discord-online">0</span>
+</div>
 
-  <div class="dc-online">
-      <span id="online-count">0</span>
-      <div class="dc-label">ONLINE</div>
-  </div>
+<div class="discord-label">PLAYERS ONLINE</div>
 
-  <a id="join-btn" class="dc-join" target="_blank">
-      Join Server
-  </a>
+<a id="discord-join" class="discord-btn" target="_blank">
+JOIN DISCORD
+</a>
 
 </div>
 `;
@@ -27,78 +26,73 @@ container.innerHTML = `
 const style = document.createElement("style");
 style.innerHTML = `
 
-.dc-widget{
-    width:280px;
-    padding:30px;
-    border-radius:18px;
-    background:#111214;
-    position:relative;
-    overflow:hidden;
-    font-family:Arial;
-    text-align:center;
-    color:white;
+.discord-pro{
+width:320px;
+margin:60px auto;
+padding:40px;
+background:#0f1012;
+border-radius:18px;
+text-align:center;
+color:white;
+font-family:Arial;
+position:relative;
+overflow:hidden;
+box-shadow:0 0 40px rgba(88,101,242,0.25);
 }
 
 /* animated aura */
 
-.dc-glow{
-    position:absolute;
-    width:300%;
-    height:300%;
-    background:radial-gradient(circle,#5865F2 0%,transparent 60%);
-    opacity:0.25;
-    top:-100%;
-    left:-100%;
-    animation:spinGlow 8s linear infinite;
+.discord-energy{
+position:absolute;
+width:350%;
+height:350%;
+top:-120%;
+left:-120%;
+background:radial-gradient(circle,#5865F2 0%,transparent 60%);
+opacity:0.25;
+animation:spinAura 9s linear infinite;
 }
 
-@keyframes spinGlow{
-    from{transform:rotate(0deg)}
-    to{transform:rotate(360deg)}
+@keyframes spinAura{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
 }
 
-/* server icon */
+/* counter */
 
-.dc-icon img{
-    width:72px;
-    height:72px;
-    border-radius:50%;
-    margin-bottom:15px;
-    box-shadow:0 0 20px rgba(88,101,242,0.9);
+.discord-counter span{
+font-size:64px;
+font-weight:900;
+color:#5865F2;
+text-shadow:0 0 20px #5865F2;
 }
 
-/* online counter */
+/* label */
 
-.dc-online span{
-    font-size:48px;
-    font-weight:800;
-    color:#5865F2;
-    text-shadow:0 0 20px #5865F2;
+.discord-label{
+margin-top:6px;
+font-size:13px;
+letter-spacing:3px;
+opacity:0.7;
 }
 
-.dc-label{
-    font-size:13px;
-    opacity:0.7;
-    letter-spacing:2px;
+/* button */
+
+.discord-btn{
+display:inline-block;
+margin-top:25px;
+padding:12px 26px;
+background:#5865F2;
+border-radius:8px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+transition:0.25s;
 }
 
-/* join button */
-
-.dc-join{
-    margin-top:18px;
-    display:inline-block;
-    padding:10px 20px;
-    border-radius:8px;
-    background:#5865F2;
-    color:white;
-    font-weight:bold;
-    text-decoration:none;
-    transition:0.25s;
-}
-
-.dc-join:hover{
-    background:#6f7bff;
-    box-shadow:0 0 18px #5865F2;
+.discord-btn:hover{
+background:#6f7bff;
+box-shadow:0 0 20px #5865F2;
 }
 
 `;
@@ -109,22 +103,21 @@ function animateNumber(el,start,end,duration){
 
 let startTime=null;
 
-function step(t){
+function frame(t){
 
 if(!startTime) startTime=t;
 
-const progress=Math.min((t-startTime)/duration,1);
+let progress=Math.min((t-startTime)/duration,1);
 
 el.textContent=Math.floor(progress*(end-start)+start);
 
-if(progress<1) requestAnimationFrame(step);
+if(progress<1) requestAnimationFrame(frame);
 
 }
 
-requestAnimationFrame(step);
+requestAnimationFrame(frame);
 
 }
-
 
 let currentOnline=0;
 
@@ -141,7 +134,7 @@ const data = await res.json();
 const newOnline=data.presence_count;
 
 animateNumber(
-document.getElementById("online-count"),
+document.getElementById("discord-online"),
 currentOnline,
 newOnline,
 900
@@ -150,30 +143,16 @@ newOnline,
 currentOnline=newOnline;
 
 if(data.instant_invite){
-document.getElementById("join-btn").href=data.instant_invite;
-}
-
-/* icon fetch */
-
-const guildRes=await fetch(
-`https://discord.com/api/v10/guilds/${guildID}`
-);
-
-const guild=await guildRes.json();
-
-if(guild.icon){
-document.getElementById("server-icon").src=
-`https://cdn.discordapp.com/icons/${guildID}/${guild.icon}.png?size=256`;
+document.getElementById("discord-join").href=data.instant_invite;
 }
 
 }catch(e){
-console.error("Discord widget error",e);
+console.warn("Discord widget failed",e);
 }
 
 }
 
 updateDiscord();
-
 setInterval(updateDiscord,15000);
 
 });
