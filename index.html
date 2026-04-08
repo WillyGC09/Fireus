@@ -82,39 +82,6 @@
     }
     </script>
 
-    <script>
-    fetch("navbar.html")
-        .then(res => res.text())
-        .then(data => {
-        document.getElementById("navbar").innerHTML = data;
-
-        const hamburger = document.querySelector('.hamburger');
-        const navRight = document.querySelector('.nav-right');
-        const logo = document.querySelector('.logo');
-
-        function toggleMenu() {
-            navRight.classList.toggle('active');
-        }
-
-        if (hamburger) {
-            hamburger.addEventListener('click', toggleMenu);
-            hamburger.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleMenu();
-            }
-            });
-        }
-
-        if (logo) {
-            logo.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            });
-        }
-        })
-    </script>
+    <script src="navbar.js"></script>
 </body>
 </html>
