@@ -93,7 +93,10 @@ nav .logo span {
     padding: 10px 5px;
     border-left: 1px solid #333;
     border-bottom: 1px solid #333;
+    max-height: 70vh;
+    overflow-y: auto;
 }
+
 .nav-right.active {
     display: flex;
 }
@@ -363,19 +366,33 @@ p {
         padding: 0 6px;
         height: 44px;
     }
+
     nav .logo img {
         width: 32px;
     }
+
     nav .logo span {
         font-size: 1em;
     }
-    nav ul {
-        gap: 10px;
+
+
+    .nav-right {
+        width: 180px;
+        padding: 6px 4px;
+        top: 44px;
     }
+
+    nav ul li a {
+        width: 100%;
+        padding: 8px 0;
+        font-size: 0.95em;
+    }
+
     .carousel {
         border-radius: 0;
         min-height: 100px;
     }
+
     .game-card {
         width: 98vw;
         padding: 10px;
