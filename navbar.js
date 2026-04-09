@@ -16,7 +16,6 @@ function initNavbar(root) {
     }
 
     // Handle logo text visibility on scroll
-    let lastScrollY = window.scrollY;
     let isTextVisible = false;
 
     function updateLogoText() {
@@ -24,19 +23,21 @@ function initNavbar(root) {
         const shouldShow = currentScrollY > 50; // Show when scrolled down more than 50px
 
         if (shouldShow && !isTextVisible) {
-            // Show text with slide-in from right
+            // Show text with slide-in from left
             logoText.classList.add('show');
             logoText.classList.remove('hide');
             isTextVisible = true;
         } else if (!shouldShow && isTextVisible) {
-            // Hide text with slide-out to left
+            // Hide text by sliding it back to the left
             logoText.classList.add('hide');
             logoText.classList.remove('show');
             isTextVisible = false;
         }
-
-        lastScrollY = currentScrollY;
     }
+
+    // Start hidden to ensure all shows come from left
+    logoText.classList.add('hide');
+    logoText.classList.remove('show');
 
     // Initial check
     updateLogoText();
