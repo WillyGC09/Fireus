@@ -423,6 +423,7 @@ footer {
     border-radius: 50%;
     border: 2px solid #0d0d0d;
     z-index: 1;
+    opacity: 1;
 }
 .timeline-item:nth-child(even)::before {
     left: -26px;
