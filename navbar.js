@@ -86,6 +86,12 @@ function initNavbar(root) {
 
     hamburger.addEventListener('click', toggleMenu);
 
+    // Close menu when clicking on links inside navRight
+    const navLinks = navRight.querySelectorAll('a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
     document.addEventListener('click', e => {
         if (!root.contains(e.target)) {
             closeMenu();
