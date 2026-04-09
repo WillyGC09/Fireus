@@ -467,6 +467,23 @@ footer {
     margin: 0;
     color: #ccc;
 }
+.see-more {
+    text-align: center;
+    margin-top: 20px;
+}
+.see-more a {
+    display: inline-block;
+    background-color: #ff2b2b;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.see-more a:hover {
+    background-color: #d40000;
+}
 .info a {
     display: inline;
     background-color: transparent;

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Timeline - Fireus Games</title>
+    <meta name="description" content="Detailed timeline of Fireus Games history and achievements.">
+    <link rel="icon" href="fireus.ico" type="image/x-icon">
+
+    <meta property="og:title" content="Our Timeline - Fireus Games">
+    <meta property="og:description" content="Explore our journey through time.">
+    <meta property="og:image" content="https://willygc09.github.io/Fireus/fireus.png">
+    <meta property="og:url" content="https://willygc09.github.io/Fireus/timeline.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Fireus Games">
+    <meta property="og:locale" content="es_ES">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Our Timeline - Fireus Games">
+    <meta name="twitter:description" content="Explore our journey through time.">
+    <meta name="twitter:image" content="https://willygc09.github.io/Fireus/fireus.png">
+    <meta name="twitter:site" content="@FireusGames">
+    <meta name="twitter:creator" content="@FireusGames">
+    <link rel="canonical" href="https://willygc09.github.io/Fireus/timeline.html">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    
+    <div id="navbar"></div>
+
+    <header>
+        <div class="title-container">
+            <h1>Our Timeline</h1>
+        </div>
+    </header>
+
+    <div id="timeline-section" class="section">
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">June 12, 2025</div>
+                <div class="timeline-content">
+                    <p>First beta version of Depths of Death.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">June 19, 2025</div>
+                <div class="timeline-content">
+                    <p>Last release of the first Depths of Death.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">July 7, 2025</div>
+                <div class="timeline-content">
+                    <p>First version of the webpage released.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">February 27, 2026</div>
+                <div class="timeline-content">
+                    <p>Start of Depths of Death: TDR.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">April 7, 2026</div>
+                <div class="timeline-content">
+                    <p>Improvement of the webpage started.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">April 8, 2026</div>
+                <div class="timeline-content">
+                    <p>Discord comunity created.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Nowdays</div>
+                <div class="timeline-content">
+                    <p>Working on projects and improving our community.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Fireus. All rights reserved.
+    </footer>
+
+    <script src="carousel.js"></script>
+    <script>
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0, rootMargin: '0px 0px -30% 0px' });
+
+    timelineItems.forEach(item => {
+        observer.observe(item);
+    });
+    </script>
+
+    <script src="navbar.js"></script>
+</body>
+</html>
