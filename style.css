@@ -52,8 +52,9 @@ nav .logo span {
     letter-spacing: 1px;
     opacity: 0;
     transform: translateX(-20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: nowrap;
+    display: inline-block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 nav .logo span.show {
     opacity: 1;
@@ -64,7 +65,7 @@ nav .logo span.hide {
     transform: translateX(-20px);
 }
 .menu-toggle {
-    background: transparent;
+    background: none;
     border: none;
     cursor: pointer;
     user-select: none;
@@ -74,7 +75,7 @@ nav .logo span.hide {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 0.5rem;
 }
 
 .menu-toggle:focus {
@@ -83,13 +84,17 @@ nav .logo span.hide {
 }
 
 .menu-toggle .arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: #ff2b2b;
-    transition: transform 0.3s ease;
-    transform: rotate(0deg);
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+}
+
+.menu-toggle.open .arrow {
+    transform: rotate(-135deg);
 }
 
 .menu-toggle .arrow::before {
