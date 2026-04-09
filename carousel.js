@@ -31,14 +31,10 @@ function initCarousel(root) {
 
     // Show/hide controls on hover
     root.addEventListener('mouseenter', () => {
-        indicators.style.display = 'flex';
-        prevArrow.style.display = 'block';
-        nextArrow.style.display = 'block';
+        root.classList.add('show-controls');
     });
     root.addEventListener('mouseleave', () => {
-        indicators.style.display = 'none';
-        prevArrow.style.display = 'none';
-        nextArrow.style.display = 'none';
+        root.classList.remove('show-controls');
     });
 
     function showSlide(i) {
