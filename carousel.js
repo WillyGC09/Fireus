@@ -38,6 +38,8 @@ function initCarousel(root) {
     });
 
     function showSlide(i) {
+        clearTimeout(autoSlideTimeout);
+
         if (i < 0) index = totalItems - 1;
         else if (i >= totalItems) index = 0;
         else index = i;
@@ -53,7 +55,6 @@ function initCarousel(root) {
 
         const video = items[index].querySelector('video');
         if (video) {
-            clearTimeout(autoSlideTimeout);
             video.currentTime = 0;
             video.play();
             video.onended = () => showSlide(index + 1); // Immediately go to next after video ends
