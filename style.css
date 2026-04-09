@@ -554,6 +554,9 @@ p {
     nav {
         padding: 0 6px;
         height: 44px;
+        width: 100vw;
+        left: 0;
+        right: 0;
     }
 
     nav .logo img {
@@ -563,7 +566,6 @@ p {
     nav .logo span {
         font-size: 1em;
     }
-
 
     .nav-right {
         width: 180px;
@@ -582,9 +584,64 @@ p {
         min-height: 100px;
     }
 
+    .carousel-wrapper {
+        overflow: hidden;
+    }
+
+    .carousel-wrapper::before {
+        left: -150px;
+        right: -150px;
+    }
+
     .game-card {
         width: 98vw;
         padding: 10px;
+    }
+}
+
+@media (min-width: 601px) {
+    .hamburger {
+        display: none;
+    }
+
+    .nav-right {
+        position: static;
+        top: auto;
+        right: auto;
+        width: auto;
+        max-height: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        overflow: visible;
+        display: flex;
+        align-items: center;
+    }
+
+    nav ul {
+        flex-direction: row;
+        gap: 18px;
+    }
+
+    nav ul li {
+        width: auto;
+        justify-content: flex-start;
+    }
+
+    nav ul li a {
+        width: auto;
+        padding: 0;
+        font-size: 1em;
+        background: none;
+        border-radius: 0;
+    }
+
+    nav ul li a:hover {
+        background: transparent;
+        color: #fff;
     }
 }
 
