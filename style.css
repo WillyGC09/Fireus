@@ -64,42 +64,18 @@ nav .logo span.hide {
     transform: translateX(-20px);
 }
 .hamburger {
-    width: 28px;
-    height: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-}
-
-.hamburger span {
-    display: block;
-    height: 3px;
-    border-radius: 999px;
-    background: #ff2b2b;
-    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
-}
-
-.hamburger.open span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-
-.hamburger.open span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.open span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    display: none;
 }
 .desktop-toggle {
-    display: none;
     font-size: 1.2em;
     color: #ff2b2b;
     cursor: pointer;
     user-select: none;
     transition: transform 0.3s ease;
     margin-left: 10px;
+}
+.desktop-toggle::before {
+    content: "◀";
 }
 .desktop-toggle.open {
     transform: rotate(180deg);
@@ -579,6 +555,10 @@ p {
         font-size: 1em;
     }
 
+    .desktop-toggle::before {
+        content: "▼";
+    }
+
     .nav-right {
         width: 180px;
         padding: 6px 4px;
@@ -621,48 +601,52 @@ p {
     }
 
     .nav-right {
-        position: absolute;
-        top: 50px;
-        right: 0;
-        width: 200px;
-        max-height: 0;
+        position: static;
+        top: auto;
+        right: auto;
+        width: auto;
+        max-height: none;
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-12px);
-        background: rgba(30, 30, 30, 0.9);
-        border-radius: 0 0 10px 10px;
-        padding: 10px 5px;
-        overflow: hidden;
-        transition: max-height 0.35s ease, opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+        transform: translateX(-20px);
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        overflow: visible;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
     }
 
     .nav-right.active {
-        max-height: 70vh;
         opacity: 1;
         visibility: visible;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 
     nav ul {
-        flex-direction: column;
-        gap: 0;
+        flex-direction: row;
+        gap: 18px;
+        margin: 0;
+        padding: 0;
     }
 
     nav ul li {
-        width: 100%;
-        justify-content: center;
+        width: auto;
+        justify-content: flex-start;
     }
 
     nav ul li a {
-        width: 85%;
-        padding: 10px 0;
+        width: auto;
+        padding: 0;
         font-size: 1em;
         background: none;
-        border-radius: 6px;
+        border-radius: 0;
     }
 
     nav ul li a:hover {
-        background: linear-gradient(90deg, #ff2b2b 0%, #242323 100%);
+        background: transparent;
         color: #fff;
     }
 }
