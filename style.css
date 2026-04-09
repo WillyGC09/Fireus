@@ -17,7 +17,7 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(26,26,26,0.7);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -226,6 +226,50 @@ header h1 {
     height: auto;
     display: block;
     object-fit: cover;
+}
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+}
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: black;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.carousel-dot.active {
+    background-color: red;
+}
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 2;
+    display: none;
+    transition: background 0.3s;
+}
+.carousel-arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+.carousel-arrow-prev {
+    left: 10px;
+}
+.carousel-arrow-next {
+    right: 10px;
 }
 .description, .section, .collaboration {
     max-width: 1000px;
