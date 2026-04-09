@@ -325,7 +325,7 @@ header h1 {
     text-align: center;
     padding: 0 10px;
     box-sizing: border-box;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 60px;
 }
 .games-list {
     display: flex;
