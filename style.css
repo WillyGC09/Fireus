@@ -51,7 +51,7 @@ nav .logo span {
     font-size: 1.2em;
     letter-spacing: 1px;
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(-20px);
     transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: nowrap;
 }
@@ -61,7 +61,7 @@ nav .logo span.show {
 }
 nav .logo span.hide {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(20px);
 }
 .hamburger {
     width: 28px;
