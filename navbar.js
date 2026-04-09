@@ -2,6 +2,7 @@ function initNavbar(root) {
     const logo = root.querySelector('.logo');
     const hamburger = root.querySelector('.hamburger');
     const navRight = root.querySelector('.nav-right');
+    const logoText = logo ? logo.querySelector('span') : null;
 
     if (!hamburger || !navRight) return;
 
@@ -14,6 +15,34 @@ function initNavbar(root) {
         });
     }
 
+    // Handle logo text visibility on scroll
+    let lastScrollY = window.scrollY;
+    let isTextVisible = false;
+
+    function updateLogoText() {
+        const currentScrollY = window.scrollY;
+        const shouldShow = currentScrollY > 50; // Show when scrolled down more than 50px
+
+        if (shouldShow && !isTextVisible) {
+            // Show text with slide-in from right
+            logoText.classList.add('show');
+            logoText.classList.remove('hide');
+            isTextVisible = true;
+        } else if (!shouldShow && isTextVisible) {
+            // Hide text with slide-out to left
+            logoText.classList.add('hide');
+            logoText.classList.remove('show');
+            isTextVisible = false;
+        }
+
+        lastScrollY = currentScrollY;
+    }
+
+    // Initial check
+    updateLogoText();
+
+    // Listen for scroll events
+    window.addEventListener('scroll', updateLogoText);
 
     function smoothScrollToTop() {
         const current = window.pageYOffset;
