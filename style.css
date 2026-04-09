@@ -601,14 +601,14 @@ p {
     }
 
     .nav-right {
-        position: static;
-        top: auto;
-        right: auto;
+        position: absolute;
+        top: 0;
+        right: 20px;
         width: auto;
         max-height: none;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateX(-20px);
+        opacity: 1;
+        visibility: visible;
+        transform: none;
         background: transparent;
         border-radius: 0;
         padding: 0;
@@ -616,13 +616,16 @@ p {
         display: flex;
         align-items: center;
         flex-direction: row;
-        transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+        transition: none;
     }
 
     .nav-right.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(0);
+        /* no changes */
+    }
+
+    .desktop-toggle {
+        z-index: 1;
+        position: relative;
     }
 
     nav ul {
@@ -630,6 +633,20 @@ p {
         gap: 18px;
         margin: 0;
         padding: 0;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: -1;
+        position: relative;
+    }
+
+    .nav-right.active ul {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .nav-right.active .desktop-toggle {
+        transform: translateX(-100%) rotate(180deg);
     }
 
     nav ul li {
