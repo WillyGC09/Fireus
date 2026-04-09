@@ -1,6 +1,7 @@
 function initNavbar(root) {
     const logo = root.querySelector('.logo');
     const hamburger = root.querySelector('.hamburger');
+    const desktopToggle = root.querySelector('.desktop-toggle');
     const navRight = root.querySelector('.nav-right');
     const logoText = logo ? logo.querySelector('span') : null;
 
@@ -68,12 +69,14 @@ function initNavbar(root) {
 
     function openMenu() {
         navRight.classList.add('active');
-        hamburger.classList.add('open');
+        if (hamburger) hamburger.classList.add('open');
+        if (desktopToggle) desktopToggle.classList.add('open');
     }
 
     function closeMenu() {
         navRight.classList.remove('active');
-        hamburger.classList.remove('open');
+        if (hamburger) hamburger.classList.remove('open');
+        if (desktopToggle) desktopToggle.classList.remove('open');
     }
 
     function toggleMenu() {
@@ -84,7 +87,8 @@ function initNavbar(root) {
         }
     }
 
-    hamburger.addEventListener('click', toggleMenu);
+    if (hamburger) hamburger.addEventListener('click', toggleMenu);
+    if (desktopToggle) desktopToggle.addEventListener('click', toggleMenu);
 
     // Close menu when clicking on links inside navRight
     const navLinks = navRight.querySelectorAll('a');
