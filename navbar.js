@@ -1,11 +1,10 @@
 function initNavbar(root) {
     const logo = root.querySelector('.logo');
-    const hamburger = root.querySelector('.hamburger');
-    const desktopToggle = root.querySelector('.desktop-toggle');
+    const menuToggle = root.querySelector('.menu-toggle');
     const navRight = root.querySelector('.nav-right');
     const logoText = logo ? logo.querySelector('span') : null;
 
-    if (!hamburger || !navRight) return;
+    if (!menuToggle || !navRight) return;
 
     const isIndexPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
 
@@ -69,14 +68,12 @@ function initNavbar(root) {
 
     function openMenu() {
         navRight.classList.add('active');
-        if (hamburger) hamburger.classList.add('open');
-        if (desktopToggle) desktopToggle.classList.add('open');
+        menuToggle.setAttribute('aria-expanded', 'true');
     }
 
     function closeMenu() {
         navRight.classList.remove('active');
-        if (hamburger) hamburger.classList.remove('open');
-        if (desktopToggle) desktopToggle.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
     }
 
     function toggleMenu() {
@@ -87,11 +84,18 @@ function initNavbar(root) {
         }
     }
 
-    if (hamburger) hamburger.addEventListener('click', toggleMenu);
-    if (desktopToggle) desktopToggle.addEventListener('click', toggleMenu);
+    if (menuToggle) {
+        menuToggle.addEventListener('click', toggleMenu);
+        menuToggle.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMenu();
+            }
+        });
+    }
 
     // Close menu when clicking on links inside navRight
-    const navLinks = navRight.querySelectorAll('a');
+    const navLinks = navRight.querySelectorAll('.nav-links a');
     navLinks.forEach(link => {
         link.addEventListener('click', closeMenu);
     });
