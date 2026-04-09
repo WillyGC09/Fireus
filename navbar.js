@@ -9,7 +9,7 @@ function initNavbar(root) {
     const isIndexPage =
         window.location.pathname.endsWith('index.html') ||
         window.location.pathname === '/' ||
-        window.location.pathname === '/Fireus/' ||   // ajusta si hace falta
+        window.location.pathname === '/Fireus/' ||
         window.location.pathname === '/Fireus/index.html';
 
     // Logo hace scroll arriba solo en index
@@ -64,16 +64,16 @@ function initNavbar(root) {
         requestAnimationFrame(step);
     }
 
-    // ---- MENÚ HAMBURGUESA / FLECHA ----
+    // ---- MENÚ / FLECHA ----
     function openMenu() {
         navRight.classList.add('active');
-        menuToggle.classList.add('open');          // para rotar flecha
+        menuToggle.classList.add('open');          // rota flecha
         menuToggle.setAttribute('aria-expanded', 'true');
     }
 
     function closeMenu() {
         navRight.classList.remove('active');
-        menuToggle.classList.remove('open');       // para rotar flecha
+        menuToggle.classList.remove('open');       // rota flecha
         menuToggle.setAttribute('aria-expanded', 'false');
     }
 

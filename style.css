@@ -50,8 +50,6 @@ nav .logo span {
     font-weight: bold;
     font-size: 1.2em;
     letter-spacing: 1px;
-    opacity: 0;
-    transform: translateX(-20px);
     white-space: nowrap;
     display: inline-block;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -64,6 +62,7 @@ nav .logo span.hide {
     opacity: 0;
     transform: translateX(-20px);
 }
+
 .menu-toggle {
     background: none;
     border: none;
@@ -83,46 +82,28 @@ nav .logo span.hide {
     outline-offset: 2px;
 }
 
+/* -------- FLECHA (BASE, MÓVIL) -------- */
 .menu-toggle .arrow {
     display: inline-block;
     width: 8px;
     height: 8px;
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
-    transform: rotate(45deg);
+    transform: rotate(45deg); /* móvil: abajo */
     transition: transform 0.2s ease;
 }
 
+/* menú abierto móvil: flecha arriba */
 .menu-toggle.open .arrow {
     transform: rotate(-135deg);
 }
 
+/* elimina el pseudo-elemento de texto para no liar la flecha */
 .menu-toggle .arrow::before {
-    content: '<';
-    display: inline-block;
-    line-height: 1;
+    content: '';
 }
 
-@media (max-width: 900px) {
-    .menu-toggle .arrow {
-        transform: rotate(-90deg);
-    }
-
-    .nav-right.active .menu-toggle .arrow {
-        transform: rotate(90deg);
-    }
-}
-
-@media (min-width: 901px) {
-    .nav-right .menu-toggle .arrow {
-        transform: rotate(180deg);
-    }
-
-    .nav-right.active .menu-toggle .arrow {
-        transform: rotate(0deg);
-    }
-}
-
+/* -------- LAYOUT NAV PEQUEÑO -------- */
 .nav-right {
     display: flex;
     flex-direction: column;
@@ -191,6 +172,7 @@ nav ul li a:hover {
     background: linear-gradient(90deg, #ff2b2b 0%, #242323 100%);
 }
 
+/* -------- LAYOUT GENERAL RESTO PÁGINA -------- */
 header .title-container {
     display: flex;
     align-items: center;
@@ -582,6 +564,7 @@ p {
     transform: scale(1.05);
 }
 
+/* -------- RESPONSIVE SMALL -------- */
 @media (max-width: 900px) {
     .carousel {
         max-width: 98vw;
@@ -606,7 +589,6 @@ p {
         font-size: 1em;
     }
 
-
     .nav-right {
         width: 180px;
         padding: 6px 4px;
@@ -630,6 +612,7 @@ p {
     }
 }
 
+/* -------- DESKTOP: FLECHA DERECHA / IZQUIERDA -------- */
 @media (min-width: 901px) {
     .nav-right {
         position: relative;
@@ -643,33 +626,39 @@ p {
         opacity: 1;
         visibility: visible;
         transform: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
 
+    /* links plegados por defecto, detrás de la flecha */
     .nav-links {
         display: none;
         flex-direction: row;
         align-items: center;
         gap: 14px;
         width: auto;
-        margin-left: auto;
+        margin-left: 8px;
     }
 
     .nav-right.active .nav-links {
         display: flex;
     }
 
-    .nav-right {
-        justify-content: flex-end;
-    }
-
     .menu-toggle {
-        position: absolute;
-        right: 0;
+        position: relative;
+        right: auto;
+        left: auto;
     }
 
-    .nav-right.active .menu-toggle {
-        left: 0;
-        right: auto;
+    /* flecha derecha cuando está cerrado en grande */
+    .menu-toggle .arrow {
+        transform: rotate(-45deg); /* ↗ ~ derecha */
+    }
+
+    /* cuando está abierto en grande: izquierda */
+    .menu-toggle.open .arrow {
+        transform: rotate(135deg);  /* ↙ ~ izquierda */
     }
 
     nav ul li {
