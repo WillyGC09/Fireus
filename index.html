@@ -137,6 +137,7 @@
 
     <script src="navbar.js"></script>
     <script src="carousel.js"></script>
+    <script src="timeline.js"></script>
     <script>
     const carouselRoot = document.querySelector('.carousel');
     if (carouselRoot) {
@@ -172,19 +173,6 @@
 
     updateOnlineCount();
     setInterval(updateOnlineCount, 10000);
-
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0, rootMargin: '0px 0px -30% 0px' });
-
-    timelineItems.forEach(item => {
-        observer.observe(item);
-    });
     </script>
 
 </body>
