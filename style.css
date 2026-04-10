@@ -64,33 +64,39 @@ nav .logo span.hide {
     transform: translateX(-20px);
 }
 .hamburger {
-    width: 28px;
+    width: 26px;
     height: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    position: relative;
     cursor: pointer;
-    user-select: none;
+    transition: transform 0.25s ease;
 }
 
 .hamburger span {
-    display: block;
+    position: absolute;
+    width: 14px;
     height: 3px;
-    border-radius: 999px;
     background: #ff2b2b;
-    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+    border-radius: 999px;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transition: transform 0.25s ease;
+}
+
+.hamburger span:nth-child(1) {
+    transform: translate(-90%, -50%) rotate(45deg);
+}
+
+.hamburger span:nth-child(2) {
+    transform: translate(-10%, -50%) rotate(-45deg);
 }
 
 .hamburger.open span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translate(-90%, -50%) rotate(-45deg);
 }
 
 .hamburger.open span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.open span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translate(-10%, -50%) rotate(45deg);
 }
 .nav-right {
     display: flex;
