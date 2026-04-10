@@ -5,7 +5,6 @@ function initCarousel(root) {
     let index = 0;
     let autoSlideTimeout;
 
-    // Create indicators
     const indicators = document.createElement('div');
     indicators.className = 'carousel-indicators';
     for (let i = 0; i < totalItems; i++) {
@@ -16,7 +15,6 @@ function initCarousel(root) {
     }
     root.appendChild(indicators);
 
-    // Create arrows
     const prevArrow = document.createElement('button');
     prevArrow.className = 'carousel-arrow carousel-arrow-prev';
     prevArrow.innerHTML = '&#10094;'; // Left arrow
@@ -29,7 +27,6 @@ function initCarousel(root) {
     nextArrow.addEventListener('click', () => showSlide(index + 1));
     root.appendChild(nextArrow);
 
-    // Show/hide controls on hover
     root.addEventListener('mouseenter', () => {
         root.classList.add('show-controls');
     });
@@ -47,7 +44,6 @@ function initCarousel(root) {
         const translateX = -index * 100;
         track.style.transform = `translateX(${translateX}%)`;
 
-        // Update indicators
         const dots = indicators.querySelectorAll('.carousel-dot');
         dots.forEach((dot, idx) => {
             dot.classList.toggle('active', idx === index);
@@ -57,7 +53,7 @@ function initCarousel(root) {
         if (video) {
             video.currentTime = 0;
             video.play();
-            video.onended = () => showSlide(index + 1); // Immediately go to next after video ends
+            video.onended = () => showSlide(index + 1);
         } else {
             startAutoSlide();
         }
