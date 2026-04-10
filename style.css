@@ -345,6 +345,10 @@ header h1 {
     border-radius: 8px;
     padding: 20px;
     width: 250px;
+
+    display: flex;
+    flex-direction: column;
+
     transition: transform 0.3s, box-shadow 0.3s;
 }
 .game-card:hover {
@@ -355,6 +359,7 @@ header h1 {
     color: #ff2b2b;
 }
 .game-card a {
+    margin-top: auto;
     color: #ff2b2b;
     text-decoration: none;
     font-weight: bold;
@@ -363,6 +368,7 @@ header h1 {
 .game-card a:hover {
     color: #d40000;
 }
+
 footer {
     margin-top: 40px;
     font-size: 0.9em;
@@ -422,7 +428,11 @@ p {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    max-width: 800px;
+    text-align: center;
+    margin-bottom: 20px;
 }
+
 header img {
     width: 150px;
     margin-top: 20px;
@@ -433,11 +443,7 @@ h1 {
     font-size: 2.5em;
     text-align: center;
 }
-p {
-    max-width: 800px;
-    text-align: center;
-    margin-bottom: 20px;
-}
+
 .button {
     background-color: #ff2b2b;
     color: #fff;
