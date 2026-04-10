@@ -24,10 +24,10 @@
     <link rel="canonical" href="https://willygc09.github.io/Fireus/index.html">
 
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
     
+    <!-- Aquí se meterá el nav por JS -->
     <div id="navbar"></div>
 
     <header>
@@ -36,6 +36,7 @@
             <h1>Fireus Games</h1>
         </div>
     </header>
+
     <div class="carousel-wrapper">
         <div class="carousel" aria-label="Game carousel">
             <div class="carousel-track">
@@ -70,7 +71,7 @@
                 <p>Explore the depths and fight the unknown. Our first adventure.</p>
                 <a href="depths-of-death.html">Learn more</a>
             </div>
-			<div class="game-card">
+            <div class="game-card">
                 <h3>New videogame</h3>
                 <p>New projects are coming on. We need people to help.</p>
                 <a href="colabora.html">Collaborate</a>
@@ -141,7 +142,6 @@
     if (carouselRoot) {
         initCarousel(carouselRoot);
     }
-
 
     async function updateOnlineCount() {
         try {

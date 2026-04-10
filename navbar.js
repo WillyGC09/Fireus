@@ -1,3 +1,5 @@
+// navbar.js
+
 function initNavbar(root) {
     const logo = root.querySelector('.logo');
     const menuToggle = root.querySelector('.menu-toggle');
@@ -12,7 +14,6 @@ function initNavbar(root) {
         window.location.pathname === '/Fireus/' ||
         window.location.pathname === '/Fireus/index.html';
 
-    // Logo hace scroll arriba solo en index
     if (logo && isIndexPage) {
         logo.addEventListener('click', function (e) {
             e.preventDefault();
@@ -20,7 +21,6 @@ function initNavbar(root) {
         });
     }
 
-    // ---- TEXTO FIREUS GAMES AL HACER SCROLL ----
     if (logoText && isIndexPage) {
         let isTextVisible = false;
 
@@ -64,7 +64,6 @@ function initNavbar(root) {
         requestAnimationFrame(step);
     }
 
-    // ---- MENÚ / FLECHA ----
     function openMenu() {
         navRight.classList.add('active');
         menuToggle.classList.add('open');          // rota flecha
@@ -106,3 +105,29 @@ function initNavbar(root) {
         }
     });
 }
+
+(function () {
+    const navbarRoot = document.getElementById('navbar');
+    if (!navbarRoot) return;
+
+    navbarRoot.innerHTML = `
+    <nav>
+        <a class="logo" href="index.html" aria-label="Go back to home">
+            <img src="fireus.png" alt="Fireus Logo">
+            <span>Fireus Games</span>
+        </a>
+        <div class="nav-right">
+            <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navbar-links">
+                <span class="arrow"></span>
+            </button>
+            <ul id="navbar-links" class="nav-links">
+                <li><a href="index.html#games">Games</a></li>
+                <li><a href="index.html#what-weve-done">What We've Done</a></li>
+                <li><a href="colabora.html">Collaborate</a></li>
+            </ul>
+        </div>
+    </nav>
+    `;
+
+    initNavbar(navbarRoot);
+})();
