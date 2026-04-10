@@ -15,39 +15,33 @@ function initNavbar(root) {
         });
     }
 
-    // Handle logo text visibility on scroll
     let isTextVisible = false;
 
     function updateLogoText() {
         const currentScrollY = window.scrollY;
-        const shouldShow = currentScrollY > 50; // Show when scrolled down more than 50px
+        const shouldShow = currentScrollY > 50;
 
         if (shouldShow && !isTextVisible) {
-            // Show text with slide-in from left
             logoText.classList.add('show');
             logoText.classList.remove('hide');
             isTextVisible = true;
         } else if (!shouldShow && isTextVisible) {
-            // Hide text by sliding it back to the left
             logoText.classList.add('hide');
             logoText.classList.remove('show');
             isTextVisible = false;
         }
     }
 
-    // Start hidden to ensure all shows come from left
     logoText.classList.add('hide');
     logoText.classList.remove('show');
 
-    // Initial check
     updateLogoText();
 
-    // Listen for scroll events
     window.addEventListener('scroll', updateLogoText);
 
     function smoothScrollToTop() {
         const current = window.pageYOffset;
-        const duration = 600; // ms
+        const duration = 500;
         const start = performance.now();
 
         function step(now) {
@@ -86,7 +80,6 @@ function initNavbar(root) {
 
     hamburger.addEventListener('click', toggleMenu);
 
-    // Close menu when clicking on links inside navRight
     const navLinks = navRight.querySelectorAll('a');
     navLinks.forEach(link => {
         link.addEventListener('click', closeMenu);
