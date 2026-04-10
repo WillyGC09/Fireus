@@ -80,7 +80,7 @@ nav .logo span.hide {
     top: 50%;
     left: 50%;
     transform-origin: center;
-    transition: transform 0.25s ease;
+    transition: transform 0.2s ease;
 }
 
 .hamburger span:nth-child(1) {
