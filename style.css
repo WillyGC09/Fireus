@@ -76,7 +76,7 @@ nav .logo span.hide {
     width: 14px;
     height: 3px;
     background: #ff2b2b;
-    border-radius: 999px;
+    border-radius: 5px;
     top: 50%;
     left: 50%;
     transform-origin: center;
