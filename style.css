@@ -73,10 +73,10 @@ nav .logo span.hide {
 
 .hamburger span {
     position: absolute;
-    width: 14px;
-    height: 3px;
+    width: 20px;
+    height: 5px;
     background: #ff2b2b;
-    border-radius: 3px;
+    border-radius: 2px;
     top: 50%;
     left: 50%;
     transform-origin: center;
