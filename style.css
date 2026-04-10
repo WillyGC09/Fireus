@@ -50,9 +50,10 @@ nav .logo span {
     font-weight: bold;
     font-size: 1.2em;
     letter-spacing: 1px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: nowrap;
-    display: inline-block;
-    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 nav .logo span.show {
     opacity: 1;
@@ -62,48 +63,35 @@ nav .logo span.hide {
     opacity: 0;
     transform: translateX(-20px);
 }
-
-.menu-toggle {
-    background: none;
-    border: none;
+.hamburger {
+    width: 28px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     cursor: pointer;
     user-select: none;
-    color: #ff2b2b;
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
 }
 
-.menu-toggle:focus {
-    outline: 2px solid #ff2b2b;
-    outline-offset: 2px;
+.hamburger span {
+    display: block;
+    height: 3px;
+    border-radius: 999px;
+    background: #ff2b2b;
+    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
 }
 
-/* -------- FLECHA (BASE, MÓVIL) -------- */
-.menu-toggle .arrow {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg); /* móvil: abajo */
-    transition: transform 0.2s ease;
+.hamburger.open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
 }
 
-/* menú abierto móvil: flecha arriba */
-.menu-toggle.open .arrow {
-    transform: rotate(-135deg);
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
 }
 
-/* elimina el pseudo-elemento de texto para no liar la flecha */
-.menu-toggle .arrow::before {
-    content: '';
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
-
-/* -------- LAYOUT NAV PEQUEÑO -------- */
 .nav-right {
     display: flex;
     flex-direction: column;
@@ -124,23 +112,12 @@ nav .logo span.hide {
     z-index: 999;
 }
 
-.nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .nav-right.active {
     max-height: 70vh;
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
 }
-
 nav ul {
     list-style: none;
     margin: 0;
@@ -172,7 +149,6 @@ nav ul li a:hover {
     background: linear-gradient(90deg, #ff2b2b 0%, #242323 100%);
 }
 
-/* -------- LAYOUT GENERAL RESTO PÁGINA -------- */
 header .title-container {
     display: flex;
     align-items: center;
@@ -364,12 +340,6 @@ header h1 {
     padding: 20px;
     width: 250px;
     transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-}
-.game-card p {
-    flex: 1;
-    margin: 15px 0;
 }
 .game-card:hover {
     transform: translateY(-5px);
@@ -428,6 +398,123 @@ footer {
 .collabutton a:hover {
     background-color: #d40000;
 }
+.info a {
+    display: inline;
+    background-color: transparent;
+    color: #ff2b2b;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    position: relative;
+    top: 10px;
+}
+.info a:hover {
+    display: inline;
+    color: #d40000;
+}
+p {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+header img {
+    width: 150px;
+    margin-top: 20px;
+}
+h1 {
+    color: #ff2b2b;
+    margin: 10px 0;
+    font-size: 2.5em;
+    text-align: center;
+}
+p {
+    max-width: 800px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.button {
+    background-color: #ff2b2b;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.button:hover {
+    background-color: #d40000;
+    transform: scale(1.05);
+}
+
+@media (max-width: 900px) {
+    .carousel {
+        max-width: 98vw;
+        min-height: 160px;
+    }
+    .description, .section, .collaboration {
+        max-width: 98vw;
+        padding: 10px;
+    }
+}
+@media (max-width: 600px) {
+    nav {
+        padding: 0 6px;
+        height: 44px;
+    }
+
+    nav .logo img {
+        width: 32px;
+    }
+
+    nav .logo span {
+        font-size: 1em;
+    }
+
+
+    .nav-right {
+        width: 180px;
+        padding: 6px 4px;
+        top: 44px;
+    }
+
+    nav ul li a {
+        width: 100%;
+        padding: 8px 0;
+        font-size: 0.95em;
+    }
+
+    .carousel {
+        border-radius: 0;
+        min-height: 100px;
+    }
+
+    .game-card {
+        width: 98vw;
+        padding: 10px;
+    }
+}
+
+.collab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.online-counter {
+    display: flex;
+    align-items: end;
+    gap: 5px;
+    font-weight: bold;
+    color: #ff0000;
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+
+
 .timeline {
     position: relative;
     max-width: 800px;
@@ -497,6 +584,7 @@ footer {
     margin: 0;
     color: #ccc;
 }
+
 .see-more {
     text-align: center;
     margin-top: 20px;
@@ -513,177 +601,4 @@ footer {
 }
 .see-more a:hover {
     background-color: #d40000;
-}
-.info a {
-    display: inline;
-    background-color: transparent;
-    color: #ff2b2b;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-    position: relative;
-    top: 10px;
-}
-.info a:hover {
-    display: inline;
-    color: #d40000;
-}
-p {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-header img {
-    width: 150px;
-    margin-top: 20px;
-}
-h1 {
-    color: #ff2b2b;
-    margin: 10px 0;
-    font-size: 2.5em;
-    text-align: center;
-}
-p {
-    max-width: 800px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.button {
-    background-color: #ff2b2b;
-    color: #fff;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 4px;
-    font-size: 1em;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s, transform 0.3s;
-}
-.button:hover {
-    background-color: #d40000;
-    transform: scale(1.05);
-}
-
-/* -------- RESPONSIVE SMALL -------- */
-@media (max-width: 900px) {
-    .carousel {
-        max-width: 98vw;
-        min-height: 160px;
-    }
-    .description, .section, .collaboration {
-        max-width: 98vw;
-        padding: 10px;
-    }
-}
-@media (max-width: 600px) {
-    nav {
-        padding: 0 6px;
-        height: 44px;
-    }
-
-    nav .logo img {
-        width: 32px;
-    }
-
-    nav .logo span {
-        font-size: 1em;
-    }
-
-    .nav-right {
-        width: 180px;
-        padding: 6px 4px;
-        top: 44px;
-    }
-
-    nav ul li a {
-        width: 100%;
-        padding: 8px 0;
-        font-size: 0.95em;
-    }
-
-    .carousel {
-        border-radius: 0;
-        min-height: 100px;
-    }
-
-    .game-card {
-        width: 98vw;
-        padding: 10px;
-    }
-}
-
-/* -------- DESKTOP: FLECHA DERECHA / IZQUIERDA -------- */
-@media (min-width: 901px) {
-    .nav-right {
-        position: relative;
-        top: auto;
-        right: auto;
-        width: auto;
-        padding: 0;
-        background: transparent;
-        border-radius: 0;
-        max-height: none;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-    }
-
-    /* links plegados por defecto, detrás de la flecha */
-    .nav-links {
-        display: none;
-        flex-direction: row;
-        align-items: center;
-        gap: 14px;
-        width: auto;
-        margin-left: 8px;
-    }
-
-    .nav-right.active .nav-links {
-        display: flex;
-    }
-
-    .menu-toggle {
-        position: relative;
-        right: auto;
-        left: auto;
-    }
-
-    /* flecha derecha cuando está cerrado en grande */
-    .menu-toggle .arrow {
-        transform: rotate(-45deg); /* ↗ ~ derecha */
-    }
-
-    /* cuando está abierto en grande: izquierda */
-    .menu-toggle.open .arrow {
-        transform: rotate(135deg);  /* ↙ ~ izquierda */
-    }
-
-    nav ul li {
-        width: auto;
-    }
-
-    nav ul li a {
-        width: auto;
-        padding: 8px 12px;
-    }
-}
-
-.collab-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-}
-
-.online-counter {
-    display: flex;
-    align-items: end;
-    gap: 5px;
-    font-weight: bold;
-    color: #ff0000;
-    margin-top: 10px;
-    font-size: 1.2em;
 }

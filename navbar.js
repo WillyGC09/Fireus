@@ -1,64 +1,66 @@
-// navbar.js
-
 function initNavbar(root) {
     const logo = root.querySelector('.logo');
-    const menuToggle = root.querySelector('.menu-toggle');
+    const hamburger = root.querySelector('.hamburger');
     const navRight = root.querySelector('.nav-right');
     const logoText = logo ? logo.querySelector('span') : null;
 
-    if (!menuToggle || !navRight) return;
+    if (!hamburger || !navRight) return;
 
-    const isIndexPage =
-        window.location.pathname.endsWith('index.html') ||
-        window.location.pathname === '/' ||
-        window.location.pathname === '/Fireus/' ||
-        window.location.pathname === '/Fireus/index.html';
+    const isIndexPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
 
     if (logo && isIndexPage) {
-        logo.addEventListener('click', function (e) {
+        logo.addEventListener('click', function(e) {
             e.preventDefault();
             smoothScrollToTop();
         });
     }
 
-    if (logoText && isIndexPage) {
-        let isTextVisible = false;
+    // Handle logo text visibility on scroll
+    let isTextVisible = false;
 
-        function updateLogoText() {
-            const currentScrollY = window.scrollY;
-            const shouldShow = currentScrollY > 50;
+    function updateLogoText() {
+        const currentScrollY = window.scrollY;
+        const shouldShow = currentScrollY > 50; // Show when scrolled down more than 50px
 
-            if (shouldShow && !isTextVisible) {
-                logoText.classList.add('show');
-                logoText.classList.remove('hide');
-                isTextVisible = true;
-            } else if (!shouldShow && isTextVisible) {
-                logoText.classList.add('hide');
-                logoText.classList.remove('show');
-                isTextVisible = false;
-            }
+        if (shouldShow && !isTextVisible) {
+            // Show text with slide-in from left
+            logoText.classList.add('show');
+            logoText.classList.remove('hide');
+            isTextVisible = true;
+        } else if (!shouldShow && isTextVisible) {
+            // Hide text by sliding it back to the left
+            logoText.classList.add('hide');
+            logoText.classList.remove('show');
+            isTextVisible = false;
         }
-
-        // Estado inicial: oculto
-        logoText.classList.add('hide');
-        logoText.classList.remove('show');
-
-        updateLogoText();
-        window.addEventListener('scroll', updateLogoText);
     }
 
-    // ---- SCROLL SUAVE ARRIBA ----
+    // Start hidden to ensure all shows come from left
+    logoText.classList.add('hide');
+    logoText.classList.remove('show');
+
+    // Initial check
+    updateLogoText();
+
+    // Listen for scroll events
+    window.addEventListener('scroll', updateLogoText);
+
     function smoothScrollToTop() {
         const current = window.pageYOffset;
-        const duration = 600;
+        const duration = 600; // ms
         const start = performance.now();
 
         function step(now) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
+
             const ease = 1 - Math.pow(1 - progress, 3);
+
             window.scrollTo(0, current * (1 - ease));
-            if (progress < 1) requestAnimationFrame(step);
+
+            if (progress < 1) {
+            requestAnimationFrame(step);
+            }
         }
 
         requestAnimationFrame(step);
@@ -66,14 +68,12 @@ function initNavbar(root) {
 
     function openMenu() {
         navRight.classList.add('active');
-        menuToggle.classList.add('open');          // rota flecha
-        menuToggle.setAttribute('aria-expanded', 'true');
+        hamburger.classList.add('open');
     }
 
     function closeMenu() {
         navRight.classList.remove('active');
-        menuToggle.classList.remove('open');       // rota flecha
-        menuToggle.setAttribute('aria-expanded', 'false');
+        hamburger.classList.remove('open');
     }
 
     function toggleMenu() {
@@ -84,17 +84,10 @@ function initNavbar(root) {
         }
     }
 
-    if (menuToggle) {
-        menuToggle.addEventListener('click', toggleMenu);
-        menuToggle.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleMenu();
-            }
-        });
-    }
+    hamburger.addEventListener('click', toggleMenu);
 
-    const navLinks = navRight.querySelectorAll('.nav-links a');
+    // Close menu when clicking on links inside navRight
+    const navLinks = navRight.querySelectorAll('a');
     navLinks.forEach(link => {
         link.addEventListener('click', closeMenu);
     });
@@ -106,28 +99,10 @@ function initNavbar(root) {
     });
 }
 
-(function () {
-    const navbarRoot = document.getElementById('navbar');
-    if (!navbarRoot) return;
-
-    navbarRoot.innerHTML = `
-    <nav>
-        <a class="logo" href="index.html" aria-label="Go back to home">
-            <img src="fireus.png" alt="Fireus Logo">
-            <span>Fireus Games</span>
-        </a>
-        <div class="nav-right">
-            <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navbar-links">
-                <span class="arrow"></span>
-            </button>
-            <ul id="navbar-links" class="nav-links">
-                <li><a href="index.html#games">Games</a></li>
-                <li><a href="index.html#what-weve-done">What We've Done</a></li>
-                <li><a href="colabora.html">Collaborate</a></li>
-            </ul>
-        </div>
-    </nav>
-    `;
-
-    initNavbar(navbarRoot);
-})();
+fetch('navbar.html')
+    .then(res => res.text())
+    .then(html => {
+        const container = document.getElementById('navbar');
+        container.innerHTML = html;
+        initNavbar(container);
+    })
