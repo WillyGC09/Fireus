@@ -84,19 +84,19 @@ nav .logo span.hide {
 }
 
 .hamburger span:nth-child(1) {
-    transform: translate(-90%, -50%) rotate(45deg);
+    transform: translate(-75%, -50%) rotate(45deg);
 }
 
 .hamburger span:nth-child(2) {
-    transform: translate(-10%, -50%) rotate(-45deg);
+    transform: translate(-25%, -50%) rotate(-45deg);
 }
 
 .hamburger.open span:nth-child(1) {
-    transform: translate(-90%, -50%) rotate(-45deg);
+    transform: translate(-75%, -50%) rotate(-45deg);
 }
 
 .hamburger.open span:nth-child(2) {
-    transform: translate(-10%, -50%) rotate(45deg);
+    transform: translate(-25%, -50%) rotate(45deg);
 }
 .nav-right {
     display: flex;
