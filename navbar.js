@@ -20,20 +20,6 @@ function initNavbar(root) {
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-
-            if (href && href.includes('#') && isIndexPage) {
-                e.preventDefault();
-
-                const targetId = href.split('#')[1];
-                const target = document.getElementById(targetId);
-
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-
             closeMenu();
         });
     });
