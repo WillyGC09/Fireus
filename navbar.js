@@ -21,7 +21,7 @@ function initNavbar(root) {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
 
-            if (href && href.includes('index.html#') && isIndexPage) {
+            if (href && href.includes('#') && isIndexPage) {
                 e.preventDefault();
 
                 const targetId = href.split('#')[1];
