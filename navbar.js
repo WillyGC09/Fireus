@@ -8,7 +8,6 @@ function initNavbar(root) {
 
     const isIndexPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
 
-    // 🔥 LOGO SCROLL TOP
     if (logo && isIndexPage) {
         logo.addEventListener('click', function(e) {
             e.preventDefault();
