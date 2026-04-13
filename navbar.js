@@ -8,12 +8,36 @@ function initNavbar(root) {
 
     const isIndexPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
 
+    // 🔥 LOGO SCROLL TOP
     if (logo && isIndexPage) {
         logo.addEventListener('click', function(e) {
             e.preventDefault();
             smoothScrollToTop();
         });
     }
+
+    const navLinks = navRight.querySelectorAll('a');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+
+            if (href && href.includes('index.html#') && isIndexPage) {
+                e.preventDefault();
+
+                const targetId = href.split('#')[1];
+                const target = document.getElementById(targetId);
+
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            closeMenu();
+        });
+    });
 
     let isTextVisible = false;
 
@@ -36,7 +60,6 @@ function initNavbar(root) {
     logoText.classList.remove('show');
 
     updateLogoText();
-
     window.addEventListener('scroll', updateLogoText);
 
     function smoothScrollToTop() {
@@ -47,13 +70,12 @@ function initNavbar(root) {
         function step(now) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
-
             const ease = 1 - Math.pow(1 - progress, 3);
 
             window.scrollTo(0, current * (1 - ease));
 
             if (progress < 1) {
-            requestAnimationFrame(step);
+                requestAnimationFrame(step);
             }
         }
 
@@ -80,11 +102,6 @@ function initNavbar(root) {
 
     hamburger.addEventListener('click', toggleMenu);
 
-    const navLinks = navRight.querySelectorAll('a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
     document.addEventListener('click', e => {
         if (!root.contains(e.target)) {
             closeMenu();
@@ -98,4 +115,4 @@ fetch('navbar.html')
         const container = document.getElementById('navbar');
         container.innerHTML = html;
         initNavbar(container);
-    })
+    });
