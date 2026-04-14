@@ -184,10 +184,10 @@ header h1 {
     top: -50px;
     left: -500px;
     right: -500px;
-    bottom: -100px;
+    bottom: -300px;
     border-radius: 50px;
-    background: radial-gradient(circle at 50% 0%, #ff2b2b55, transparent 65%);
-    filter: blur(16px);
+    background: radial-gradient(circle at 50% 0%, #ff00008f, transparent 65%);
+    filter: blur(50px);
     opacity: 0.7;
     pointer-events: none;
     z-index: 0;
