@@ -624,12 +624,12 @@ h1 {
 
 .slider {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 50px);
     align-items: stretch;
 }
 @media (max-width: 900px) {
     .slider {
-        height: 60vh;
+        height: calc(60vh - 50px);
     }
 }
 .panel {
