@@ -634,7 +634,6 @@ h1 {
     margin-left: -80px;
     transition: flex 0.8s cubic-bezier(0.77, 0, 0.175, 1);
     clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
-    /* ← treu l'animation d'aquí, el JS ho gestiona */
     opacity: 1;
 }
 .panel:first-child {
