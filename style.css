@@ -616,3 +616,78 @@ h1 {
 .see-more a:hover {
     background-color: #d40000;
 }
+
+
+
+
+
+
+.slider {
+    display: flex;
+    height: 100vh;
+    align-items: stretch;
+}
+.panel {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    margin-left: -80px;
+    transition: flex 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+    /* ← treu l'animation d'aquí, el JS ho gestiona */
+    opacity: 1;
+}
+.panel:first-child {
+    margin-left: 0;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+}
+.panel:last-child {
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.panel img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    width: auto;
+    min-width: 100%;
+    transition: none;
+    pointer-events: none;
+}
+.panel__overlay {
+    border-top: 2px solid #ff0000;
+    border-bottom: 2px solid #ff0000;
+    position: absolute;
+    inset: 0;
+    background: #0008;
+    transition: opacity 0.5s ease;
+    z-index: 1;
+}
+.slider:hover .panel__overlay {
+    opacity: 0.8;
+}
+.slider:hover .panel:hover .panel__overlay {
+    opacity: 0;
+}
+.panel:hover {
+    flex: 1.8;
+    z-index: 10;
+}
+
+@keyframes linea-sube {
+    0% { clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); }
+    20% { clip-path: polygon(48% 0%, 52% 0%, 52% 0%, 48% 0%); }
+    55% { clip-path: polygon(15% 0%, 85% 0%, 85% 0%, 15% 0%); }
+    100% { clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%); }
+}
+
+@keyframes caer {
+    0% {
+        transform: translateY(-120vh) scaleY(1.2);
+        opacity: 0;
+    }
+    60% { transform: translateY(15px) scaleY(0.95); opacity: 1; }
+    80% { transform: translateY(-5px) scaleY(1.02); }
+    100% { transform: translateY(0) scaleY(1); }
+}
