@@ -98,22 +98,24 @@ nav .logo span.hide {
     transform: translate(-15%, -50%) rotate(45deg);
 }
 .nav-right {
+    position: fixed;
+    top: 50px;
+    right: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(30, 30, 30, 0.7);
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(15px) saturate(180%);
     border-bottom-left-radius: 10px;
-    position: absolute;
-    top: 50px;
-    right: 0;
+    box-shadow: 0 4px 16px 0 rgba(255,43,43,0.05);
+    box-sizing: border-box;
     width: 200px;
     padding: 10px 5px;
     max-height: 0;
     opacity: 0;
-    overflow: hidden;
+    overflow: visible;
     transform: translateY(-12px);
-    visibility: hidden;
-    transition: max-height 0.35s ease, opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+    transition: max-height 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
     z-index: 999;
 }
 
@@ -121,9 +123,8 @@ nav .logo span.hide {
     max-height: 70vh;
     opacity: 1;
     transform: translateY(0);
-    visibility: visible;
 }
-nav ul {
+.nav-right ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -132,13 +133,13 @@ nav ul {
     align-items: center;
     width: 100%;
 }
-nav ul li {
+.nav-right ul li {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-nav ul li a {
+.nav-right ul li a {
     display: block;
     width: 85%;
     text-align: center;
@@ -149,7 +150,7 @@ nav ul li a {
     border-radius: 6px;
     transition: all 0.25s ease;
 }
-nav ul li a:hover {
+.nav-right ul li a:hover {
     color: #fff;
     background: linear-gradient(90deg, #ff2b2b 0%, #242323 100%);
 }
