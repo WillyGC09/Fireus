@@ -23,7 +23,7 @@ authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const username = usernameInput.value;
+    const username = usernameInput.value.trim();
 
     if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -33,10 +33,11 @@ authForm.addEventListener('submit', async (e) => {
             window.location.href = 'index.html';
         }
     } else {
+        // Check case-insensitively if username is taken
         const { data: existingUser } = await supabase
             .from('profiles')
             .select('username')
-            .eq('username', username)
+            .ilike('username', username)
             .maybeSingle();
 
         if (existingUser) {
@@ -56,6 +57,8 @@ authForm.addEventListener('submit', async (e) => {
         if (error) {
             if (error.message.includes("rate limit exceeded")) {
                 alert("You have made too many registration attempts. Please wait a few minutes and try again.");
+            } else if (error.message.includes("profiles_username_lower_unique_idx")) {
+                alert("This username is already in use.");
             } else {
                 alert(error.message);
             }
@@ -63,14 +66,6 @@ authForm.addEventListener('submit', async (e) => {
             if (data.user.identities && data.user.identities.length === 0) {
                 alert("Email already registrered. Try to login.");
                 return;
-            }
-
-            const { error: profileError } = await supabase
-                .from('profiles')
-                .insert([{ id: data.user.id, username: username }]);
-            
-            if (profileError) {
-                console.error("Error creating profile:", profileError);
             }
 
             if (data.session) {

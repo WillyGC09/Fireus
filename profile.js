@@ -20,9 +20,6 @@ async function loadProfile() {
 
     if (!username && session.user.user_metadata?.username) {
         username = session.user.user_metadata.username;
-        await supabase.from('profiles').insert([
-            { id: session.user.id, username: username }
-        ]);
     }
 
     if (username) {

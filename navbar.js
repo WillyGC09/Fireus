@@ -96,13 +96,8 @@ async function initUserIcon(root) {
             
         let username = profile?.username;
 
-        // Si el perfil no existeix a la taula però el tenim a la metadata
         if (!username && session.user.user_metadata?.username) {
             username = session.user.user_metadata.username;
-            // Intentem "reparar" la base de dades creant el perfil ara que ja tenim sessió
-            await supabase.from('profiles').insert([
-                { id: session.user.id, username: username }
-            ]);
         }
         
         username = username || 'Usuari';
