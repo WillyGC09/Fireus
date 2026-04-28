@@ -53,7 +53,11 @@ authForm.addEventListener('submit', async (e) => {
         });
 
         if (error) {
-            alert(error.message);
+            if (error.message.includes("rate limit exceeded")) {
+                alert("You have made too many registration attempts. Please wait a few minutes and try again.");
+            } else {
+                alert(error.message);
+            }
         } else if (data.user) {
             if (data.user.identities && data.user.identities.length === 0) {
                 alert("Email already registrered. Try to login.");
