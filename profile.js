@@ -18,6 +18,31 @@ async function loadProfile() {
     if (profile) {
         document.getElementById('display-username').innerText = profile.username || "No name";
         if (profile.avatar_url) document.getElementById('display-avatar').src = profile.avatar_url;
+
+        const { data: stats } = await supabase
+            .from('game_stats')
+            .select('*')
+            .eq('id', session.user.id)
+            .maybeSingle();
+
+        if (stats && stats.is_connected) {
+            document.getElementById('stats-container').style.display = 'block';
+            document.getElementById('no-stats-message').style.display = 'none';
+            
+            const statsGrid = document.getElementById('stats-grid');
+            const displayConfig = [
+                { label: 'Level', value: stats.level },
+                { label: 'Hours Played', value: Math.floor(stats.hours_played) },
+                { label: 'Matches', value: stats.matches_played }
+            ];
+
+            statsGrid.innerHTML = displayConfig.map(s => `
+                <div>
+                    <span style="color: #888; font-size: 0.8em;">${s.label}</span>
+                    <div style="font-size: 1.2em; font-weight: bold; color: #fff;">${s.value}</div>
+                </div>
+            `).join('');
+        }
     }
 }
 
