@@ -1,11 +1,14 @@
+// navbar.js
+import { supabase } from './supabase-client.js'
+
 function initNavbar(root) {
     const logo = root.querySelector('.logo');
     const hamburger = root.querySelector('.hamburger');
-    const navRight = root.querySelector('.nav-right');
-    const logoText = logo ? logo.querySelector('span') : null;
+    const navRight = root.querySelector('.nav-right'); // Mobile menu container
+    const logoText = logo?.querySelector('span'); // Optional chaining for safety
 
     if (!hamburger || !navRight) return;
-
+    
     const isIndexPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
 
     if (logo && isIndexPage) {
@@ -14,56 +17,45 @@ function initNavbar(root) {
             smoothScrollToTop();
         });
     }
-
+    
     const navLinks = navRight.querySelectorAll('a');
-
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
+        link.addEventListener('click', function() {
             closeMenu();
         });
     });
-
-    let isTextVisible = false;
-
-    function updateLogoText() {
-        const currentScrollY = window.scrollY;
-        const shouldShow = currentScrollY > 50;
-
-        if (shouldShow && !isTextVisible) {
-            logoText.classList.add('show');
-            logoText.classList.remove('hide');
-            isTextVisible = true;
-        } else if (!shouldShow && isTextVisible) {
-            logoText.classList.add('hide');
-            logoText.classList.remove('show');
-            isTextVisible = false;
+    
+    // Only apply logo text animation if logoText element exists
+    if (logoText) {
+        // Initialize logo text state
+        logoText.classList.add('hide');
+        logoText.classList.remove('show');
+        
+        function updateLogoTextVisibility() {
+            const shouldShow = window.scrollY > 50;
+            if (shouldShow && !logoText.classList.contains('show')) {
+                logoText.classList.add('show');
+                logoText.classList.remove('hide');
+            } else if (!shouldShow && logoText.classList.contains('show')) {
+                logoText.classList.add('hide');
+                logoText.classList.remove('show');
+            }
         }
+        updateLogoTextVisibility(); // Initial check
+        window.addEventListener('scroll', updateLogoTextVisibility);
     }
-
-    logoText.classList.add('hide');
-    logoText.classList.remove('show');
-
-    updateLogoText();
-    window.addEventListener('scroll', updateLogoText);
 
     function smoothScrollToTop() {
         const current = window.pageYOffset;
         const duration = 500;
         const start = performance.now();
-
         function step(now) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
             const ease = 1 - Math.pow(1 - progress, 3);
-
             window.scrollTo(0, current * (1 - ease));
-
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            }
+            if (progress < 1) requestAnimationFrame(step);
         }
-
         requestAnimationFrame(step);
     }
 
@@ -78,20 +70,51 @@ function initNavbar(root) {
     }
 
     function toggleMenu() {
-        if (navRight.classList.contains('active')) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
+        if (navRight.classList.contains('active')) closeMenu();
+        else openMenu();
     }
 
     hamburger.addEventListener('click', toggleMenu);
 
     document.addEventListener('click', e => {
-        if (!root.contains(e.target)) {
-            closeMenu();
-        }
+        if (!root.contains(e.target)) closeMenu();
     });
+}
+
+async function initUserIcon(root) {
+    const userIcon = root.querySelector('.user-icon');
+    if (!userIcon) return;
+
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('id', session.user.id)
+            .maybeSingle()
+            
+        let username = profile?.username;
+
+        // Si el perfil no existeix a la taula però el tenim a la metadata
+        if (!username && session.user.user_metadata?.username) {
+            username = session.user.user_metadata.username;
+            // Intentem "reparar" la base de dades creant el perfil ara que ja tenim sessió
+            await supabase.from('profiles').insert([
+                { id: session.user.id, username: username }
+            ]);
+        }
+        
+        username = username || 'Usuari';
+        
+        userIcon.href = 'profile.html';
+        userIcon.setAttribute('aria-label', 'Profile');
+        userIcon.innerHTML = `<span class="nav-username">${username}</span>`;
+    } else {
+        userIcon.href = 'login.html';
+        userIcon.setAttribute('aria-label', 'Login');
+        userIcon.innerHTML = '<span class="nav-username">Login</span>';
+    }
 }
 
 fetch('navbar.html')
@@ -100,4 +123,5 @@ fetch('navbar.html')
         const container = document.getElementById('navbar');
         container.innerHTML = html;
         initNavbar(container);
-    });
+        initUserIcon(container); // No need to await here, can run concurrently
+    })

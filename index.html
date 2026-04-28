@@ -135,44 +135,18 @@
         &copy; 2026 Fireus. All rights reserved.
     </footer>
 
-    <script src="navbar.js"></script>
+    <script type="module" src="navbar.js"></script>
     <script src="carousel.js"></script>
-    <script src="timeline.js"></script>
     <script>
     const carouselRoot = document.querySelector('.carousel');
     if (carouselRoot) {
         initCarousel(carouselRoot);
     }
-
-    async function updateOnlineCount() {
-        try {
-            const response = await fetch('https://discord.com/api/guilds/1491434145740755064/widget.json');
-            const data = await response.json();
-
-            const newCount = typeof data.presence_count === 'number' ? data.presence_count : 0;
-
-            const countEl = document.getElementById('online-count');
-            const oldCount = parseInt(countEl.textContent) || 0;
-
-            if (newCount !== oldCount) {
-                const duration = 500;
-                const startTime = performance.now();
-                function animate(time) {
-                    const elapsed = time - startTime;
-                    const t = Math.min(elapsed / duration, 1);
-                    const value = Math.floor(oldCount + (newCount - oldCount) * t);
-                    countEl.textContent = value;
-                    if (t < 1) requestAnimationFrame(animate);
-                }
-                requestAnimationFrame(animate);
-            }
-        } catch (error) {
-            console.error('Error fetching online count:', error);
-        }
-    }
-
-    updateOnlineCount();
-    setInterval(updateOnlineCount, 10000);
+    </script>
+    <script src="timeline.js"></script>
+    <script type="module">
+        import { initDiscordOnlineCounter } from './discord-widget.js';
+        initDiscordOnlineCounter('online-count', '1491434145740755064');
     </script>
 
 </body>

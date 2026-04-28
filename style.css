@@ -104,18 +104,20 @@ nav .logo span.hide {
 }
 
 .user-icon {
+    width: auto !important;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 28px;
     height: 28px;
-    border-radius: 25%;
+    border-radius: 5px;
     background: rgba(0, 0, 0, 0);
     color: #ff2b2b;
     font-size: 1.1rem;
     text-decoration: none;
     transition: all 0.25s ease;
     backdrop-filter: blur(15px) saturate(180%);
+    padding: 0 6px;
 }
 
 .user-icon,
@@ -125,9 +127,17 @@ nav .logo span.hide {
 
 .user-icon:hover {
     background: #ff2b2b;
-    color: #fff;
+    color: #000000;
     transform: scale(1.05);
 }
+
+.nav-username {
+    font-size: 0.78rem;
+    font-weight: bold;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
 .nav-right {
     position: fixed;
     top: 50px;
