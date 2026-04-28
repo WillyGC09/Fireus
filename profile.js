@@ -9,7 +9,6 @@ async function loadProfile() {
     let isOwnProfile = true;
 
     if (targetUsername) {
-        // Searching for someone else
         const { data: targetProfile } = await supabase
             .from('profiles')
             .select('id, username, avatar_url')
@@ -27,7 +26,6 @@ async function loadProfile() {
         return;
     }
 
-    // Hide private buttons if not your profile
     if (!isOwnProfile) {
         document.querySelector('a[href="settings.html"]').style.display = 'none';
         document.getElementById('logout-btn').style.display = 'none';
@@ -43,7 +41,7 @@ async function loadProfile() {
         .maybeSingle();
 
     if (profile) {
-        document.getElementById('display-username').innerText = profile.username || "No name";
+        document.getElementById('display-username').innerText = profile.username || "Error loading name";
         if (profile.avatar_url) document.getElementById('display-avatar').src = profile.avatar_url;
 
         const { data: stats } = await supabase
@@ -79,6 +77,3 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
 });
 
 loadProfile();
-supabase.auth.onAuthStateChange((event, session) => {
-    if (!session) window.location.href = 'login.html';
-});
