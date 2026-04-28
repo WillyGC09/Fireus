@@ -40,7 +40,7 @@ authForm.addEventListener('submit', async (e) => {
             .maybeSingle();
 
         if (existingUser) {
-            alert("Aquest nom d'usuari ja està en ús. Tria'n un altre.");
+            alert("This username is already in use. Please choose another.");
             return;
         }
 
@@ -56,7 +56,7 @@ authForm.addEventListener('submit', async (e) => {
             alert(error.message);
         } else if (data.user) {
             if (data.user.identities && data.user.identities.length === 0) {
-                alert("Aquest correu ja està registrat. Prova de fer login.");
+                alert("Email already registrered. Try to login.");
                 return;
             }
 
