@@ -3,23 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - Fireus Games</title>
+    <title>Fireus Games - Profile</title>
+    <meta name="description" content="Manage your profile and settings.">
+    <link rel="icon" href="fireus.ico" type="image/x-icon">
+
+    <meta property="og:title" content="Fireus Games - Profile">
+    <meta property="og:description" content="Manage your profile and settings.">
+    <meta property="og:image" content="https://willygc09.github.io/Fireus/fireus.png">
+    <meta property="og:url" content="https://willygc09.github.io/Fireus/profile.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Fireus Games">
+    <meta property="og:locale" content="es_ES">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fireus Games - Profile">
+    <meta name="twitter:description" content="Manage your profile and settings.">
+    <meta name="twitter:image" content="https://willygc09.github.io/Fireus/fireus.png">
+    <meta name="twitter:site" content="@FireusGames">
+    <meta name="twitter:creator" content="@FireusGames">
+    <link rel="canonical" href="https://willygc09.github.io/Fireus/profile.html">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="navbar"></div>
 
     <header>
-        <h1>My Account</h1>
+        <div class="title-container">
+            <h1>My Account</h1>
+        </div>
     </header>
 
     <div class="section">
         <div class="collaboration" style="text-align: center;">
-            <h2 id="display-username">Loading...</h2>
+            <h1 id="display-username">Loading...</h1>
             <p id="display-email"></p>
             <button id="logout-btn" class="button" style="background-color: #333;">Logout</button>
         </div>
     </div>
+
+    <footer>
+        &copy; 2026 Fireus. All rights reserved.
+    </footer>
 
     <script type="module" src="profile.js"></script>
     <script type="module" src="navbar.js"></script>

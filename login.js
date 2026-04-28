@@ -33,7 +33,6 @@ authForm.addEventListener('submit', async (e) => {
             window.location.href = 'index.html';
         }
     } else {
-        // 1. Comprovar si el nom d'usuari ja existeix a la taula 'profiles'
         const { data: existingUser } = await supabase
             .from('profiles')
             .select('username')
@@ -49,14 +48,13 @@ authForm.addEventListener('submit', async (e) => {
             email,
             password,
             options: {
-                data: { username: username } // Guardem el nom a la metadata de l'auth
+                data: { username: username }
             }
         });
 
         if (error) {
             alert(error.message);
         } else if (data.user) {
-            // 2. Detectar si el correu ja existeix (identities estarà buit si ja estava registrat)
             if (data.user.identities && data.user.identities.length === 0) {
                 alert("Aquest correu ja està registrat. Prova de fer login.");
                 return;

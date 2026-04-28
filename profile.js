@@ -18,7 +18,6 @@ async function loadProfile() {
 
     let username = profile?.username;
 
-    // Recuperació si el registre a la taula va fallar en el signup
     if (!username && session.user.user_metadata?.username) {
         username = session.user.user_metadata.username;
         await supabase.from('profiles').insert([
