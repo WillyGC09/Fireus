@@ -119,7 +119,7 @@ function initSearch(root) {
     searchWrapper.innerHTML = `
         <button class="search-btn" id="search-toggle" aria-label="Search">⌕</button>
         <div id="search-input-container">
-            <input type="text" class="search-input" id="search-query" placeholder="Search games or users...">
+            <input type="text" class="search-input" id="search-query" placeholder="Search games or users">
             <div class="search-results" id="search-results"></div>
         </div>
     `;
