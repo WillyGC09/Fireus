@@ -71,6 +71,16 @@
             margin-bottom: 20px;
             color: #ffaaaa;
         }
+        .feedback-message {
+            margin-top: 10px;
+            font-size: 0.85em;
+            padding: 8px;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+        }
+        .feedback-error { background: #2a1010; color: #ffaaaa; border: 1px solid #441a1a; }
+        .feedback-success { background: #102a10; color: #aaffaa; border: 1px solid #1a441a; }
     </style>
 </head>
 <body>
@@ -84,6 +94,7 @@
                 <div style="margin-top: 15px;">
                     <input type="file" id="avatar-input" accept="image/*" style="display: none;">
                     <button type="button" onclick="document.getElementById('avatar-input').click()" class="button" style="padding: 5px 15px; font-size: 0.8em;">Change photo</button>
+                    <div id="avatar-message" class="feedback-message"></div>
                 </div>
             </div>
 
@@ -92,15 +103,16 @@
                 <input type="text" id="edit-username">
             </div>
             <div class="edit-group">
-                <label>New password (optional)</label>
+                <label>New password</label>
                 <input type="password" id="edit-password">
             </div>
             <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
-            <div class="security-note">You must enter your current password to save any changes.</div>
             <div class="edit-group">
                 <label>Current password</label>
                 <input type="password" id="current-password" required>
             </div>
+
+            <div id="profile-message" class="feedback-message" style="margin-bottom: 15px;"></div>
 
             <div style="display: flex; gap: 10px;">
                 <button id="save-btn" class="button" style="flex: 2;">Save changes</button>
@@ -108,7 +120,7 @@
             </div>
         </div>
     </div>
-    <script type="module" src="settings.js"></script>
+    <script type="module" src="./settings.js"></script>
     <script type="module" src="navbar.js"></script>
 </body>
 </html>
