@@ -134,6 +134,8 @@ function initSearch(root) {
     const container = root.querySelector('#search-input-container');
     const input = root.querySelector('#search-query');
     const results = root.querySelector('#search-results');
+    const hamburger = root.querySelector('.hamburger');
+    const navRight = root.querySelector('.nav-right');
 
     const GAMES = [
         { name: "Depths of Death", url: "depths-of-death.html", type: "game" }
@@ -141,6 +143,8 @@ function initSearch(root) {
 
     toggle.onclick = (e) => {
         e.stopPropagation();
+        navRight.classList.remove('active');
+        hamburger.classList.remove('open');
         const isVisible = container.style.display === 'flex';
         container.style.display = isVisible ? 'none' : 'flex';
         if (!isVisible) input.focus();
@@ -152,7 +156,7 @@ function initSearch(root) {
 
     input.oninput = async () => {
         const query = input.value.trim().toLowerCase();
-        if (query.length < 2) {
+        if (query.length < 1) {
             results.innerHTML = '';
             return;
         }
