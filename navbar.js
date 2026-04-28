@@ -100,7 +100,7 @@ async function initUserIcon(root) {
             username = session.user.user_metadata.username;
         }
         
-        username = username || 'Usuari';
+        username = username || 'User';
         
         userIcon.href = 'profile.html';
         userIcon.setAttribute('aria-label', 'Profile');

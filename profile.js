@@ -2,7 +2,6 @@ import { supabase } from './supabase-client.js';
 
 async function loadProfile() {
     const { data: { session } } = await supabase.auth.getSession();
-
     if (!session) {
         window.location.href = 'login.html';
         return;
@@ -12,30 +11,19 @@ async function loadProfile() {
 
     const { data: profile } = await supabase
         .from('profiles')
-        .select('username')
+        .select('username, avatar_url')
         .eq('id', session.user.id)
         .maybeSingle();
 
-    let username = profile?.username;
-
-    if (!username && session.user.user_metadata?.username) {
-        username = session.user.user_metadata.username;
-    }
-
-    if (username) {
-        document.getElementById('display-username').innerText = username;
-    } else {
-        document.getElementById('display-username').innerText = "Perfil no trobat";
+    if (profile) {
+        document.getElementById('display-username').innerText = profile.username || "No name";
+        if (profile.avatar_url) document.getElementById('display-avatar').src = profile.avatar_url;
     }
 }
 
 document.getElementById('logout-btn').addEventListener('click', async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-        alert(error.message);
-    } else {
-        window.location.href = 'index.html';
-    }
+    await supabase.auth.signOut();
+    window.location.href = 'index.html';
 });
 
 loadProfile();
