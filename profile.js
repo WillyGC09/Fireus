@@ -1,18 +1,45 @@
 import { supabase } from './supabase-client.js';
 
 async function loadProfile() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetUsername = urlParams.get('u');
     const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
+    
+    let userId = session?.user?.id;
+    let isOwnProfile = true;
+
+    if (targetUsername) {
+        // Searching for someone else
+        const { data: targetProfile } = await supabase
+            .from('profiles')
+            .select('id, username, avatar_url')
+            .eq('username', targetUsername)
+            .maybeSingle();
+
+        if (!targetProfile) {
+            document.getElementById('display-username').innerText = "User not found";
+            return;
+        }
+        userId = targetProfile.id;
+        isOwnProfile = (session?.user?.id === userId);
+    } else if (!session) {
         window.location.href = 'login.html';
         return;
     }
 
-    document.getElementById('display-email').innerText = session.user.email;
+    // Hide private buttons if not your profile
+    if (!isOwnProfile) {
+        document.querySelector('a[href="settings.html"]').style.display = 'none';
+        document.getElementById('logout-btn').style.display = 'none';
+        document.getElementById('display-email').style.display = 'none';
+    } else {
+        document.getElementById('display-email').innerText = session.user.email;
+    }
 
     const { data: profile } = await supabase
         .from('profiles')
         .select('username, avatar_url')
-        .eq('id', session.user.id)
+        .eq('id', userId)
         .maybeSingle();
 
     if (profile) {
@@ -22,7 +49,7 @@ async function loadProfile() {
         const { data: stats } = await supabase
             .from('game_stats')
             .select('*')
-            .eq('id', session.user.id)
+            .eq('id', userId)
             .maybeSingle();
 
         if (stats && stats.is_connected) {

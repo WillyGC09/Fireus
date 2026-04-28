@@ -4,8 +4,8 @@ import { supabase } from './supabase-client.js'
 function initNavbar(root) {
     const logo = root.querySelector('.logo');
     const hamburger = root.querySelector('.hamburger');
-    const navRight = root.querySelector('.nav-right'); // Mobile menu container
-    const logoText = logo?.querySelector('span'); // Optional chaining for safety
+    const navRight = root.querySelector('.nav-right');
+    const logoText = logo?.querySelector('span');
 
     if (!hamburger || !navRight) return;
     
@@ -25,9 +25,7 @@ function initNavbar(root) {
         });
     });
     
-    // Only apply logo text animation if logoText element exists
     if (logoText) {
-        // Initialize logo text state
         logoText.classList.add('hide');
         logoText.classList.remove('show');
         
@@ -41,7 +39,7 @@ function initNavbar(root) {
                 logoText.classList.remove('show');
             }
         }
-        updateLogoTextVisibility(); // Initial check
+        updateLogoTextVisibility();
         window.addEventListener('scroll', updateLogoTextVisibility);
     }
 
@@ -112,11 +110,86 @@ async function initUserIcon(root) {
     }
 }
 
+function initSearch(root) {
+    const topNav = root.querySelector('.nav-right-top');
+    if (!topNav) return;
+
+    const searchWrapper = document.createElement('div');
+    searchWrapper.className = 'search-wrapper';
+    searchWrapper.innerHTML = `
+        <button class="search-btn" id="search-toggle" aria-label="Search">⌕</button>
+        <div id="search-input-container">
+            <input type="text" class="search-input" id="search-query" placeholder="Search games or users...">
+            <div class="search-results" id="search-results"></div>
+        </div>
+    `;
+    topNav.appendChild(searchWrapper);
+
+    const userIcon = topNav.querySelector('.user-icon');
+    if (userIcon) {
+        topNav.insertBefore(searchWrapper, userIcon);
+    }
+
+    const toggle = root.querySelector('#search-toggle');
+    const container = root.querySelector('#search-input-container');
+    const input = root.querySelector('#search-query');
+    const results = root.querySelector('#search-results');
+
+    const GAMES = [
+        { name: "Depths of Death", url: "depths-of-death.html", type: "game" }
+    ];
+
+    toggle.onclick = (e) => {
+        e.stopPropagation();
+        const isVisible = container.style.display === 'flex';
+        container.style.display = isVisible ? 'none' : 'flex';
+        if (!isVisible) input.focus();
+    };
+
+    document.addEventListener('click', (e) => {
+        if (!searchWrapper.contains(e.target)) container.style.display = 'none';
+    });
+
+    input.oninput = async () => {
+        const query = input.value.trim().toLowerCase();
+        if (query.length < 2) {
+            results.innerHTML = '';
+            return;
+        }
+
+        const matchedGames = GAMES.filter(g => g.name.toLowerCase().includes(query));
+        
+        const { data: matchedUsers } = await supabase
+            .from('profiles')
+            .select('username, avatar_url')
+            .ilike('username', `%${query}%`)
+            .limit(5);
+
+        let html = matchedGames.map(g => `
+            <a href="${g.url}" class="search-item" onclick="document.getElementById('search-input-container').style.display='none';">
+                <strong>${g.name}</strong>
+            </a>
+        `).join('');
+
+        if (matchedUsers) {
+            html += matchedUsers.map(u => `
+                <a href="profile.html?u=${u.username}" class="search-item">
+                    <img src="${u.avatar_url || 'fireus.png'}" alt="">
+                    <span>${u.username}</span> 
+                </a>
+            `).join('');
+        }
+
+        results.innerHTML = html || '<div class="search-item">No results found</div>';
+    };
+}
+
 fetch('navbar.html')
     .then(res => res.text())
     .then(html => {
         const container = document.getElementById('navbar');
         container.innerHTML = html;
         initNavbar(container);
-        initUserIcon(container); // No need to await here, can run concurrently
+        initUserIcon(container);
+        initSearch(container);
     })
