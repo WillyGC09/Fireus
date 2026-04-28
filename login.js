@@ -48,7 +48,8 @@ authForm.addEventListener('submit', async (e) => {
             email,
             password,
             options: {
-                data: { username: username }
+                data: { username: username },
+                emailRedirectTo: 'https://willygc09.github.io/Fireus/index.html'
             }
         });
 
