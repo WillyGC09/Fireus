@@ -1,6 +1,7 @@
 import { supabase } from './supabase-client.js';
 
 const avatarPreview = document.getElementById('avatar-preview');
+const avatarWrapper = document.getElementById('avatar-wrapper');
 const avatarInput = document.getElementById('avatar-input');
 const editUsernameInput = document.getElementById('edit-username');
 const editPasswordInput = document.getElementById('edit-password');
@@ -211,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 avatarInput.addEventListener('change', handleAvatarChange);
+avatarWrapper.addEventListener('click', () => avatarInput.click());
 saveButton.addEventListener('click', handleSaveChanges);
 
 supabase.auth.onAuthStateChange((event, session) => {
