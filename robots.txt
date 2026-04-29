@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://willygc09.github.io/Fireus/sitemap.xml
