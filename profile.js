@@ -27,6 +27,11 @@ async function loadProfile() {
     } else if (!session) {
         window.location.href = 'login.html';
         return;
+    } else {
+        document.getElementById('no-stats-message').style.display = 'none';
+        document.querySelector('a[href="settings.html"]').style.display = 'none';
+        document.getElementById('logout-btn').style.display = 'none';
+        document.getElementById('display-email').style.display = 'none';
     }
 
     if (!isOwnProfile) {
@@ -47,21 +52,20 @@ async function loadProfile() {
         document.getElementById('display-username').innerText = profile.username || "Error loading name";
         if (profile.avatar_url) document.getElementById('display-avatar').src = profile.avatar_url;
 
-        const { data: stats } = await supabase
-            .from('game_stats')
+        const { data: dod_stats } = await supabase
+            .from('dod_stats')
             .select('*')
             .eq('id', userId)
             .maybeSingle();
 
-        if (stats && stats.is_connected) {
-            document.getElementById('stats-container').style.display = 'block';
+        if (dod_stats && dod_stats.is_connected) {
+            document.getElementById('dod-stats-container').style.display = 'block';
             document.getElementById('no-stats-message').style.display = 'none';
             
             const statsGrid = document.getElementById('stats-grid');
             const displayConfig = [
-                { label: 'Level', value: stats.level },
-                { label: 'Hours Played', value: Math.floor(stats.hours_played) },
-                { label: 'Matches', value: stats.matches_played }
+                { label: 'Hours Played', value: Math.floor(dod_stats.hours_played) },
+                { label: 'Matches', value: dod_stats.matches_played }
             ];
 
             statsGrid.innerHTML = displayConfig.map(s => `
