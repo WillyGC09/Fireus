@@ -859,7 +859,7 @@ h1 {
 }
 
 @keyframes linea-sube {
-    0% {clip-path: polygon(calc(100% - 47px) 50%, calc(100% - 40px) 50%, calc(100% - 40px) 50%, calc(100% - 47px) 50%);}
+    0% {clip-path: polygon(calc(100% - 87px) 100%, calc(100% - 80px) 100%, calc(100% - 80px) 100%, calc(100% - 87px) 100%);}
     25%, 30% {clip-path: polygon(calc(100% - 7px) 0, 100% 0, calc(100% - 80px) 100%, calc(100% - 87px) 100%);}
     50%, 55% {clip-path: polygon(80px 0, 87px 0, 7px 100%, 0% 100%);}
     100% {clip-path: polygon(80px 0, 100% 0, calc(100% - 80px) 100%, 0% 100%);}
