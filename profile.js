@@ -17,10 +17,13 @@ async function loadProfile() {
 
         if (!targetProfile) {
             document.getElementById('display-username').innerText = "User not found";
+            document.title = "User not found - Fireus Games";
             return;
         }
         userId = targetProfile.id;
         isOwnProfile = (session?.user?.id === userId);
+
+        if (!isOwnProfile) document.title = `${targetProfile.username} - Fireus Games`;
     } else if (!session) {
         window.location.href = 'login.html';
         return;
