@@ -18,6 +18,10 @@ async function loadProfile() {
         if (!targetProfile) {
             document.getElementById('display-username').innerText = "User not found";
             document.title = "User not found - Fireus Games";
+            document.getElementById('no-stats-message').style.display = 'none';
+            document.querySelector('a[href="settings.html"]').style.display = 'none';
+            document.getElementById('logout-btn').style.display = 'none';
+            document.getElementById('display-email').style.display = 'none';
             return;
         }
         userId = targetProfile.id;
@@ -27,11 +31,6 @@ async function loadProfile() {
     } else if (!session) {
         window.location.href = 'login.html';
         return;
-    } else {
-        document.getElementById('no-stats-message').style.display = 'none';
-        document.querySelector('a[href="settings.html"]').style.display = 'none';
-        document.getElementById('logout-btn').style.display = 'none';
-        document.getElementById('display-email').style.display = 'none';
     }
 
     if (!isOwnProfile) {
