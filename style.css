@@ -786,12 +786,17 @@ h1 {
     clip-path: polygon(80px 0, 100% 0, 100% 100%, 0% 100%);
 }
 
+.panel:first-child,
+.panel:last-child {
+    flex: 0.7;
+}
+
 .panel__text {
     position: absolute;
     text-align: center;
     bottom: 10%;
-    left: 50%;
-    transform: translateX(-56%);
+    left: calc(50% - 32px);
+    transform: translateX(-50%);
     z-index: 2;
     color: #fff;
     white-space: nowrap;
@@ -800,22 +805,33 @@ h1 {
     text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
 }
 
+.panel:first-child .panel__text {
+    left: calc(50% - 36px);
+    transform: translateX(-50%);
+}
+
+.panel:last-child .panel__text {
+    left: calc(50% + 4px);
+    transform: translateX(-50%);
+}
+
 .panel__text h2 {
     font-family: 'Sekuya', sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: clamp(0.6rem, 3vw, 2.3rem);
+    font-size: clamp(0.5rem, 3.5vw, 2.5rem);
     max-width: fit-content;
     box-sizing: border-box;
     transform: translateY(15px) scale(0.85);
     text-align: center;
     opacity: 0;
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0s, opacity 0.5s ease 0s;
     display: block;
     text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px  2px 0 #000, 2px  2px 0 #000;
 }
 
 .panel:hover .panel__text h2 {
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.4s, opacity 0.5s ease 0.4s;
     transform: translateY(0) scale(1);
     opacity: 1;
 }
