@@ -1,6 +1,6 @@
 const panels = document.querySelectorAll('.panel');
 const total = panels.length;
-const centerIndex = Math.floor(total / 2) - 1;
+const centerIndex = Math.floor((total - 1) / 2);
 
 panels.forEach((panel, i) => {
     if (i === centerIndex) {
