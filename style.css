@@ -750,7 +750,7 @@ h1 {
 
 .slider {
     display: flex;
-    height: 500px;
+    height: 80vh;
     align-items: stretch;
     overflow: hidden;
 }
@@ -874,8 +874,8 @@ h1 {
     100% {clip-path: polygon(80px 0, 100% 0, calc(100% - 80px) 100%, 0% 100%);}
 }
 @keyframes caer {
-    0% { transform: translateY(-1000px) translateX(160px); }
-    80% { transform: translateY(200px) translateX(-32px); }
+    0% { transform: translateY(-160vh) translateX(160px); }
+    80% { transform: translateY(30vh) translateX(-30px); }
     100% { transform: translateY(0) translateX(0); }
 }
 
