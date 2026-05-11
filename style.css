@@ -750,15 +750,9 @@ h1 {
 
 .slider {
     display: flex;
-    height: calc(100vh - 100px);
+    height: 500px;
     align-items: stretch;
     overflow: hidden;
-}
-
-@media (max-width: 900px) {
-    .slider {
-        height: calc(60vh - 50px);
-    }
 }
 
 .panel {
@@ -869,7 +863,6 @@ h1 {
     z-index: 10;
 }
 
-
 .panel {
     outline: 1px solid transparent;
 }
@@ -881,13 +874,9 @@ h1 {
     100% {clip-path: polygon(80px 0, 100% 0, calc(100% - 80px) 100%, 0% 100%);}
 }
 @keyframes caer {
-    0% {
-        transform: translateY(-120vh) scaleY(1.2);
-        opacity: 0;
-    }
-    60% { transform: translateY(15px) scaleY(0.95); opacity: 1; }
-    80% { transform: translateY(-5px) scaleY(1.02); }
-    100% { transform: translateY(0) scaleY(1); }
+    0% { transform: translateY(-1000px) translateX(160px); }
+    80% { transform: translateY(200px) translateX(-32px); }
+    100% { transform: translateY(0) translateX(0); }
 }
 
 .sekuya-regular {
