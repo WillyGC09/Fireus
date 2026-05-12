@@ -17,10 +17,16 @@ let currentSession = null;
 let currentProfile = null;
 
 function showMessage(element, text, isError = true) {
+    // Añadir una comprobación para asegurar que el elemento existe antes de manipularlo.
+    if (!element) {
+        console.error("Attempted to show message but target element is null:", text);
+        return;
+    }
     element.textContent = text;
     element.className = `feedback-message ${isError ? 'feedback-error' : 'feedback-success'}`;
     element.style.display = 'block';
     if (!isError) {
+        // Asegurarse de que el elemento aún existe antes de intentar ocultarlo después de un tiempo.
         setTimeout(() => { element.style.display = 'none'; }, 5000);
     }
 }
@@ -132,78 +138,101 @@ async function handleAvatarChange(event) {
 }
 
 async function handleSaveChanges(event) {
-    event.preventDefault();
-
-    const newUsername = editUsernameInput.value.trim();
-    const newPassword = editPasswordInput.value;
-    const currentPassword = currentPasswordInput.value;
-
-    profileMessage.style.display = 'none';
-    securityNoteMessage.style.display = 'none';
-
-    if (!currentPassword) {
-        showMessage(profileMessage, 'You must enter your current password to save changes.');
-        return;
-    }
     try {
-        const { error: authError } = await supabase.auth.signInWithPassword({
-            email: currentSession.user.email,
-            password: currentPassword,
-        });
+        console.log('Save button clicked!'); // Log para verificar que la función se llama
+        event.preventDefault();
 
-        if (authError) {
-            let errorMessage = 'Authentication error.';
-            if (authError.message.includes('Invalid login credentials') || authError.message.includes('Invalid password')) {
-                errorMessage = 'Incorrect current password.';
-            }
-            showMessage(profileMessage, errorMessage);
-            console.error('Authentication error:', authError.message);
+        const newUsername = editUsernameInput.value.trim();
+        const newPassword = editPasswordInput.value;
+        const currentPassword = currentPasswordInput.value;
+
+        console.log('New Username:', newUsername);
+        console.log('New Password (length):', newPassword.length > 0 ? '********' : 'empty');
+        console.log('Current Password (length):', currentPassword.length > 0 ? '********' : 'empty');
+
+        // Añadir comprobaciones para asegurar que los elementos existen antes de manipular su estilo.
+        if (profileMessage) {
+            profileMessage.style.display = 'none';
+        }
+        if (securityNoteMessage) {
+            securityNoteMessage.style.display = 'none';
+        }
+
+
+        if (!currentPassword) {
+            showMessage(profileMessage, 'You must enter your current password to save changes.');
             return;
         }
-    } catch (error) {
-        console.error('Unexpected authentication error during re-authentication:', error.message);
-        showMessage(profileMessage, 'An unexpected error occurred.');
-        return;
-    }
 
-    let changesMade = false;
-
-    if (newUsername && newUsername !== currentProfile.username) {
         try {
-            const { error: updateUsernameError } = await supabase
-                .from('profiles')
-                .update({ username: newUsername })
-                .eq('id', currentSession.user.id);
-
-            if (updateUsernameError) throw updateUsernameError;
-            changesMade = true;
-        } catch (error) {
-            console.error('Error updating username:', error.message);
-            showMessage(profileMessage, 'Error updating username: ' + error.message);
-            return;
-        }
-    }
-
-    if (newPassword) {
-        try {
-            const { error: updatePasswordError } = await supabase.auth.updateUser({
-                password: newPassword,
+            // Re-authenticate user
+            const { error: authError } = await supabase.auth.signInWithPassword({
+                email: currentSession.user.email,
+                password: currentPassword,
             });
 
-            if (updatePasswordError) throw updatePasswordError;
-            changesMade = true;
+            if (authError) {
+                let errorMessage = 'Authentication error.';
+                if (authError.message.includes('Invalid login credentials') || authError.message.includes('Invalid password')) {
+                    errorMessage = 'Incorrect current password.';
+                }
+                showMessage(profileMessage, errorMessage);
+                console.error('Authentication error during re-authentication:', authError.message);
+                return;
+            }
+            console.log('Re-authentication successful.');
         } catch (error) {
-            console.error('Error updating password:', error.message);
-            showMessage(profileMessage, 'Error updating password: ' + error.message);
+            console.error('Unexpected authentication error during re-authentication:', error.message);
+            showMessage(profileMessage, 'An unexpected error occurred during re-authentication.');
             return;
         }
-    }
 
-    if (changesMade) {
-        editPasswordInput.value = '';
-        currentPasswordInput.value = '';
-        showMessage(profileMessage, 'Profile updated successfully!', false);
-        await loadUserSettings();
+        let changesMade = false;
+
+        if (newUsername && newUsername !== currentProfile.username) {
+            try {
+                const { error: updateUsernameError } = await supabase
+                    .from('profiles')
+                    .update({ username: newUsername })
+                    .eq('id', currentSession.user.id);
+
+                if (updateUsernameError) throw updateUsernameError;
+                changesMade = true;
+                console.log('Username updated successfully.');
+            } catch (error) {
+                console.error('Error updating username:', error.message);
+                showMessage(profileMessage, 'Error updating username: ' + error.message);
+                return;
+            }
+        }
+
+        if (newPassword) {
+            try {
+                const { error: updatePasswordError } = await supabase.auth.updateUser({
+                    password: newPassword,
+                });
+
+                if (updatePasswordError) throw updatePasswordError;
+                changesMade = true;
+                console.log('Password updated successfully.');
+            } catch (error) {
+                console.error('Error updating password:', error.message);
+                showMessage(profileMessage, 'Error updating password: ' + error.message);
+                return;
+            }
+        }
+
+        if (changesMade) {
+            editPasswordInput.value = '';
+            currentPasswordInput.value = '';
+            showMessage(profileMessage, 'Profile updated successfully!', false);
+            await loadUserSettings();
+        } else {
+            showMessage(profileMessage, 'No changes to save.', false);
+        }
+    } catch (error) {
+        console.error('An unexpected error occurred in handleSaveChanges:', error);
+        showMessage(profileMessage, 'An unexpected error occurred: ' + error.message);
     }
 }
 
