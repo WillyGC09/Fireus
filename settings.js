@@ -17,7 +17,6 @@ let currentSession = null;
 let currentProfile = null;
 
 function showMessage(element, text, isError = true) {
-    // Añadir una comprobación para asegurar que el elemento existe antes de manipularlo.
     if (!element) {
         console.error("Attempted to show message but target element is null:", text);
         return;
@@ -26,7 +25,6 @@ function showMessage(element, text, isError = true) {
     element.className = `feedback-message ${isError ? 'feedback-error' : 'feedback-success'}`;
     element.style.display = 'block';
     if (!isError) {
-        // Asegurarse de que el elemento aún existe antes de intentar ocultarlo después de un tiempo.
         setTimeout(() => { element.style.display = 'none'; }, 5000);
     }
 }
