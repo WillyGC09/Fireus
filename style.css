@@ -138,7 +138,6 @@ nav .logo span.hide {
     z-index: 1000;
     padding: 10px;
     width: 240px;
-    gap: 3px;
     border: 1px solid #222;
 }
 
@@ -172,6 +171,7 @@ nav .logo span.hide {
 
 .search-item:first-child {
     border-top: none;
+    margin-top: 5px;
 }
 
 .search-item:hover { background: #222; color: #fff; }
@@ -197,11 +197,8 @@ nav .logo span.hide {
     justify-content: center;
     width: 28px;
     height: 28px;
-    border-radius: 5px;
-    color: #ff2b2b;
     font-size: 1.1rem;
     text-decoration: none;
-    backdrop-filter: blur(15px) saturate(180%);
     padding: 0 6px;
 }
 
