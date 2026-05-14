@@ -184,7 +184,7 @@ function initSearch(root) {
             `).join('');
         }
 
-        results.innerHTML = html || '<div class="search-item">No results found</div>';
+        results.innerHTML = html || '<div class="search-item no-hover">No results found</div>';
     };
 }
 

@@ -180,6 +180,12 @@ nav .logo span.hide {
 
 .search-item:hover { background: #222; color: #fff; }
 
+.search-item.no-hover:hover {
+    background: none;
+    color: #ccc;
+    cursor: default;
+}
+
 .search-item img {
     width: 24px;
     height: 24px;
