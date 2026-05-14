@@ -152,6 +152,10 @@ nav .logo span.hide {
 
 .search-results {
     max-height: 70vh;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .search-item {
@@ -182,7 +186,6 @@ nav .logo span.hide {
     border-radius: 50%;
     object-fit: cover;
 }
-
 .user-icon {
     background: none;
     border: none;
@@ -201,7 +204,6 @@ nav .logo span.hide {
     text-decoration: none;
     padding: 0 6px;
 }
-
 .user-icon,
 .nav-right-top {
     flex-shrink: 0;
@@ -299,6 +301,10 @@ header h1 {
     position: relative;
     overflow-x: clip;
     max-width: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .carousel-wrapper::before {
