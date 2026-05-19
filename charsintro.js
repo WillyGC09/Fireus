@@ -8,7 +8,10 @@ panels.forEach((panel, i) => {
         panel.style.animationDelay = '0.4s';
     } else {
         const dist = Math.abs(i - centerIndex);
-        const delay = 1.8 + (dist - 1) * 0.2;
+        var delay = 1.8 + (dist - 1) * 0.2;
+        if (i < centerIndex) {
+            delay += 0.1;
+        }
         panel.style.animation = 'caer 0.8s cubic-bezier(0.22, 1, 0.36, 1) both';
         panel.style.animationDelay = `${delay}s`;
     }
