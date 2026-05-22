@@ -477,6 +477,8 @@ header h1 {
     gap: 20px;
 }
 .game-card {
+    position: relative;
+    overflow: hidden;
     background-color: rgba(26, 26, 26, 0.3);
     backdrop-filter: blur(5px) saturate(180%);
     border: 1px solid #333;
@@ -487,7 +489,31 @@ header h1 {
     display: flex;
     flex-direction: column;
 
+    color: #ccc;
+    cursor: pointer;
+    text-decoration: none;
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, backdrop-filter 0.3s;
+}
+.game-card::before,
+.game-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+.game-card::after {
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.game-card::before {
+    background-image: var(--card-bg, none);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 .game-card:hover {
     background-color: rgba(23, 23, 23, 0.7);
@@ -495,17 +521,24 @@ header h1 {
     transform: translateY(-5px);
     box-shadow: 0 0 10px #ff2b2b;
 }
+.game-card:hover::before,
+.game-card:hover::after {
+    opacity: 1;
+}
+.game-card > * {
+    position: relative;
+    z-index: 1;
+}
 .game-card h3 {
     color: #ff2b2b;
 }
-.game-card a {
+.card-link {
     margin-top: auto;
     color: #ff2b2b;
-    text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
 }
-.game-card a:hover {
+.game-card:hover .card-link {
     color: #d40000;
 }
 
