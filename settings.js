@@ -270,30 +270,38 @@ const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
 const deleteMessage = document.getElementById('delete-message');
 
 async function checkDiscordLink() {
-    if (!currentSession || !currentSession.user) {
-        console.log('No session, cannot check Discord link');
-        return;
-    }
+    if (!currentSession || !currentSession.user) return;
 
-    const { data: { user }, error } = await supabase.auth.getUser();
-    
-    if (error) {
-        console.error('Error getting user:', error);
-        return;
-    }
+    const { data: { user }, error } =
+        await supabase.auth.getUser();
 
-    if (!user) {
-        console.log('No user data');
-        return;
-    }
+    if (error || !user) return;
 
-    console.log('User identities:', user.identities);
+    const discordIdentity =
+        user.identities?.find(
+            i => i.provider === 'discord'
+        );
 
-    const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
     if (discordIdentity) {
-        console.log('Discord identity found:', discordIdentity);
+        console.log('Discord linked');
+
+        linkDiscordBtn.style.display = 'none';
+        unlinkDiscordBtn.style.display = 'flex';
+
+        discordStatus.textContent =
+            `Connected to ${
+                discordIdentity.identity_data?.user_name
+                || 'Discord User'
+            }`;
+
+        discordStatus.style.display = 'block';
+
     } else {
-        console.log('No Discord identity found');
+        console.log('Discord not linked');
+
+        linkDiscordBtn.style.display = 'flex';
+        unlinkDiscordBtn.style.display = 'none';
+        discordStatus.style.display = 'none';
     }
 }
 
