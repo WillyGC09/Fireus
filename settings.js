@@ -288,12 +288,6 @@ async function checkDiscordLink() {
         linkDiscordBtn.style.display = 'none';
         unlinkDiscordBtn.style.display = 'flex';
 
-        discordStatus.textContent =
-            `Connected to ${
-                discordIdentity.identity_data?.user_name
-                || 'Discord User'
-            }`;
-
         discordStatus.style.display = 'block';
 
     } else {
