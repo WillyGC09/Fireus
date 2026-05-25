@@ -109,7 +109,32 @@ authForm.addEventListener('submit', async (e) => {
 });
 
 supabase.auth.onAuthStateChange((event, session) => {
-    if (session) window.location.href = 'index.html';
+    console.log('Auth state changed:', event, session ? 'has session' : 'no session');
+    if (session) {
+        console.log('Session detected, redirecting to index.html');
+        window.location.href = 'index.html';
+    }
+});
+
+// Check on page load if user just returned from OAuth
+document.addEventListener('DOMContentLoaded', async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+        console.log('User has session on page load');
+        window.location.href = 'index.html';
+    }
+});
+
+// Also check when visibility changes (user returns from OAuth tab)
+document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible') {
+        console.log('Page became visible, checking session...');
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            console.log('Session found after visibility change');
+            window.location.href = 'index.html';
+        }
+    }
 });
 
 // OAuth Handlers

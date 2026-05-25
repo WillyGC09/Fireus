@@ -236,6 +236,26 @@ async function handleSaveChanges(event) {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadUserSettings();
+    // Check Discord link immediately
+    setTimeout(() => {
+        checkDiscordLink();
+        validateAndLinkDiscord();
+    }, 500);
+});
+
+// Also check on visibility change (when user returns from Discord OAuth)
+document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible') {
+        console.log('Page became visible, refreshing session...');
+        // Refresh session
+        const { data: { session } } = await supabase.auth.refreshSession();
+        if (session) {
+            currentSession = session;
+            console.log('Session refreshed');
+            await checkDiscordLink();
+            await validateAndLinkDiscord();
+        }
+    }
 });
 
 avatarInput.addEventListener('change', handleAvatarChange);
@@ -257,23 +277,38 @@ const deleteMessage = document.getElementById('delete-message');
 
 // Check if Discord is already linked
 async function checkDiscordLink() {
-    if (!currentSession || !currentSession.user) return;
+    if (!currentSession || !currentSession.user) {
+        console.log('No session, cannot check Discord link');
+        return;
+    }
 
     // Check in user identities
     const { data: { user }, error } = await supabase.auth.getUser();
     
-    if (!error && user) {
-        const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
-        if (discordIdentity) {
-            linkDiscordBtn.style.display = 'none';
-            unlinkDiscordBtn.style.display = 'flex';
-            discordStatus.textContent = `Connected to: ${discordIdentity.identity_data?.user_name || 'Discord User'}`;
-            discordStatus.style.display = 'block';
-        } else {
-            linkDiscordBtn.style.display = 'flex';
-            unlinkDiscordBtn.style.display = 'none';
-            discordStatus.style.display = 'none';
-        }
+    if (error) {
+        console.error('Error getting user:', error);
+        return;
+    }
+
+    if (!user) {
+        console.log('No user data');
+        return;
+    }
+
+    console.log('User identities:', user.identities);
+
+    const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
+    if (discordIdentity) {
+        console.log('Discord identity found:', discordIdentity);
+        linkDiscordBtn.style.display = 'none';
+        unlinkDiscordBtn.style.display = 'flex';
+        discordStatus.textContent = `Connected to: ${discordIdentity.identity_data?.user_name || 'Discord User'}`;
+        discordStatus.style.display = 'block';
+    } else {
+        console.log('No Discord identity found');
+        linkDiscordBtn.style.display = 'flex';
+        unlinkDiscordBtn.style.display = 'none';
+        discordStatus.style.display = 'none';
     }
 }
 
@@ -305,7 +340,12 @@ async function validateAndLinkDiscord() {
     if (userError || !user) return;
 
     const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
-    if (!discordIdentity) return;
+    if (!discordIdentity) {
+        console.log('No Discord identity found');
+        return;
+    }
+
+    console.log('Discord identity found, validating...');
 
     // Check if another user already has this Discord linked
     const discordUserId = discordIdentity.id;
@@ -319,11 +359,12 @@ async function validateAndLinkDiscord() {
 
     if (!checkError && otherUsers) {
         // Discord is already linked to another account
+        console.log('Discord already linked to another account');
         showMessage(discordMessage, 'This Discord account is already linked to another Fireus Games account.', true);
         await supabase.auth.unlinkIdentity({
             identity: discordIdentity
         });
-        checkDiscordLink();
+        await checkDiscordLink();
         return;
     }
 
@@ -345,8 +386,10 @@ async function validateAndLinkDiscord() {
         return;
     }
 
+    console.log('Discord linked successfully');
     showMessage(discordMessage, 'Discord account linked successfully!', false);
-    checkDiscordLink();
+    // Force update UI
+    await checkDiscordLink();
 }
 
 async function handleUnlinkDiscord() {
@@ -471,13 +514,20 @@ deletePasswordInput.addEventListener('keypress', (e) => {
 });
 
 // Check Discord link on load
-window.addEventListener('load', () => {
-    checkDiscordLink();
-    validateAndLinkDiscord();
+window.addEventListener('load', async () => {
+    console.log('Window loaded, checking Discord link...');
+    await checkDiscordLink();
+    await validateAndLinkDiscord();
 });
 
 supabase.auth.onAuthStateChange((event, session) => {
     if (!session) {
         window.location.href = 'login.html';
+    } else {
+        console.log('Auth state changed:', event);
+        // Update session and refresh Discord status
+        currentSession = session;
+        checkDiscordLink();
+        validateAndLinkDiscord();
     }
 });
