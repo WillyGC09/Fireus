@@ -111,3 +111,78 @@ authForm.addEventListener('submit', async (e) => {
 supabase.auth.onAuthStateChange((event, session) => {
     if (session) window.location.href = 'index.html';
 });
+
+// OAuth Handlers
+async function handleOAuthLogin(provider) {
+    try {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: provider,
+            options: {
+                redirectTo: 'https://willygc09.github.io/Fireus/index.html',
+            }
+        });
+
+        if (error) {
+            showMessage(`Error signing in with ${provider}: ${error.message}`);
+        }
+    } catch (error) {
+        showMessage(`An error occurred: ${error.message}`);
+    }
+}
+
+// Check if user logged in via OAuth and validate Discord uniqueness
+async function validateOAuthSession() {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    
+    if (!sessionError && session) {
+        const user = session.user;
+        
+        // Check if user has Discord identity
+        const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
+        if (discordIdentity) {
+            // Get Discord user ID from identity
+            const discordUserId = discordIdentity.id;
+            
+            // Check if another user already has this Discord linked
+            const { data: otherUsers, error: checkError } = await supabase
+                .from('user_oauth_links')
+                .select('user_id')
+                .eq('provider', 'discord')
+                .eq('provider_id', discordUserId)
+                .neq('user_id', user.id)
+                .maybeSingle();
+
+            if (!checkError && otherUsers) {
+                // Discord is already linked to another account
+                await supabase.auth.signOut();
+                showMessage('This Discord account is already linked to another Fireus Games account. Please use that account to log in.');
+                return false;
+            }
+
+            // Store or update Discord link in database
+            const { error: upsertError } = await supabase
+                .from('user_oauth_links')
+                .upsert({
+                    user_id: user.id,
+                    provider: 'discord',
+                    provider_id: discordUserId,
+                    provider_name: discordIdentity.identity_data?.user_name || 'Discord User'
+                }, {
+                    onConflict: 'user_id,provider'
+                });
+
+            if (upsertError) {
+                console.error('Error storing Discord link:', upsertError);
+            }
+        }
+    }
+}
+
+const discordLoginBtn = document.getElementById('discord-login');
+
+discordLoginBtn.addEventListener('click', () => handleOAuthLogin('discord'));
+
+// Validate OAuth session on page load
+window.addEventListener('load', () => {
+    validateOAuthSession();
+});

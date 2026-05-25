@@ -242,6 +242,240 @@ avatarInput.addEventListener('change', handleAvatarChange);
 avatarWrapper.addEventListener('click', () => avatarInput.click());
 saveButton.addEventListener('click', handleSaveChanges);
 
+// Discord Linking Functionality
+const linkDiscordBtn = document.getElementById('link-discord-btn');
+const unlinkDiscordBtn = document.getElementById('unlink-discord-btn');
+const discordStatus = document.getElementById('discord-status');
+const discordMessage = document.getElementById('discord-message');
+const deleteAccountBtn = document.getElementById('delete-account-btn');
+const deleteModal = document.getElementById('delete-modal');
+const deleteModalMessage = document.getElementById('delete-modal-message');
+const deletePasswordInput = document.getElementById('delete-password');
+const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+const deleteMessage = document.getElementById('delete-message');
+
+// Check if Discord is already linked
+async function checkDiscordLink() {
+    if (!currentSession || !currentSession.user) return;
+
+    // Check in user identities
+    const { data: { user }, error } = await supabase.auth.getUser();
+    
+    if (!error && user) {
+        const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
+        if (discordIdentity) {
+            linkDiscordBtn.style.display = 'none';
+            unlinkDiscordBtn.style.display = 'flex';
+            discordStatus.textContent = `Connected to: ${discordIdentity.identity_data?.user_name || 'Discord User'}`;
+            discordStatus.style.display = 'block';
+        } else {
+            linkDiscordBtn.style.display = 'flex';
+            unlinkDiscordBtn.style.display = 'none';
+            discordStatus.style.display = 'none';
+        }
+    }
+}
+
+async function handleLinkDiscord() {
+    try {
+        // Use signInWithOAuth with a redirect instead of linkIdentity
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'discord',
+            options: {
+                redirectTo: 'https://willygc09.github.io/Fireus/settings.html',
+                skipBrowserRedirect: false,
+            }
+        });
+
+        if (error) {
+            console.error('Discord linking error:', error);
+            showMessage(discordMessage, `Error: ${error.message}`);
+        }
+    } catch (error) {
+        console.error('Unexpected error linking Discord:', error);
+        showMessage(discordMessage, `Error: ${error.message}`);
+    }
+}
+
+async function validateAndLinkDiscord() {
+    if (!currentSession || !currentSession.user) return;
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) return;
+
+    const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
+    if (!discordIdentity) return;
+
+    // Check if another user already has this Discord linked
+    const discordUserId = discordIdentity.id;
+    const { data: otherUsers, error: checkError } = await supabase
+        .from('user_oauth_links')
+        .select('user_id')
+        .eq('provider', 'discord')
+        .eq('provider_id', discordUserId)
+        .neq('user_id', user.id)
+        .maybeSingle();
+
+    if (!checkError && otherUsers) {
+        // Discord is already linked to another account
+        showMessage(discordMessage, 'This Discord account is already linked to another Fireus Games account.', true);
+        await supabase.auth.unlinkIdentity({
+            identity: discordIdentity
+        });
+        checkDiscordLink();
+        return;
+    }
+
+    // Store Discord link in database
+    const { error: upsertError } = await supabase
+        .from('user_oauth_links')
+        .upsert({
+            user_id: user.id,
+            provider: 'discord',
+            provider_id: discordUserId,
+            provider_name: discordIdentity.identity_data?.user_name || 'Discord User'
+        }, {
+            onConflict: 'user_id,provider'
+        });
+
+    if (upsertError) {
+        console.error('Error storing Discord link:', upsertError);
+        showMessage(discordMessage, 'Error storing Discord link', true);
+        return;
+    }
+
+    showMessage(discordMessage, 'Discord account linked successfully!', false);
+    checkDiscordLink();
+}
+
+async function handleUnlinkDiscord() {
+    try {
+        // Get current identities
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+            showMessage(discordMessage, 'Error retrieving user data');
+            return;
+        }
+
+        // Check if Discord identity exists
+        const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
+        if (!discordIdentity) {
+            showMessage(discordMessage, 'Discord not linked');
+            return;
+        }
+
+        // Use updateUser to unlink identity
+        const { error } = await supabase.auth.unlinkIdentity({
+            identity: discordIdentity
+        });
+
+        if (error) {
+            console.error('Discord unlinking error:', error);
+            showMessage(discordMessage, `Error: ${error.message}`);
+            return;
+        }
+
+        showMessage(discordMessage, 'Discord account disconnected successfully!', false);
+        await checkDiscordLink();
+    } catch (error) {
+        console.error('Unexpected error unlinking Discord:', error);
+        showMessage(discordMessage, `Error: ${error.message}`);
+    }
+}
+
+// Delete Account Functionality
+function openDeleteModal() {
+    deleteModal.classList.add('active');
+    deletePasswordInput.focus();
+}
+
+function closeDeleteModal() {
+    deleteModal.classList.remove('active');
+    deletePasswordInput.value = '';
+    deleteModalMessage.style.display = 'none';
+}
+
+async function handleDeleteAccount() {
+    const password = deletePasswordInput.value;
+
+    if (!password) {
+        showMessage(deleteModalMessage, 'Please enter your password.', true);
+        return;
+    }
+
+    try {
+        // Re-authenticate user
+        const { error: authError } = await supabase.auth.signInWithPassword({
+            email: currentSession.user.email,
+            password: password,
+        });
+
+        if (authError) {
+            let errorMessage = 'Authentication error.';
+            if (authError.message.includes('Invalid login credentials') || authError.message.includes('Invalid password')) {
+                errorMessage = 'Incorrect password.';
+            }
+            showMessage(deleteModalMessage, errorMessage, true);
+            return;
+        }
+
+        // Delete profile data
+        const { error: deleteProfileError } = await supabase
+            .from('profiles')
+            .delete()
+            .eq('id', currentSession.user.id);
+
+        if (deleteProfileError) {
+            console.error('Error deleting profile:', deleteProfileError);
+            showMessage(deleteModalMessage, 'Error deleting profile: ' + deleteProfileError.message, true);
+            return;
+        }
+
+        // Sign out
+        await supabase.auth.signOut();
+        
+        // Show success and redirect
+        showMessage(deleteModalMessage, 'Account deleted successfully. Redirecting...', false);
+        
+        // Redirect after a delay
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 2000);
+
+    } catch (error) {
+        console.error('Error during account deletion:', error);
+        showMessage(deleteModalMessage, 'An unexpected error occurred: ' + error.message, true);
+    }
+}
+
+// Event Listeners
+linkDiscordBtn.addEventListener('click', handleLinkDiscord);
+unlinkDiscordBtn.addEventListener('click', handleUnlinkDiscord);
+deleteAccountBtn.addEventListener('click', openDeleteModal);
+confirmDeleteBtn.addEventListener('click', handleDeleteAccount);
+cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+
+// Close modal when clicking outside
+deleteModal.addEventListener('click', (e) => {
+    if (e.target === deleteModal) {
+        closeDeleteModal();
+    }
+});
+
+// Allow Enter key to confirm in modal
+deletePasswordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleDeleteAccount();
+    }
+});
+
+// Check Discord link on load
+window.addEventListener('load', () => {
+    checkDiscordLink();
+    validateAndLinkDiscord();
+});
+
 supabase.auth.onAuthStateChange((event, session) => {
     if (!session) {
         window.location.href = 'login.html';
