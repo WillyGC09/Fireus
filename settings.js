@@ -397,6 +397,11 @@ async function handleUnlinkDiscord() {
         }
 
         showMessage(discordMessage, 'Discord account disconnected successfully!', false);
+        await supabase
+            .from('user_oauth_links')
+            .delete()
+            .eq('user_id', user.id)
+            .eq('provider', 'discord');
         await checkDiscordLink();
     } catch (error) {
         console.error('Unexpected error unlinking Discord:', error);
