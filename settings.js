@@ -351,7 +351,7 @@ async function validateAndLinkDiscord() {
         console.log('Discord already linked to another account');
         showMessage(discordMessage, 'This Discord account is already linked to another Fireus Games account.', true);
         await supabase.auth.unlinkIdentity({
-            identity: discordIdentity
+            identity: discordIdentity.identity_id
         });
         await checkDiscordLink();
         return;
@@ -394,7 +394,7 @@ async function handleUnlinkDiscord() {
         }
 
         const { error } = await supabase.auth.unlinkIdentity({
-            identity: discordIdentity
+            identity: discordIdentity.identity_id
         });
 
         if (error) {
