@@ -137,7 +137,7 @@ async function handleAvatarChange(event) {
 
 async function handleSaveChanges(event) {
     try {
-        console.log('Save button clicked!'); // Log para verificar que la función se llama
+        console.log('Save button clicked!');
         event.preventDefault();
 
         const newUsername = editUsernameInput.value.trim();
@@ -148,7 +148,6 @@ async function handleSaveChanges(event) {
         console.log('New Password (length):', newPassword.length > 0 ? '********' : 'empty');
         console.log('Current Password (length):', currentPassword.length > 0 ? '********' : 'empty');
 
-        // Añadir comprobaciones para asegurar que los elementos existen antes de manipular su estilo.
         if (profileMessage) {
             profileMessage.style.display = 'none';
         }
@@ -163,7 +162,6 @@ async function handleSaveChanges(event) {
         }
 
         try {
-            // Re-authenticate user
             const { error: authError } = await supabase.auth.signInWithPassword({
                 email: currentSession.user.email,
                 password: currentPassword,
@@ -236,18 +234,15 @@ async function handleSaveChanges(event) {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadUserSettings();
-    // Check Discord link immediately
     setTimeout(() => {
         checkDiscordLink();
         validateAndLinkDiscord();
     }, 500);
 });
 
-// Also check on visibility change (when user returns from Discord OAuth)
 document.addEventListener('visibilitychange', async () => {
     if (document.visibilityState === 'visible') {
         console.log('Page became visible, refreshing session...');
-        // Refresh session
         const { data: { session } } = await supabase.auth.refreshSession();
         if (session) {
             currentSession = session;
@@ -262,7 +257,6 @@ avatarInput.addEventListener('change', handleAvatarChange);
 avatarWrapper.addEventListener('click', () => avatarInput.click());
 saveButton.addEventListener('click', handleSaveChanges);
 
-// Discord Linking Functionality
 const linkDiscordBtn = document.getElementById('link-discord-btn');
 const unlinkDiscordBtn = document.getElementById('unlink-discord-btn');
 const discordStatus = document.getElementById('discord-status');
@@ -275,14 +269,12 @@ const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
 const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
 const deleteMessage = document.getElementById('delete-message');
 
-// Check if Discord is already linked
 async function checkDiscordLink() {
     if (!currentSession || !currentSession.user) {
         console.log('No session, cannot check Discord link');
         return;
     }
 
-    // Check in user identities
     const { data: { user }, error } = await supabase.auth.getUser();
     
     if (error) {
@@ -314,7 +306,6 @@ async function checkDiscordLink() {
 
 async function handleLinkDiscord() {
     try {
-        // Use signInWithOAuth with a redirect instead of linkIdentity
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'discord',
             options: {
@@ -347,7 +338,6 @@ async function validateAndLinkDiscord() {
 
     console.log('Discord identity found, validating...');
 
-    // Check if another user already has this Discord linked
     const discordUserId = discordIdentity.id;
     const { data: otherUsers, error: checkError } = await supabase
         .from('user_oauth_links')
@@ -358,7 +348,6 @@ async function validateAndLinkDiscord() {
         .maybeSingle();
 
     if (!checkError && otherUsers) {
-        // Discord is already linked to another account
         console.log('Discord already linked to another account');
         showMessage(discordMessage, 'This Discord account is already linked to another Fireus Games account.', true);
         await supabase.auth.unlinkIdentity({
@@ -368,7 +357,6 @@ async function validateAndLinkDiscord() {
         return;
     }
 
-    // Store Discord link in database
     const { error: upsertError } = await supabase
         .from('user_oauth_links')
         .upsert({
@@ -388,27 +376,23 @@ async function validateAndLinkDiscord() {
 
     console.log('Discord linked successfully');
     showMessage(discordMessage, 'Discord account linked successfully!', false);
-    // Force update UI
     await checkDiscordLink();
 }
 
 async function handleUnlinkDiscord() {
     try {
-        // Get current identities
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError || !user) {
             showMessage(discordMessage, 'Error retrieving user data');
             return;
         }
 
-        // Check if Discord identity exists
         const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
         if (!discordIdentity) {
             showMessage(discordMessage, 'Discord not linked');
             return;
         }
 
-        // Use updateUser to unlink identity
         const { error } = await supabase.auth.unlinkIdentity({
             identity: discordIdentity
         });
@@ -427,7 +411,6 @@ async function handleUnlinkDiscord() {
     }
 }
 
-// Delete Account Functionality
 function openDeleteModal() {
     deleteModal.classList.add('active');
     deletePasswordInput.focus();
@@ -448,7 +431,6 @@ async function handleDeleteAccount() {
     }
 
     try {
-        // Re-authenticate user
         const { error: authError } = await supabase.auth.signInWithPassword({
             email: currentSession.user.email,
             password: password,
@@ -463,7 +445,6 @@ async function handleDeleteAccount() {
             return;
         }
 
-        // Delete profile data
         const { error: deleteProfileError } = await supabase
             .from('profiles')
             .delete()
@@ -475,13 +456,10 @@ async function handleDeleteAccount() {
             return;
         }
 
-        // Sign out
         await supabase.auth.signOut();
         
-        // Show success and redirect
         showMessage(deleteModalMessage, 'Account deleted successfully. Redirecting...', false);
         
-        // Redirect after a delay
         setTimeout(() => {
             window.location.href = 'login.html';
         }, 2000);
@@ -492,30 +470,27 @@ async function handleDeleteAccount() {
     }
 }
 
-// Event Listeners
 linkDiscordBtn.addEventListener('click', handleLinkDiscord);
 unlinkDiscordBtn.addEventListener('click', handleUnlinkDiscord);
 deleteAccountBtn.addEventListener('click', openDeleteModal);
 confirmDeleteBtn.addEventListener('click', handleDeleteAccount);
 cancelDeleteBtn.addEventListener('click', closeDeleteModal);
 
-// Close modal when clicking outside
 deleteModal.addEventListener('click', (e) => {
     if (e.target === deleteModal) {
         closeDeleteModal();
     }
 });
 
-// Allow Enter key to confirm in modal
 deletePasswordInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         handleDeleteAccount();
     }
 });
 
-// Check Discord link on load
 window.addEventListener('load', async () => {
     console.log('Window loaded, checking Discord link...');
+    await loadUserSettings();
     await checkDiscordLink();
     await validateAndLinkDiscord();
 });
@@ -525,7 +500,6 @@ supabase.auth.onAuthStateChange((event, session) => {
         window.location.href = 'login.html';
     } else {
         console.log('Auth state changed:', event);
-        // Update session and refresh Discord status
         currentSession = session;
         checkDiscordLink();
         validateAndLinkDiscord();
