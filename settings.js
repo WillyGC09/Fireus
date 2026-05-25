@@ -292,15 +292,8 @@ async function checkDiscordLink() {
     const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
     if (discordIdentity) {
         console.log('Discord identity found:', discordIdentity);
-        linkDiscordBtn.style.display = 'none';
-        unlinkDiscordBtn.style.display = 'flex';
-        discordStatus.textContent = `Connected to: ${discordIdentity.identity_data?.user_name || 'Discord User'}`;
-        discordStatus.style.display = 'block';
     } else {
         console.log('No Discord identity found');
-        linkDiscordBtn.style.display = 'flex';
-        unlinkDiscordBtn.style.display = 'none';
-        discordStatus.style.display = 'none';
     }
 }
 
@@ -374,8 +367,6 @@ async function validateAndLinkDiscord() {
         return;
     }
 
-    console.log('Discord linked successfully');
-    showMessage(discordMessage, 'Discord account linked successfully!', false);
     await checkDiscordLink();
 }
 
