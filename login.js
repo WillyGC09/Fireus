@@ -137,6 +137,74 @@ document.addEventListener('visibilitychange', async () => {
     }
 });
 
+function sanitizeUsername(value) {
+    const base = (value || 'user')
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9_]/g, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_+|_+$/g, '');
+
+    return base || 'user';
+}
+
+async function ensureOAuthProfile(user) {
+    if (!user) return;
+
+    const { data: existingProfile, error: fetchError } = await supabase
+        .from('profiles')
+        .select('username, avatar_url')
+        .eq('id', user.id)
+        .maybeSingle();
+
+    if (fetchError) {
+        console.error('Error checking profile:', fetchError);
+        return;
+    }
+
+    const rawUsername = user.user_metadata?.username
+        || user.user_metadata?.user_name
+        || user.user_metadata?.preferred_username
+        || user.user_metadata?.name
+        || user.email?.split('@')[0]
+        || 'user';
+
+    let username = sanitizeUsername(rawUsername);
+
+    if (existingProfile?.username) {
+        username = existingProfile.username;
+    } else {
+        const { data: sameNameUsers } = await supabase
+            .from('profiles')
+            .select('username')
+            .ilike('username', `${username}%`)
+            .limit(20);
+
+        const usedNames = new Set((sameNameUsers || []).map(item => item.username?.toLowerCase()));
+        if (usedNames.has(username.toLowerCase())) {
+            let suffix = 1;
+            let candidate = `${username}_${suffix}`;
+            while (usedNames.has(candidate.toLowerCase())) {
+                suffix += 1;
+                candidate = `${username}_${suffix}`;
+            }
+            username = candidate;
+        }
+    }
+
+    const { error: upsertError } = await supabase
+        .from('profiles')
+        .upsert({
+            id: user.id,
+            username,
+            avatar_url: existingProfile?.avatar_url || null
+        }, { onConflict: 'id' });
+
+    if (upsertError) {
+        console.error('Error creating OAuth profile:', upsertError);
+    }
+}
+
 // OAuth Handlers
 async function handleOAuthLogin(provider) {
     try {
@@ -184,21 +252,7 @@ async function validateOAuthSession() {
                 return false;
             }
 
-            // Store or update Discord link in database
-            const { error: upsertError } = await supabase
-                .from('user_oauth_links')
-                .upsert({
-                    user_id: user.id,
-                    provider: 'discord',
-                    provider_id: discordUserId,
-                    provider_name: discordIdentity.identity_data?.user_name || 'Discord User'
-                }, {
-                    onConflict: 'user_id,provider'
-                });
-
-            if (upsertError) {
-                console.error('Error storing Discord link:', upsertError);
-            }
+            await ensureOAuthProfile(user);
         }
     }
 }
@@ -208,6 +262,6 @@ const discordLoginBtn = document.getElementById('discord-login');
 discordLoginBtn.addEventListener('click', () => handleOAuthLogin('discord'));
 
 // Validate OAuth session on page load
-window.addEventListener('load', () => {
-    validateOAuthSession();
+window.addEventListener('load', async () => {
+    await validateOAuthSession();
 });

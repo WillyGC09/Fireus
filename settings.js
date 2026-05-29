@@ -143,6 +143,7 @@ async function handleSaveChanges(event) {
         const newUsername = editUsernameInput.value.trim();
         const newPassword = editPasswordInput.value;
         const currentPassword = currentPasswordInput.value;
+        const hasPasswordIdentity = currentSession?.user?.identities?.some(identity => identity.provider === 'email');
 
         console.log('New Username:', newUsername);
         console.log('New Password (length):', newPassword.length > 0 ? '********' : 'empty');
@@ -156,31 +157,33 @@ async function handleSaveChanges(event) {
         }
 
 
-        if (!currentPassword) {
-            showMessage(profileMessage, 'You must enter your current password to save changes.');
+        if (newPassword && hasPasswordIdentity && !currentPassword) {
+            showMessage(profileMessage, 'Enter your current password to change your password.');
             return;
         }
 
-        try {
-            const { error: authError } = await supabase.auth.signInWithPassword({
-                email: currentSession.user.email,
-                password: currentPassword,
-            });
+        if (newPassword && hasPasswordIdentity) {
+            try {
+                const { error: authError } = await supabase.auth.signInWithPassword({
+                    email: currentSession.user.email,
+                    password: currentPassword,
+                });
 
-            if (authError) {
-                let errorMessage = 'Authentication error.';
-                if (authError.message.includes('Invalid login credentials') || authError.message.includes('Invalid password')) {
-                    errorMessage = 'Incorrect current password.';
+                if (authError) {
+                    let errorMessage = 'Authentication error.';
+                    if (authError.message.includes('Invalid login credentials') || authError.message.includes('Invalid password')) {
+                        errorMessage = 'Incorrect current password.';
+                    }
+                    showMessage(profileMessage, errorMessage);
+                    console.error('Authentication error during re-authentication:', authError.message);
+                    return;
                 }
-                showMessage(profileMessage, errorMessage);
-                console.error('Authentication error during re-authentication:', authError.message);
+                console.log('Re-authentication successful.');
+            } catch (error) {
+                console.error('Unexpected authentication error during re-authentication:', error.message);
+                showMessage(profileMessage, 'An unexpected error occurred during re-authentication.');
                 return;
             }
-            console.log('Re-authentication successful.');
-        } catch (error) {
-            console.error('Unexpected authentication error during re-authentication:', error.message);
-            showMessage(profileMessage, 'An unexpected error occurred during re-authentication.');
-            return;
         }
 
         let changesMade = false;
@@ -301,11 +304,10 @@ async function checkDiscordLink() {
 
 async function handleLinkDiscord() {
     try {
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { error } = await supabase.auth.linkIdentity({
             provider: 'discord',
             options: {
-                redirectTo: 'https://willygc09.github.io/Fireus/settings.html',
-                skipBrowserRedirect: false,
+                redirectTo: 'https://willygc09.github.io/Fireus/settings.html'
             }
         });
 
@@ -331,44 +333,7 @@ async function validateAndLinkDiscord() {
         return;
     }
 
-    console.log('Discord identity found, validating...');
-
-    const discordUserId = discordIdentity.id;
-    const { data: otherUsers, error: checkError } = await supabase
-        .from('user_oauth_links')
-        .select('user_id')
-        .eq('provider', 'discord')
-        .eq('provider_id', discordUserId)
-        .neq('user_id', user.id)
-        .maybeSingle();
-
-    if (!checkError && otherUsers) {
-        console.log('Discord already linked to another account');
-        showMessage(discordMessage, 'This Discord account is already linked to another Fireus Games account.', true);
-        await supabase.auth.unlinkIdentity({
-            identity_id: discordIdentity.identity_id
-        });
-        await checkDiscordLink();
-        return;
-    }
-
-    const { error: upsertError } = await supabase
-        .from('user_oauth_links')
-        .upsert({
-            user_id: user.id,
-            provider: 'discord',
-            provider_id: discordUserId,
-            provider_name: discordIdentity.identity_data?.user_name || 'Discord User'
-        }, {
-            onConflict: 'user_id,provider'
-        });
-
-    if (upsertError) {
-        console.error('Error storing Discord link:', upsertError);
-        showMessage(discordMessage, 'Error storing Discord link', true);
-        return;
-    }
-
+    console.log('Discord identity found, refreshing status...');
     await checkDiscordLink();
 }
 
@@ -397,11 +362,6 @@ async function handleUnlinkDiscord() {
         }
 
         showMessage(discordMessage, 'Discord account disconnected successfully!', false);
-        await supabase
-            .from('user_oauth_links')
-            .delete()
-            .eq('user_id', user.id)
-            .eq('provider', 'discord');
         await checkDiscordLink();
     } catch (error) {
         console.error('Unexpected error unlinking Discord:', error);
