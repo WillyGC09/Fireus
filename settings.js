@@ -44,6 +44,11 @@ async function loadUserSettings() {
     }
     currentSession = session;
 
+    const hasPasswordIdentity = session.user?.identities?.some(identity => identity.provider === 'email');
+    if (!hasPasswordIdentity) {
+        showMessage(profileMessage, 'Set a password here to manage your profile and username.', false);
+    }
+
     const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('username, avatar_url')
@@ -144,6 +149,7 @@ async function handleSaveChanges(event) {
         const newPassword = editPasswordInput.value;
         const currentPassword = currentPasswordInput.value;
         const hasPasswordIdentity = currentSession?.user?.identities?.some(identity => identity.provider === 'email');
+        const needsPasswordVerification = hasPasswordIdentity && (newUsername || newPassword);
 
         console.log('New Username:', newUsername);
         console.log('New Password (length):', newPassword.length > 0 ? '********' : 'empty');
@@ -157,12 +163,12 @@ async function handleSaveChanges(event) {
         }
 
 
-        if (newPassword && hasPasswordIdentity && !currentPassword) {
-            showMessage(profileMessage, 'Enter your current password to change your password.');
+        if (needsPasswordVerification && !currentPassword) {
+            showMessage(profileMessage, 'Enter your current password to save these changes.');
             return;
         }
 
-        if (newPassword && hasPasswordIdentity) {
+        if (needsPasswordVerification) {
             try {
                 const { error: authError } = await supabase.auth.signInWithPassword({
                     email: currentSession.user.email,
@@ -188,7 +194,7 @@ async function handleSaveChanges(event) {
 
         let changesMade = false;
 
-        if (newUsername && newUsername !== currentProfile.username) {
+        if (newUsername && newUsername !== currentProfile?.username) {
             try {
                 const { error: updateUsernameError } = await supabase
                     .from('profiles')

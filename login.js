@@ -111,6 +111,12 @@ authForm.addEventListener('submit', async (e) => {
 supabase.auth.onAuthStateChange((event, session) => {
     console.log('Auth state changed:', event, session ? 'has session' : 'no session');
     if (session) {
+        const hasPasswordIdentity = session.user?.identities?.some(identity => identity.provider === 'email');
+        if (!hasPasswordIdentity && session.user?.identities?.some(identity => identity.provider === 'discord')) {
+            console.log('Discord-first session detected, redirecting to settings to define a password');
+            window.location.href = 'settings.html';
+            return;
+        }
         console.log('Session detected, redirecting to index.html');
         window.location.href = 'index.html';
     }
@@ -120,6 +126,12 @@ supabase.auth.onAuthStateChange((event, session) => {
 document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
+        const hasPasswordIdentity = session.user?.identities?.some(identity => identity.provider === 'email');
+        if (!hasPasswordIdentity && session.user?.identities?.some(identity => identity.provider === 'discord')) {
+            console.log('Discord-first session detected on load, redirecting to settings');
+            window.location.href = 'settings.html';
+            return;
+        }
         console.log('User has session on page load');
         window.location.href = 'index.html';
     }
@@ -131,6 +143,12 @@ document.addEventListener('visibilitychange', async () => {
         console.log('Page became visible, checking session...');
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
+            const hasPasswordIdentity = session.user?.identities?.some(identity => identity.provider === 'email');
+            if (!hasPasswordIdentity && session.user?.identities?.some(identity => identity.provider === 'discord')) {
+                console.log('Discord-first session detected after visibility change, redirecting to settings');
+                window.location.href = 'settings.html';
+                return;
+            }
             console.log('Session found after visibility change');
             window.location.href = 'index.html';
         }
