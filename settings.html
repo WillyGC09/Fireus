@@ -127,6 +127,11 @@
             color: #ff2b2b;
             font-weight: bold;
         }
+        .section-divider {
+            border: 0;
+            border-top: 1px solid #333;
+            margin: 18px 0 0 0;
+        }
         .oauth-section {
             background: #0d0d0d;
             padding: 15px;
@@ -188,7 +193,7 @@
             background: none;
             border: none;
             padding: 0;
-            margin: 0 0 10px 0;
+            margin: 10px 0 0 0;
             color: #ff2b2b;
             cursor: pointer;
             font-size: 0.7em;
@@ -308,7 +313,6 @@
                 <label>Current password</label>
                 <input type="password" id="current-password">
             </div>
-            <button id="forgot-password-btn" type="button" class="forgot-link">Forgot password? Send email to reset it</button>
 
             <div id="profile-message" class="feedback-message" style="margin-bottom: 15px;"></div>
 
@@ -316,6 +320,10 @@
                 <button id="save-btn" class="button" style="flex: 2;">Save changes</button>
                 <a href="profile.html" class="button" style="flex: 1; background-color: #333; text-align: center;">Back</a>
             </div>
+
+            <button id="forgot-password-btn" type="button" class="forgot-link">Forgot password? Send email to reset it</button>
+
+            <hr class="section-divider">
 
             <!-- Discord Integration Section -->
             <div class="section-title">Discord Integration</div>
@@ -335,6 +343,8 @@
                 <div id="discord-status" class="oauth-status" style="display: none;"></div>
                 <div id="discord-message" class="feedback-message"></div>
             </div>
+
+            <hr class="section-divider">
 
             <!-- Delete Account Section -->
             <div class="section-title">Danger Zone</div>
