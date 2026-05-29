@@ -10,6 +10,7 @@ const profileMessage = document.getElementById('profile-message');
 const securityNoteMessage = document.getElementById('security-note-message');
 const currentPasswordInput = document.getElementById('current-password');
 const saveButton = document.getElementById('save-btn');
+const forgotPasswordBtn = document.getElementById('forgot-password-btn');
 
 const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB limit
 
@@ -140,6 +141,30 @@ async function handleAvatarChange(event) {
     }
 }
 
+async function handleForgotPassword() {
+    if (!currentSession?.user?.email) {
+        showMessage(profileMessage, 'No email found for this account.', true);
+        return;
+    }
+
+    try {
+        const { error } = await supabase.auth.resetPasswordForEmail(currentSession.user.email, {
+            redirectTo: 'https://willygc09.github.io/Fireus/reset-password.html',
+        });
+
+        if (error) {
+            console.error('Error sending forgot password email:', error.message);
+            showMessage(profileMessage, 'Error: ' + error.message, true);
+            return;
+        }
+
+        showMessage(profileMessage, 'Password reset email sent! Check your inbox.', false);
+    } catch (error) {
+        console.error('Unexpected error sending forgot password email:', error);
+        showMessage(profileMessage, 'An unexpected error occurred: ' + error.message, true);
+    }
+}
+
 async function handleSaveChanges(event) {
     try {
         console.log('Save button clicked!');
@@ -265,6 +290,7 @@ document.addEventListener('visibilitychange', async () => {
 avatarInput.addEventListener('change', handleAvatarChange);
 avatarWrapper.addEventListener('click', () => avatarInput.click());
 saveButton.addEventListener('click', handleSaveChanges);
+forgotPasswordBtn?.addEventListener('click', handleForgotPassword);
 
 const linkDiscordBtn = document.getElementById('link-discord-btn');
 const unlinkDiscordBtn = document.getElementById('unlink-discord-btn');
