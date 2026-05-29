@@ -155,6 +155,21 @@ document.addEventListener('visibilitychange', async () => {
     }
 });
 
+function getDiscordProviderId(identity) {
+    return identity?.identity_data?.id
+        || identity?.identity_data?.sub
+        || identity?.provider_id
+        || identity?.id
+        || null;
+}
+
+function getDiscordProviderName(identity) {
+    return identity?.identity_data?.user_name
+        || identity?.identity_data?.username
+        || identity?.identity_data?.name
+        || 'Discord User';
+}
+
 function sanitizeUsername(value) {
     const base = (value || 'user')
         .toLowerCase()
@@ -251,15 +266,17 @@ async function validateOAuthSession() {
         // Check if user has Discord identity
         const discordIdentity = user.identities?.find(identity => identity.provider === 'discord');
         if (discordIdentity) {
-            // Get Discord user ID from identity
-            const discordUserId = discordIdentity.id;
-            
-            // Check if another user already has this Discord linked
+            const discordUserId = getDiscordProviderId(discordIdentity);
+            if (!discordUserId) {
+                console.error('Could not determine Discord user id for OAuth login mapping.');
+                return false;
+            }
+
             const { data: otherUsers, error: checkError } = await supabase
                 .from('user_oauth_links')
                 .select('user_id')
                 .eq('provider', 'discord')
-                .eq('provider_id', discordUserId)
+                .eq('provider_id', String(discordUserId))
                 .neq('user_id', user.id)
                 .maybeSingle();
 
@@ -268,6 +285,21 @@ async function validateOAuthSession() {
                 await supabase.auth.signOut();
                 showMessage('This Discord account is already linked to another Fireus Games account. Please use that account to log in.');
                 return false;
+            }
+
+            const { error: upsertError } = await supabase
+                .from('user_oauth_links')
+                .upsert({
+                    user_id: user.id,
+                    provider: 'discord',
+                    provider_id: String(discordUserId),
+                    provider_name: getDiscordProviderName(discordIdentity)
+                }, {
+                    onConflict: 'user_id,provider'
+                });
+
+            if (upsertError) {
+                console.error('Error storing Discord link for bot:', upsertError);
             }
 
             await ensureOAuthProfile(user);

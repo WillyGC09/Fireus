@@ -353,6 +353,21 @@ async function handleLinkDiscord() {
     }
 }
 
+function getDiscordProviderId(identity) {
+    return identity?.identity_data?.id
+        || identity?.identity_data?.sub
+        || identity?.provider_id
+        || identity?.id
+        || null;
+}
+
+function getDiscordProviderName(identity) {
+    return identity?.identity_data?.user_name
+        || identity?.identity_data?.username
+        || identity?.identity_data?.name
+        || 'Discord User';
+}
+
 async function validateAndLinkDiscord() {
     if (!currentSession || !currentSession.user) return;
 
@@ -365,7 +380,46 @@ async function validateAndLinkDiscord() {
         return;
     }
 
-    console.log('Discord identity found, refreshing status...');
+    const providerId = getDiscordProviderId(discordIdentity);
+    if (!providerId) {
+        console.error('Could not determine Discord provider id for mapping.');
+        return;
+    }
+
+    const { data: existingLink, error: existingError } = await supabase
+        .from('user_oauth_links')
+        .select('user_id')
+        .eq('provider', 'discord')
+        .eq('provider_id', String(providerId))
+        .neq('user_id', user.id)
+        .maybeSingle();
+
+    if (!existingError && existingLink) {
+        console.log('Discord already linked to another account');
+        showMessage(discordMessage, 'This Discord account is already linked to another Fireus Games account.', true);
+        await supabase.auth.unlinkIdentity({ identity_id: discordIdentity.identity_id });
+        await checkDiscordLink();
+        return;
+    }
+
+    const { error: upsertError } = await supabase
+        .from('user_oauth_links')
+        .upsert({
+            user_id: user.id,
+            provider: 'discord',
+            provider_id: String(providerId),
+            provider_name: getDiscordProviderName(discordIdentity)
+        }, {
+            onConflict: 'user_id,provider'
+        });
+
+    if (upsertError) {
+        console.error('Error storing Discord link:', upsertError);
+        showMessage(discordMessage, 'Error storing Discord link', true);
+        return;
+    }
+
+    console.log('Discord link stored for bot lookup.');
     await checkDiscordLink();
 }
 
@@ -394,6 +448,11 @@ async function handleUnlinkDiscord() {
         }
 
         showMessage(discordMessage, 'Discord account disconnected successfully!', false);
+        await supabase
+            .from('user_oauth_links')
+            .delete()
+            .eq('user_id', user.id)
+            .eq('provider', 'discord');
         await checkDiscordLink();
     } catch (error) {
         console.error('Unexpected error unlinking Discord:', error);
