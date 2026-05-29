@@ -149,7 +149,7 @@ async function handleSaveChanges(event) {
         const newPassword = editPasswordInput.value;
         const currentPassword = currentPasswordInput.value;
         const hasPasswordIdentity = currentSession?.user?.identities?.some(identity => identity.provider === 'email');
-        const needsPasswordVerification = hasPasswordIdentity && (newUsername || newPassword);
+        const needsPasswordVerification = (newUsername || newPassword) && hasPasswordIdentity;
 
         console.log('New Username:', newUsername);
         console.log('New Password (length):', newPassword.length > 0 ? '********' : 'empty');
@@ -163,8 +163,8 @@ async function handleSaveChanges(event) {
         }
 
 
-        if (needsPasswordVerification && !currentPassword) {
-            showMessage(profileMessage, 'Enter your current password to save these changes.');
+        if ((newUsername || newPassword) && !currentPassword) {
+            showMessage(profileMessage, 'Enter your current password to change your username or password.');
             return;
         }
 

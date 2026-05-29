@@ -113,8 +113,8 @@ supabase.auth.onAuthStateChange((event, session) => {
     if (session) {
         const hasPasswordIdentity = session.user?.identities?.some(identity => identity.provider === 'email');
         if (!hasPasswordIdentity && session.user?.identities?.some(identity => identity.provider === 'discord')) {
-            console.log('Discord-first session detected, redirecting to settings to define a password');
-            window.location.href = 'settings.html';
+            console.log('Discord-first session detected, redirecting to reset password to define a password');
+            window.location.href = 'reset-password.html';
             return;
         }
         console.log('Session detected, redirecting to index.html');
@@ -128,8 +128,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (session) {
         const hasPasswordIdentity = session.user?.identities?.some(identity => identity.provider === 'email');
         if (!hasPasswordIdentity && session.user?.identities?.some(identity => identity.provider === 'discord')) {
-            console.log('Discord-first session detected on load, redirecting to settings');
-            window.location.href = 'settings.html';
+            console.log('Discord-first session detected on load, redirecting to reset password');
+            window.location.href = 'reset-password.html';
             return;
         }
         console.log('User has session on page load');
@@ -145,8 +145,8 @@ document.addEventListener('visibilitychange', async () => {
         if (session) {
             const hasPasswordIdentity = session.user?.identities?.some(identity => identity.provider === 'email');
             if (!hasPasswordIdentity && session.user?.identities?.some(identity => identity.provider === 'discord')) {
-                console.log('Discord-first session detected after visibility change, redirecting to settings');
-                window.location.href = 'settings.html';
+                console.log('Discord-first session detected after visibility change, redirecting to reset password');
+                window.location.href = 'reset-password.html';
                 return;
             }
             console.log('Session found after visibility change');
