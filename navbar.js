@@ -1,4 +1,3 @@
-// navbar.js
 import { supabase } from './supabase-client.js'
 
 function initNavbar(root) {
