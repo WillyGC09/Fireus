@@ -1,7 +1,6 @@
 /**
- * Updates the Discord online user count on the webpage.
- * @param {string} elementId The ID of the HTML element to display the count.
- * @param {string} guildId The Discord guild ID for the widget.
+ * @param {string} elementId
+ * @param {string} guildId
  */
 export async function updateDiscordOnlineCount(elementId, guildId) {
     const countEl = document.getElementById(elementId);
@@ -31,15 +30,14 @@ export async function updateDiscordOnlineCount(elementId, guildId) {
         }
     } catch (error) {
         console.error('Error fetching Discord online count:', error);
-        countEl.textContent = 'N/A'; // Indicate an error gracefully
+        countEl.textContent = 'N/A';
     }
 }
 
 /**
- * Initializes the Discord online count update mechanism.
- * @param {string} elementId The ID of the HTML element to display the count.
- * @param {string} guildId The Discord guild ID for the widget.
- * @param {number} intervalMs The interval in milliseconds to refresh the count.
+ * @param {string} elementId
+ * @param {string} guildId
+ * @param {number} intervalMs
  */
 export function initDiscordOnlineCounter(elementId, guildId, intervalMs = 10000) {
     updateDiscordOnlineCount(elementId, guildId);
