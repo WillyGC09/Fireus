@@ -116,7 +116,6 @@ supabase.auth.onAuthStateChange((event, session) => {
     }
 });
 
-// Check on page load if user just returned from OAuth
 document.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
@@ -125,7 +124,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Also check when visibility changes (user returns from OAuth tab)
 document.addEventListener('visibilitychange', async () => {
     if (document.visibilityState === 'visible') {
         console.log('Page became visible, checking session...');
