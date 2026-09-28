@@ -1342,18 +1342,19 @@ body.modal-open {
 
 .panel {
     outline: 1px solid transparent;
+    opacity: 0;
 }
 
 @keyframes linea-sube {
-    0% {clip-path: polygon(calc(100% - 87px) 100%, calc(100% - 80px) 100%, calc(100% - 80px) 100%, calc(100% - 87px) 100%);}
-    25%, 30% {clip-path: polygon(calc(100% - 7px) 0, 100% 0, calc(100% - 80px) 100%, calc(100% - 87px) 100%);}
+    0% {clip-path: polygon(calc(100% - 87px) 100%, calc(100% - 80px) 100%, calc(100% - 80px) 100%, calc(100% - 87px) 100%); opacity: 0;}
+    25%, 30% {clip-path: polygon(calc(100% - 7px) 0, 100% 0, calc(100% - 80px) 100%, calc(100% - 87px) 100%); opacity: 1;}
     50%, 55% {clip-path: polygon(80px 0, 87px 0, 7px 100%, 0% 100%);}
-    100% {clip-path: polygon(80px 0, 100% 0, calc(100% - 80px) 100%, 0% 100%);}
+    100% {clip-path: polygon(80px 0, 100% 0, calc(100% - 80px) 100%, 0% 100%); opacity: 1;}
 }
 @keyframes caer {
-    0% { transform: translateY(-160vh) translateX(160px); }
-    80% { transform: translateY(30vh) translateX(-30px); }
-    100% { transform: translateY(0) translateX(0); }
+    0% { transform: translateY(-160vh) translateX(160px); opacity: 0; }
+    80% { transform: translateY(30vh) translateX(-30px); opacity: 1; }
+    100% { transform: translateY(0) translateX(0); opacity: 1; }
 }
 
 @media (min-width: 600px) and (max-width: 900px) {
@@ -1362,9 +1363,9 @@ body.modal-open {
     }
 
     @keyframes caer {
-        0% { transform: translateY(-120vh) translateX(160px); }
-        80% { transform: translateY(22.5vh) translateX(-30px); }
-        100% { transform: translateY(0) translateX(0); }
+        0% { transform: translateY(-120vh) translateX(160px); opacity: 0; }
+        80% { transform: translateY(22.5vh) translateX(-30px); opacity: 1; }
+        100% { transform: translateY(0) translateX(0); opacity: 1; }
     }
 }
 
@@ -1374,9 +1375,9 @@ body.modal-open {
     }
 
     @keyframes caer {
-        0% { transform: translateY(-80vh) translateX(160px); }
-        80% { transform: translateY(15vh) translateX(-30px); }
-        100% { transform: translateY(0) translateX(0); }
+        0% { transform: translateY(-80vh) translateX(160px); opacity: 0; }
+        80% { transform: translateY(15vh) translateX(-30px); opacity: 1; }
+        100% { transform: translateY(0) translateX(0); opacity: 1; }
     }
 }
 

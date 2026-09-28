@@ -6,7 +6,7 @@ const gameCatalog = {
     url: "depths-of-death.html"
   }
 };
-
+/*
 const contributorData = [
   {
     id: "willy",
@@ -17,8 +17,8 @@ const contributorData = [
     endYear: null,
     games: ["depths-of-death"],
     photo: "fireus.png",
-    bio: "He build this team, he developes the games and he makes all this work. He is the one who makes the project run and keeps it alive.",
-    extra: "Nothing would have been posible without him. He is the absolute master."
+    bio: "He built this team, develops the games, and makes all this work. He is the one who makes the project run and keeps it alive.",
+    extra: "Nothing would have been possible without him. He is the absolute master."
   },
   {
     id: "pizzas",
@@ -47,26 +47,25 @@ const contributorData = [
   {
     id: "laia",
     name: "Laia",
-    role: "Marketing organizator",
+    role: "Marketing Organizer",
     active: true,
     startYear: 2026,
     endYear: null,
-    games: ["depths-of-death"],
     photo: "fireus.png",
     bio: "Handles marketing, social media, and community engagement to ensure the project reaches its audience effectively.",
-    extra: "We have to thank her for organazing such a discord with so many things that will never be used."
+    extra: "We have to thank her for organizing such a Discord with so many things that will never be used."
   },
   {
-    id: "kaze",
-    name: "Kaze",
-    role: "Artist & Animator",
+    id: "arnau",
+    name: "Arnau",
+    role: "Artist & Musician",
     active: true,
     startYear: 2026,
     endYear: null,
     games: ["depths-of-death"],
     photo: "fireus.png",
-    bio: "Creates illustrations, characters, backgrounds, and visual assets that give the project its identity and atmosphere. His profesionality seems to be from a serious work.",
-    extra: "This guy might be the black sheep, but he is the one who makes the project look good."
+    bio: "He gives the game the last touch, his music captures you into our universe. He is the one who makes the game feel alive and immersive.",
+    extra: "He's not only a great artist, but also a great guy. You can never get bored with him."
   },
   {
     id: "saray",
@@ -75,7 +74,6 @@ const contributorData = [
     active: true,
     startYear: 2026,
     endYear: null,
-    games: ["depths-of-death"],
     photo: "fireus.png",
     bio: "Provides emotional support, encouragement, and motivation to the team, ensuring a positive and productive work environment.",
     extra: "Thank you for doing nothing. :)"
@@ -93,7 +91,7 @@ const contributorData = [
     extra: "P.S. If you don't know anyone like him, your life must be very sad."
   }
 ];
-
+*/
 const defaultPhoto = "fireus.png";
 
 function getCurrentGameId() {
@@ -108,11 +106,11 @@ function getVisibleContributors() {
   }
 
   return contributorData.filter((person) => {
-    if (Array.isArray(person.games) && person.games.length > 0) {
-      return person.games.includes(currentGameId);
+    if (!Array.isArray(person.games)) {
+      return false;
     }
 
-    return true;
+    return person.games.includes(currentGameId);
   });
 }
 
