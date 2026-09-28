@@ -30,7 +30,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sekuya&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-game-id="depths-of-death">
 
     <div id="navbar"></div>
     
@@ -69,6 +69,13 @@
             <div class="panel__text"><h2 style="color: #bb66ff;">Nhal'Zyrr</h2></div>
         </div>
     </div>
+
+    <section class="credits-section">
+        <div class="credits-header">
+            <h2>Credits</h2>
+        </div>
+        <div id="credits-list" class="credits-list" aria-live="polite"></div>
+    </section>
 
     <div id="collaboration" class="collaboration">
         <div class="collab-header">
@@ -120,6 +127,7 @@
     setInterval(updateOnlineCount, 10000);
     </script>
 
+    <script src="contributors.js"></script>
     <script src="charsintro.js"></script>
     <script type="module" src="navbar.js"></script>
 </body>
