@@ -40,9 +40,40 @@
         </div>
     </header>
     
-    <div id="game" class="collaboration">
-        <p>Depths of Death is a 1v1 fighting game where you must descend into the depths of an unknown world to face another fighter. This is Fireus Games' first major adventure.</p>
-    </div>
+    <section id="game" class="dod-info" aria-label="About Depths of Death">
+        <article class="dod-feature">
+            <figure class="dod-feature__art">
+                <img src="images/dod/green.jpg" alt="" loading="lazy">
+            </figure>
+            <div class="dod-feature__copy">
+                <p class="dod-feature__eyebrow">THE DESCENT</p>
+                <h2>A world beneath the surface</h2>
+                <p>Descend into the depths of an unknown world, where every step brings you closer to another fighter.</p>
+            </div>
+        </article>
+
+        <article class="dod-feature dod-feature--reverse">
+            <figure class="dod-feature__art">
+                <img src="images/dod/blue.png" alt="" loading="lazy">
+            </figure>
+            <div class="dod-feature__copy">
+                <p class="dod-feature__eyebrow">THE FIGHT</p>
+                <h2>One opponent. One way forward.</h2>
+                <p>Depths of Death is a 1v1 fighting game adventure. Face another fighter as you push further into the unknown.</p>
+            </div>
+        </article>
+
+        <article class="dod-feature">
+            <figure class="dod-feature__art">
+                <img src="images/dod/red.png" alt="" loading="lazy">
+            </figure>
+            <div class="dod-feature__copy">
+                <p class="dod-feature__eyebrow">THE ADVENTURE</p>
+                <h2>Fireus Games' first major adventure</h2>
+                <p>A journey into a strange world, told through the fighters who stand in your way. The descent starts here.</p>
+            </div>
+        </article>
+    </section>
 
     <div class="section">
         <h2>Character Showcase (coming up)</h2>
@@ -70,7 +101,7 @@
         </div>
     </div>
 
-    <!--<section class="credits-section">
+    <!-- <section class="credits-section">
         <div class="credits-header">
             <h2>Credits</h2>
         </div>
@@ -129,6 +160,45 @@
 
     <script src="contributors.js"></script>
     <script src="charsintro.js"></script>
+    <script>
+    (() => {
+        const features = Array.from(document.querySelectorAll('.dod-feature'));
+        if (!features.length || !('IntersectionObserver' in window)) return;
+
+        const centeredFeatures = new Set();
+        const updateReadingFeature = () => {
+            const viewportCenter = window.innerHeight / 2;
+            let closestFeature = null;
+            let closestDistance = Infinity;
+
+            centeredFeatures.forEach((feature) => {
+                const bounds = feature.getBoundingClientRect();
+                const distance = Math.abs((bounds.top + bounds.bottom) / 2 - viewportCenter);
+                if (distance < closestDistance) {
+                    closestFeature = feature;
+                    closestDistance = distance;
+                }
+            });
+
+            features.forEach((feature) => {
+                feature.classList.toggle('is-reading', feature === closestFeature);
+            });
+        };
+
+        const readingObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    centeredFeatures.add(entry.target);
+                } else {
+                    centeredFeatures.delete(entry.target);
+                }
+            });
+            updateReadingFeature();
+        }, { rootMargin: '-40% 0px -40% 0px' });
+
+        features.forEach((feature) => readingObserver.observe(feature));
+    })();
+    </script>
     <script type="module" src="navbar.js"></script>
 </body>
 </html>
