@@ -43,12 +43,12 @@
     <section id="game" class="dod-info" aria-label="About Depths of Death">
         <article class="dod-feature">
             <figure class="dod-feature__art">
-                <img src="images/dod/green.jpg" alt="" loading="lazy">
+                <img src="images/dod/red.png" alt="" loading="lazy">
             </figure>
             <div class="dod-feature__copy">
-                <p class="dod-feature__eyebrow">THE DESCENT</p>
-                <h2>A world beneath the surface</h2>
-                <p>Descend into the depths of an unknown world, where every step brings you closer to another fighter.</p>
+                <p class="dod-feature__eyebrow">THE ADVENTURE</p>
+                <h2>Fireus Games' first major adventure</h2>
+                <p>A journey into a strange world, told through the fighters who stand in your way. The descent starts here.</p>
             </div>
         </article>
 
@@ -65,12 +65,12 @@
 
         <article class="dod-feature">
             <figure class="dod-feature__art">
-                <img src="images/dod/red.png" alt="" loading="lazy">
+                <img src="images/dod/green.jpg" alt="" loading="lazy">
             </figure>
             <div class="dod-feature__copy">
-                <p class="dod-feature__eyebrow">THE ADVENTURE</p>
-                <h2>Fireus Games' first major adventure</h2>
-                <p>A journey into a strange world, told through the fighters who stand in your way. The descent starts here.</p>
+                <p class="dod-feature__eyebrow">THE DESCENT</p>
+                <h2>A world beneath the surface</h2>
+                <p>Descend into the depths of an unknown world, where every step brings you closer to another fighter.</p>
             </div>
         </article>
     </section>
@@ -162,41 +162,45 @@
     <script src="charsintro.js"></script>
     <script>
     (() => {
+        const section = document.querySelector('.dod-info');
         const features = Array.from(document.querySelectorAll('.dod-feature'));
-        if (!features.length || !('IntersectionObserver' in window)) return;
+        if (!section || !features.length) return;
 
-        const centeredFeatures = new Set();
         const updateReadingFeature = () => {
+            const sectionBounds = section.getBoundingClientRect();
             const viewportCenter = window.innerHeight / 2;
             let closestFeature = null;
             let closestDistance = Infinity;
 
-            centeredFeatures.forEach((feature) => {
-                const bounds = feature.getBoundingClientRect();
-                const distance = Math.abs((bounds.top + bounds.bottom) / 2 - viewportCenter);
-                if (distance < closestDistance) {
-                    closestFeature = feature;
-                    closestDistance = distance;
-                }
-            });
+            if (viewportCenter >= sectionBounds.top && viewportCenter <= sectionBounds.bottom) {
+                features.forEach((feature) => {
+                    const bounds = feature.getBoundingClientRect();
+                    const distance = Math.abs((bounds.top + bounds.bottom) / 2 - viewportCenter);
+                    if (distance < closestDistance) {
+                        closestFeature = feature;
+                        closestDistance = distance;
+                    }
+                });
+            }
 
             features.forEach((feature) => {
                 feature.classList.toggle('is-reading', feature === closestFeature);
             });
         };
 
-        const readingObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    centeredFeatures.add(entry.target);
-                } else {
-                    centeredFeatures.delete(entry.target);
-                }
+        let updatePending = false;
+        const scheduleUpdate = () => {
+            if (updatePending) return;
+            updatePending = true;
+            requestAnimationFrame(() => {
+                updatePending = false;
+                updateReadingFeature();
             });
-            updateReadingFeature();
-        }, { rootMargin: '-40% 0px -40% 0px' });
+        };
 
-        features.forEach((feature) => readingObserver.observe(feature));
+        window.addEventListener('scroll', scheduleUpdate, { passive: true });
+        window.addEventListener('resize', scheduleUpdate);
+        scheduleUpdate();
     })();
     </script>
     <script type="module" src="navbar.js"></script>
