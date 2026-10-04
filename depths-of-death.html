@@ -169,10 +169,11 @@
         const updateReadingFeature = () => {
             const sectionBounds = section.getBoundingClientRect();
             const viewportCenter = window.innerHeight / 2;
+            const centerInSection = viewportCenter >= sectionBounds.top && viewportCenter <= sectionBounds.bottom;
             let closestFeature = null;
             let closestDistance = Infinity;
 
-            if (viewportCenter >= sectionBounds.top && viewportCenter <= sectionBounds.bottom) {
+            if (centerInSection) {
                 features.forEach((feature) => {
                     const bounds = feature.getBoundingClientRect();
                     const distance = Math.abs((bounds.top + bounds.bottom) / 2 - viewportCenter);

@@ -582,15 +582,21 @@ footer {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
     min-height: 330px;
-    border-top: 1px solid #33201f;
-    opacity: 0.82;
-    transform: scale(0.97);
-    transition: min-height 450ms ease, transform 450ms ease, opacity 450ms ease;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+    opacity: 0.7;
+    transform: scale(0.96);
+    transition: min-height 450ms ease, transform 450ms ease, opacity 450ms ease, border-color 300ms ease;
 }
 .dod-feature.is-reading {
     min-height: 400px;
     opacity: 1;
-    transform: scale(1.01);
+    transform: scale(1.03);
+    border-color: #ff2b2b;
+    position: relative;
+    z-index: 1;
 }
 .dod-feature--reverse {
     grid-template-areas: "copy art";
@@ -1469,11 +1475,11 @@ body.modal-open {
 
     .dod-feature.is-reading {
         min-height: 0;
-        transform: scale(1);
+        transform: scale(1.03);
     }
 
     .dod-feature:not(.is-reading) {
-        transform: scale(0.985);
+        transform: scale(0.94);
     }
 
     .dod-feature__art,
