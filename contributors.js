@@ -6,7 +6,7 @@ const gameCatalog = {
     url: "depths-of-death.html"
   }
 };
-/*
+
 const contributorData = [
   {
     id: "willy",
@@ -16,7 +16,7 @@ const contributorData = [
     startYear: 2026,
     endYear: null,
     games: ["depths-of-death"],
-    photo: "fireus.png",
+    photo: "images/people/guifre.JPG",
     bio: "He built this team, develops the games, and makes all this work. He is the one who makes the project run and keeps it alive.",
     extra: "Nothing would have been possible without him. He is the absolute master."
   },
@@ -28,7 +28,7 @@ const contributorData = [
     startYear: 2026,
     endYear: null,
     games: ["depths-of-death"],
-    photo: "fireus.png",
+    photo: "images/people/pizza.jpg",
     bio: "He is great coding and has a lot of experience in videogames.",
     extra: "He just lacks a bit of commitment and engagement. What a pity to waste such skills."
   },
@@ -40,7 +40,7 @@ const contributorData = [
     startYear: 2026,
     endYear: null,
     games: ["depths-of-death"],
-    photo: "fireus.png",
+    photo: "images/people/sapo.jpg",
     bio: "The best guy breaking videogames I've ever seen. He is the one who finds all the bugs and glitches in the games.",
     extra: "If you want your code to explode call him, he'll do it without any problem."
   },
@@ -51,7 +51,7 @@ const contributorData = [
     active: true,
     startYear: 2026,
     endYear: null,
-    photo: "fireus.png",
+    photo: "images/people/laia.jpg",
     bio: "Handles marketing, social media, and community engagement to ensure the project reaches its audience effectively.",
     extra: "We have to thank her for organizing such a Discord with so many things that will never be used."
   },
@@ -63,7 +63,7 @@ const contributorData = [
     startYear: 2026,
     endYear: null,
     games: ["depths-of-death"],
-    photo: "fireus.png",
+    photo: "images/people/arnau.jpg",
     bio: "He gives the game the last touch, his music captures you into our universe. He is the one who makes the game feel alive and immersive.",
     extra: "He's not only a great artist, but also a great guy. You can never get bored with him."
   },
@@ -74,7 +74,7 @@ const contributorData = [
     active: true,
     startYear: 2026,
     endYear: null,
-    photo: "fireus.png",
+    photo: "images/people/saray.jpg",
     bio: "Provides emotional support, encouragement, and motivation to the team, ensuring a positive and productive work environment.",
     extra: "Thank you for doing nothing. :)"
   },
@@ -91,7 +91,6 @@ const contributorData = [
     extra: "P.S. If you don't know anyone like him, your life must be very sad."
   }
 ];
-*/
 const defaultPhoto = "fireus.png";
 
 function getCurrentGameId() {
