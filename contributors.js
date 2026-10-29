@@ -86,7 +86,7 @@ const contributorData = [
     startYear: 2026,
     endYear: null,
     games: ["depths-of-death"],
-    photo: "fireus.png",
+    photo: "images/people/dani.jpg",
     bio: "This guy makes the life funny. He is the one who makes the team laugh and keeps the spirits high.",
     extra: "P.S. If you don't know anyone like him, your life must be very sad."
   }
