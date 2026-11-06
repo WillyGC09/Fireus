@@ -97,7 +97,7 @@ const contributorData = [
     active: true,
     startYear: 2026,
     endYear: null,
-    photo: "fireus.png",
+    photo: "images/people/judd.jpg",
     bio: "She is the one who manages the Instagram account and makes sure that the project has a strong online presence.",
     extra: "We love you for bringing our games to everyone ♡"
   }
