@@ -47,7 +47,7 @@ const contributorData = [
   {
     id: "laia",
     name: "Laia",
-    role: "Marketing Organizer",
+    role: "Discord Organizer & Artist",
     active: true,
     startYear: 2026,
     endYear: null,
@@ -89,6 +89,17 @@ const contributorData = [
     photo: "images/people/dani.jpg",
     bio: "This guy makes the life funny. He is the one who makes the team laugh and keeps the spirits high.",
     extra: "P.S. If you don't know anyone like him, your life must be very sad."
+  },
+  {
+    id: "judit",
+    name: "Judit",
+    role: "The Insta Manager",
+    active: true,
+    startYear: 2026,
+    endYear: null,
+    photo: "fireus.png",
+    bio: "She is the one who manages the Instagram account and makes sure that the project has a strong online presence.",
+    extra: "We love you for bringing our games to everyone."
   }
 ];
 const defaultPhoto = "fireus.png";
