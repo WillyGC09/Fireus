@@ -16,7 +16,7 @@ const contributorData = [
     startYear: 2026,
     endYear: null,
     games: ["depths-of-death"],
-    photo: "images/people/guifre.JPG",
+    photo: "images/people/guifre.png",
     bio: "He built this team, develops the games, and makes all this work. He is the one who makes the project run and keeps it alive.",
     extra: "Nothing would have been possible without him. He is the absolute master."
   },
