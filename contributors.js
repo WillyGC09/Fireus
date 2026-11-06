@@ -52,7 +52,7 @@ const contributorData = [
     startYear: 2026,
     endYear: null,
     photo: "images/people/laia.jpg",
-    bio: "Handles marketing, social media, and community engagement to ensure the project reaches its audience effectively.",
+    bio: "Handles discord and community engagement to ensure a vibrant and inclusive community.",
     extra: "We have to thank her for organizing such a Discord with so many things that will never be used."
   },
   {
