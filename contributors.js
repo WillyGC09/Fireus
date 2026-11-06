@@ -99,7 +99,7 @@ const contributorData = [
     endYear: null,
     photo: "fireus.png",
     bio: "She is the one who manages the Instagram account and makes sure that the project has a strong online presence.",
-    extra: "We love you for bringing our games to everyone. ♡"
+    extra: "We love you for bringing our games to everyone ♡"
   }
 ];
 const defaultPhoto = "fireus.png";
